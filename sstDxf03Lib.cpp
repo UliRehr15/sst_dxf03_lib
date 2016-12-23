@@ -115,3 +115,38 @@ int sstDxf03DbCls::ReadAllFromDxf(int iKey, const std::string oDxfFilNam)
   return this->poDxf03DbIntern->ReadAllFromDxf(iKey, oDxfFilNam);
 }
 //=============================================================================
+dREC04RECNUMTYP sstDxf03DbCls::MainCount()
+{
+  return this->poDxf03DbIntern->MainCount();
+}
+//=============================================================================
+dREC04RECNUMTYP sstDxf03DbCls::EntityCount(RS2::EntityType eEntityType)
+{
+  return this->poDxf03DbIntern->EntityCount(eEntityType);
+}
+//=============================================================================
+int sstDxf03DbCls::ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchData *oDLHatch, DL_Attributes *oDLAttributes)
+{
+  return this->poDxf03DbIntern->ReadHatch(iKey,dRecNo, oDLHatch, oDLAttributes);
+}
+//=============================================================================
+int sstDxf03DbCls::ReadHatchEdge( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchEdgeData *oDLHatchEdge)
+{
+  return this->poDxf03DbIntern->ReadHatchEdge(iKey, dRecNo, oDLHatchEdge);
+}
+//=============================================================================
+int sstDxf03DbCls::ReadHatchLoop( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchLoopData *oDLHatchLoop)
+{
+  return this->poDxf03DbIntern->ReadHatchLoop(iKey, dRecNo, oDLHatchLoop);
+}
+//=============================================================================
+int sstDxf03DbCls::ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData *oDLCircle, DL_Attributes *oDLAttributes)
+{
+  return this->poDxf03DbIntern->ReadCircle(iKey,dRecNo, oDLCircle, oDLAttributes);
+}
+//=============================================================================
+int sstDxf03DbCls::ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::EntityType *eEntityType, dREC04RECNUMTYP *dEntRecNo)
+{
+  return this->poDxf03DbIntern->ReadMainTable(iKey,dMainRecNo, eEntityType, dEntRecNo);
+}
+//=============================================================================

@@ -24,7 +24,7 @@
 **********************************************************************/
 //  sstDxf03Database.cpp   01.11.16  Re.   06.07.16  Re.
 //
-//  Functions for Class "sstDxf02Lib"
+//  Functions for Class "sstDxf03Lib"
 //
 
 #include <stdio.h>
@@ -760,21 +760,126 @@ sstMisc01PrtFilCls* sstDxf03DatabaseCls::GetPrtAdr()
 int sstDxf03DatabaseCls::ReadAllFromDxf(int iKey, const std::string oDxfFilNam)
 {
   if ( iKey != 0) return -1;
+  int iStat = 0;
 
   // std::cout << "Reading file " << file << "...\n";
-  std::cout << "Reading file " << oDxfFilNam << "...\n";
+  // std::cout << "Reading file " << oDxfFilNam << "...\n";
+  this->oPrt->SST_PrtWrtChar(1,(char*) oDxfFilNam.c_str(), (char*)"Reading file: ");
   sstDxf03ReadCls* creationClass = new sstDxf03ReadCls( this, this->GetPrtAdr());
 
   creationClass->SetDxfFilNam((char*) oDxfFilNam.c_str());
 
   DL_Dxf* dxf = new DL_Dxf();
-  if (!dxf->in(oDxfFilNam, creationClass)) { // if file open failed
-      std::cerr << oDxfFilNam << " could not be opened.\n";
+  if (!dxf->in(oDxfFilNam, creationClass))
+  { // if file open failed
+      // std::cerr << oDxfFilNam << " could not be opened.\n";
+    this->oPrt->SST_PrtWrtChar(1,(char*) oDxfFilNam.c_str(),(char*)"Error: Could not open: ");
+      iStat = -2;
       // return;
   }
   delete dxf;
   delete creationClass;
 
-  return 0;
+  return iStat;
+}
+//=============================================================================
+dREC04RECNUMTYP sstDxf03DatabaseCls::MainCount()
+{
+  return this->oSstFncMain.count();
+}
+//=============================================================================
+dREC04RECNUMTYP sstDxf03DatabaseCls::EntityCount(RS2::EntityType eEntityType)
+{
+  dREC04RECNUMTYP dTmpCount = 0;
+
+  switch (eEntityType)
+  {
+  case RS2::EntityHatch:
+    dTmpCount = this->oSstFncHatch.count();
+    break;
+  case RS2::EntityHatchLoop:
+    dTmpCount = this->oSstFncHatchLoop.count();
+    break;
+  case RS2::EntityHatchEdge:
+    dTmpCount = this->oSstFncHatchEdge.count();
+    break;
+  default:
+    break;
+  }
+  return dTmpCount;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchData *oDLHatch, DL_Attributes *oDLAttributes)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypHatchCls oHatch;
+
+  iStat = this->oSstFncHatch.Read(0,dRecNo,&oHatch);
+  oHatch.BaseWritToDL(oDLAttributes);
+  oHatch.WritToDL(oDLHatch);
+  return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadHatchEdge( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchEdgeData *oDLHatchEdge)
+{
+  // int iRet  = 0;
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypHatchEdgeCls oHatchEdge;
+
+  iStat = this->oSstFncHatchEdge.Read(0,dRecNo,&oHatchEdge);
+  oHatchEdge.WritToDL(oDLHatchEdge);
+
+  return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadHatchLoop( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchLoopData *oDLHatchLoop)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypHatchLoopCls oHatchLoop;
+
+  iStat = this->oSstFncHatchLoop.Read(0,dRecNo,&oHatchLoop);
+  oHatchLoop.WritToDL(oDLHatchLoop);
+
+  return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData *oDLCircle, DL_Attributes *oDLAttributes)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypCircleCls oCircle;
+
+  iStat = this->oSstFncCircle.Read(0,dRecNo,&oCircle);
+  oCircle.BaseWritToDL(oDLAttributes);
+  oCircle.WritToDL(oDLCircle);
+  return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::EntityType *eEntityType, dREC04RECNUMTYP *dEntRecNo)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypMainCls oMainRec;
+
+  iStat = this->oSstFncMain.Read( 0, dMainRecNo, &oMainRec);
+
+  *eEntityType = oMainRec.getEntityType();
+
+  *dEntRecNo = oMainRec.getTypeID();
+
+  return iStat;
 }
 //=============================================================================

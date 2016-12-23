@@ -199,6 +199,109 @@ class sstDxf03DbCls
   // ----------------------------------------------------------------------------
   int ReadAllFromDxf(int iKey, const std::string oDxfFilNam);
   //==============================================================================
+  /**
+  * @brief // return number of records in main table <BR>
+  * dMainRecs = oDxfDb.MainCount();
+  *
+  * @return Number of records in main table
+  */
+  // ----------------------------------------------------------------------------
+  dREC04RECNUMTYP MainCount();
+  //==============================================================================
+  /**
+  * @brief // return number of records in entity table <BR>
+  * dMainRecs = oDxfDb.EntityCount(eEntityType);
+  *
+  * @param eEntityType [in] specify entity type
+  *
+  * @return Number of records in entity table
+  */
+  // ----------------------------------------------------------------------------
+  dREC04RECNUMTYP EntityCount(RS2::EntityType eEntityType);
+  //==============================================================================
+  /**
+  * @brief // Read hatch from table with attributes <BR>
+  * iStat = oDxfDb.ReadHatch( iKey, &oDLHatch, &oDLAttributes);
+  *
+  * @param iKey [in] For the moment 0
+  * @param dRecNo [int] Record number in table
+  * @param oDLHatch [out] Return Hatch
+  * @param oDLAttributes [out] Return Hatch attributes
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchData *oDLHatch, DL_Attributes *oDLAttributes);
+  //==============================================================================
+  /**
+  * @brief // Read hatch edge from table <BR>
+  * iStat = oDxfDb.ReadHatchEdge( iKey, dRecNo, &oDLHatchEdge);
+  *
+  * @param iKey [in] For the moment 0
+  * @param dRecNo [int] Record number in table
+  * @param oDLHatchEdge [out] Return Hatch Edge
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadHatchEdge( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchEdgeData *oDLHatchEdge);
+  //==============================================================================
+  /**
+  * @brief // Read hatch loop from table <BR>
+  * iStat = oDxfDb.ReadHatchLoop( iKey, dRecNo, &oDLHatchLoop);
+  *
+  * @param iKey [in] For the moment 0
+  * @param dRecNo [int] Record number in table
+  * @param oDLHatchLoop [out] Return Hatch Loop
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadHatchLoop( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchLoopData *oDLHatchLoop);
+  //==============================================================================
+  /**
+  * @brief // Read circle from table with attributes <BR>
+  * iStat = oDxfDb.ReadCircle( iKey, &oDLCircle, &oDLAttributes);
+  *
+  * @param iKey [in] For the moment 0
+  * @param dRecNo [int] Record number in table
+  * @param oDLCircle [out] Return Circle
+  * @param oDLAttributes [out] Return Circle attributes
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData *oDLCircle, DL_Attributes *oDLAttributes);
+  //==============================================================================
+  /**
+  * @brief // Read entity information from main table <BR>
+  * iStat = oDxfDb.ReadMainTable( iKey, dRecNo, &eEntityType, &dEntRecNo);
+  *
+  * @param iKey        [in] For the moment 0
+  * @param dMainRecNo  [int] Record number in main table
+  * @param eEntityType [out] return entity type
+  * @param dEntRecNo   [out] return record number in entity table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::EntityType *eEntityType, dREC04RECNUMTYP *dEntRecNo);
+  //==============================================================================
 
 
 // ----------------------------------------------------------------------------

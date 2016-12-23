@@ -22,9 +22,9 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstdxf02LibTest.cpp    13.07.16  Re.    13.07.16  Re.
+// sstdxf03LibTest.cpp    13.07.16  Re.    13.07.16  Re.
 //
-// Testframe for sstDxf02Lib Function testing
+// Testframe for sstDxf03Lib Function testing
 
 #include <iostream>
 #include <stdlib.h>
@@ -51,13 +51,12 @@ int main(int argc, char** argv)
 {
   int iStat = 0;
   unsigned long ulRowNo = 0;
+
   // Call Test dxflib writing function
   // See dxflib writing example
   iStat = testWriting("Test.dxf");
   assert(iStat >= 0);
 
-  // sstDxf03FncArcCls oArcFnc;
-  // sstDxf03TypArcCls oArc;
   sstMisc01PrtFilCls oPrt;
   oPrt.SST_PrtAuf(1,(char*)"sstDxf03LibTest.log");
 
@@ -65,7 +64,7 @@ int main(int argc, char** argv)
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDB(&oPrt);
 
-    // Read contens of dxf file into sstDxf database
+    // Read contents of dxf file into sstDxf database
     iStat = oDxfDB.ReadAllFromDxf(0,"Test.dxf");
     assert(iStat >= 0);
 
@@ -73,6 +72,7 @@ int main(int argc, char** argv)
     iStat = oDxfDB.WritAll2DxfFil(0,"Test2.dxf");
     assert(iStat >= 0);
 
+    // Write dxf database to csv files
     iStat = oDxfDB.WritAll2Csv(0,"Test3.dxf");
     assert(iStat >= 0);
 
@@ -85,11 +85,12 @@ int main(int argc, char** argv)
   } // Close śstDxf Database
 
   {
-    // Open new sstDxf Database
+    // Open new sstDxf Database and read data from test3 csv files
     sstDxf03DbCls oDxfDB2(&oPrt);
     iStat = oDxfDB2.ReadAllCsvFiles(0,"Test3.dxf");
     assert(iStat >= 0);
 
+    // write dxf database to dxf file
     iStat = oDxfDB2.WritAll2DxfFil(0,"Test3.dxf");
     assert(iStat >= 0);
 
@@ -101,6 +102,7 @@ int main(int argc, char** argv)
   }
 
   {
+    // write new circle (border)
     DL_CircleData oDLCircle(0,0,0,1);
     DL_Attributes oAttributes;
     dREC04RECNUMTYP oEntRecNo = 0;
@@ -117,6 +119,8 @@ int main(int argc, char** argv)
 
     //=== Insert filled circle area
     {
+      oAttributes.setColor(1);
+
       DL_HatchData oDLHatch(1,1,1,0,"SOLID");
       DL_HatchEdgeData oDLHatchEdge(3,3,1,0,2*M_PI,1);  // Circle
 
@@ -129,6 +133,8 @@ int main(int argc, char** argv)
 
     //=== Insert filled triangel area
     {
+      oAttributes.setColor(2);
+
       DL_HatchData oDLHatch(1,1,1,0,"SOLID");
       // open new dxflib hatch object in sstDxfDb
       iStat = oDxfDB.OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
@@ -149,6 +155,40 @@ int main(int argc, char** argv)
     // Write dxf database to dxf file
     oDxfDB.WritAll2Csv(0,"Test4.dxf");
     oDxfDB.WritAll2DxfFil(0,"Test4.dxf");
+  }
+
+  {
+    // Open new sstDxf Database
+    sstDxf03DbCls oDxfDB(&oPrt);
+
+    // Read contents of dxf file into sstDxf database
+    iStat = oDxfDB.ReadAllFromDxf(0,"Test4.dxf");
+    assert(iStat >= 0);
+
+    dREC04RECNUMTYP dEntRecs = 0;
+    dREC04RECNUMTYP dMainRecs = 0;
+
+    dMainRecs = oDxfDB.MainCount();
+    assert(dMainRecs == 9);
+    dEntRecs = oDxfDB.EntityCount(RS2::EntityHatch);
+    assert(dEntRecs == 2);
+
+    DL_HatchData oDLHatch(1,1,1,0,"SOLID");
+    DL_HatchEdgeData oDLHatchEdge(1,1,2,2);  // area border point
+    DL_HatchLoopData oDLHatchLoop(1);  // outer or inner border
+    DL_Attributes oDLAttributes;
+
+    dREC04RECNUMTYP dRecNo = 1;
+    iStat = oDxfDB.ReadHatch( 0, dRecNo, &oDLHatch, &oDLAttributes);
+    iStat = oDxfDB.ReadHatchEdge( 0, dRecNo, &oDLHatchEdge);
+    iStat = oDxfDB.ReadHatchLoop( 0, dRecNo, &oDLHatchLoop);
+
+    // Read information from main table
+    RS2::EntityType eEntType = RS2::EntityUnknown;
+    iStat = oDxfDB.ReadMainTable(0,1,&eEntType,&dRecNo);
+    assert(eEntType == RS2::EntityCircle);  // first entity is circle
+    assert (dRecNo == 1);
+
   }
 
   iStat = oPrt.SST_PrtZu(1);

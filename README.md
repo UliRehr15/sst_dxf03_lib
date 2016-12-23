@@ -46,3 +46,4 @@ Structure of coding projects should be:
 25.11.16: Version 3.0: Redesign of user interface. hide implemetation details in library. <BR>
                        Support of entity types POINT and LINE. <BR>
                        Extent testframe with compare dxf after reading/writing. <BR>
+23.12.16: Version 3.1: Support of entity types CIRCLE and HATCH. <BR>
