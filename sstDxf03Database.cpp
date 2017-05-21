@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-//  sstDxf03Database.cpp   01.11.16  Re.   06.07.16  Re.
+//  sstDxf03Database.cpp   21.05.17  Re.   06.07.16  Re.
 //
 //  Functions for Class "sstDxf03Lib"
 //
@@ -619,6 +619,9 @@ int sstDxf03DatabaseCls::WritAll2DxfFil(int iKey, const std::string oDxfFilNam)
   if (iStat >= 0) iStat = oWrite.WrtSecEntities(0);  // write entities section to dxf file
   if (iStat >= 0) iStat = oWrite.WrtSecObjects(0);   // write objects section to dxf file
 
+  this->oPrt->SST_PrtWrtInt4(1,this->MainCount(),(char*)"Number of Data written: ");
+  this->oPrt->SST_PrtWrtChar(1,(char*)oDxfFilNam.c_str(),(char*)"Dxf Database to File written: ");
+
   return iStat;
 }
 //==============================================================================
@@ -777,6 +780,9 @@ int sstDxf03DatabaseCls::ReadAllFromDxf(int iKey, const std::string oDxfFilNam)
       iStat = -2;
       // return;
   }
+
+  this->oPrt->SST_PrtWrtInt4(1,this->MainCount(),(char*)"Number of Data read: ");
+
   delete dxf;
   delete creationClass;
 

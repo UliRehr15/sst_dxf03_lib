@@ -47,3 +47,4 @@ Structure of coding projects should be:
                        Support of entity types POINT and LINE. <BR>
                        Extent testframe with compare dxf after reading/writing. <BR>
 23.12.16: Version 3.1: Support of entity types CIRCLE and HATCH. <BR>
+21.05.17: Version 3.2: Add protocol events for import/export. <BR>
