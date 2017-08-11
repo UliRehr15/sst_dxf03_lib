@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = 
 CFLAGS        = -pipe -g -fPIC -Wall -W $(DEFINES)
 CXXFLAGS      = -pipe -g -fPIC -std=c++0x -Wall -W $(DEFINES)
-INCPATH       = -I. -I../dxflib/Header -I../sstLibreCAD2Lib/Header -I../sst_str01_lib/Header -I../sst_misc01_lib/Header -I../sst_rec04_lib/Header -IHeader -I/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I. -I../dxflib/Header -I../sstLibreCAD2Lib/Header -I../sst_str01_lib/Header -I../sstMath01Lib/Header -I../sst_misc01_lib/Header -I../sst_rec04_lib/Header -IHeader -I/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/i386-linux-gnu/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -362,6 +362,7 @@ sstDxf03Arc.o: Entities/sstDxf03Arc.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -381,6 +382,7 @@ sstDxf03Circle.o: Entities/sstDxf03Circle.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -400,6 +402,7 @@ sstDxf03Hatch.o: Entities/sstDxf03Hatch.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -419,6 +422,7 @@ sstDxf03HatchEdge.o: Entities/sstDxf03HatchEdge.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -438,6 +442,7 @@ sstDxf03HatchLoop.o: Entities/sstDxf03HatchLoop.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -457,6 +462,7 @@ sstDxf03Insert.o: Entities/sstDxf03Insert.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -476,6 +482,7 @@ sstDxf03MText.o: Entities/sstDxf03MText.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -495,6 +502,7 @@ sstDxf03Polyline.o: Entities/sstDxf03Polyline.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -514,6 +522,7 @@ sstDxf03Text.o: Entities/sstDxf03Text.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -533,6 +542,7 @@ sstDxf03Vertex.o: Entities/sstDxf03Vertex.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -552,6 +562,7 @@ sstDxf03Point.o: Entities/sstDxf03Point.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -571,6 +582,7 @@ sstDxf03Line.o: Entities/sstDxf03Line.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -590,6 +602,7 @@ sstDxf03LType.o: Tables/sstDxf03LType.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -609,6 +622,7 @@ sstDxf03Write.o: sstDxf03Write.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -628,6 +642,7 @@ sstDxf03Read.o: sstDxf03Read.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -647,6 +662,7 @@ sstDxf03Main.o: sstDxf03Main.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -666,6 +682,7 @@ sstDxf03Layer.o: sstDxf03Layer.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -685,6 +702,7 @@ sstDxf03Database.o: sstDxf03Database.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -704,6 +722,7 @@ sstDxf03EntityType.o: sstDxf03EntityType.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -723,6 +742,7 @@ sstDxf03Base.o: sstDxf03Base.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -742,6 +762,7 @@ sstDxf03Block.o: sstDxf03Block.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \
@@ -761,6 +782,7 @@ sstDxf03Lib.o: sstDxf03Lib.cpp ../dxflib/Header/dl_dxf.h \
 		../sstLibreCAD2Lib/Header/rs_vector.h \
 		../sstLibreCAD2Lib/Header/rs.h \
 		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
 		../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../sst_rec04_lib/Header/sstRec04Lib.h \
 		Header/sstDxf03Lib.h \

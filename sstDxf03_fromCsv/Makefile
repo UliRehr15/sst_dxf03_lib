@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = 
 CFLAGS        = -pipe -g -Wall -W -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=c++0x -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I. -I../../dxflib/Header -I../../sstLibreCAD2Lib/Header -I../../sst_str01_lib/Header -I../../sst_misc01_lib/Header -I../../sst_rec04_lib/Header -I../Header -I/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I. -I../../dxflib/Header -I../../sstLibreCAD2Lib/Header -I../../sst_str01_lib/Header -I../../sstMath01Lib/Header -I../../sst_misc01_lib/Header -I../../sst_rec04_lib/Header -I../Header -I/usr/lib/i386-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/i386-linux-gnu/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -36,7 +36,7 @@ DISTNAME      = sstDxf03_fromCsv1.0.0
 DISTDIR = /home/uli-le/Entwicklung/sst_dxf03_lib/sstDxf03_fromCsv/.tmp/sstDxf03_fromCsv1.0.0
 LINK          = g++
 LFLAGS        = 
-LIBS          = $(SUBLIBS) ../../libs/libsst_dxf03_lib_d.a ../../libs/libsst_rec04_lib_d.a ../../libs/libsst_misc01_lib_d.a ../../libs/libsst_str01_lib_d.a ../../libs/libsstLibreCAD2Lib_d.a ../../libs/libdxflib_d.a 
+LIBS          = $(SUBLIBS) ../../libs/libsst_dxf03_lib_d.a ../../libs/libsst_rec04_lib_d.a ../../libs/libsst_misc01_lib_d.a ../../libs/libsstMath01Lib_d.a ../../libs/libsst_str01_lib_d.a ../../libs/libsstLibreCAD2Lib_d.a ../../libs/libdxflib_d.a 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed

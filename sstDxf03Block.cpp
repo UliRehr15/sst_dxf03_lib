@@ -38,6 +38,7 @@
 #include <rs_vector.h>
 
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstDxf03Lib.h>
@@ -94,6 +95,21 @@ void sstDxf03TypBlkCls::WritToDL(DL_BlockData *poDlBlk)
     poDlBlk->flags = this->getFlags();
 }
 //=============================================================================
+int sstDxf03TypBlkCls::updateMbr (int iKey, sstMath01Mbr2Cls oTmpMbr)
+{
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+  int iStat = 0;
+  iStat = this->oMbr.Koor2(0,oTmpMbr.getXA(),oTmpMbr.getYA());
+  iStat = this->oMbr.Koor2(0,oTmpMbr.getXI(),oTmpMbr.getYI());
+  return iStat;
+}
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03TypBlkCls::getMbr() const
+{
+  return this->oMbr;
+}
+//=============================================================================
 // Constructor
 sstDxf03FncBlkCls::sstDxf03FncBlkCls():sstDxf03FncBaseCls(sizeof(sstDxf03TypBlkCls))
 {
@@ -101,9 +117,9 @@ sstDxf03FncBlkCls::sstDxf03FncBlkCls():sstDxf03FncBaseCls(sizeof(sstDxf03TypBlkC
   // Init new name Tree sorting object for Block RecMem object
   int iStat = this->TreIni( 0, &oBlkRec, &oBlkRec.Nam, sizeof(oBlkRec.Nam), sstRecTyp_CC, &this->oBlockTree);
   assert(iStat == 0);
-
+  this->dBlockMdlRecNo = 0;
 }
-
+//=============================================================================
 // Csv Read Function
 int sstDxf03FncBlkCls::Csv_Read(int iKey, std::string *sErrTxt, std::string *ssstDxfLib_Str, sstDxf03TypBlkCls *oSstBlk)
 {
@@ -299,5 +315,52 @@ int sstDxf03FncBlkCls::WriteCsvFile(int iKey, std::string oDxfFilNam)
 
   iStat = oCsvFil.fcloseFil(0);
   return iStat;
+}
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03FncBlkCls::getMbrModel()
+{
+
+  int iStat = this->TreBld(0,&this->oBlockTree);
+  assert(iStat >= 0);
+
+  sstMath01Mbr2Cls oMbr;
+  std::string oBlkStr = "*Model_Space";
+  dREC04RECNUMTYP dBlkRecNo=0;
+  // iStat = this->TreSeaEQ( 0, this->getNameSortKey(), (void*) oBlkStr.c_str(), &dBlkRecNo);
+  iStat = this->TreSeaEQ( 0, &this->oBlockTree, (void*) oBlkStr.c_str(), &dBlkRecNo);
+  assert(iStat == 1);
+  sstDxf03TypBlkCls oBlkRec;
+  this->Read(0,dBlkRecNo,&oBlkRec);
+
+  return oBlkRec.getMbr();
+}
+//=============================================================================
+int sstDxf03FncBlkCls::updateMbrModel(int iKey, sstMath01Mbr2Cls oMbr)
+{
+    if ( iKey != 0) return -1;
+
+    sstDxf03TypBlkCls oBlkRec;
+    int iStat = this->Read(0,this->getBlockMdlRecNo(),&oBlkRec);
+    assert(iStat == 0);
+    sstMath01Mbr2Cls oMdlMbr;
+    oBlkRec.updateMbr(0,oMbr);
+    // oMdlMbr = oBlkRec.getMbr();
+    // oMdlMbr.Koor2(0,oMbr.getXI(),oMbr.getYI());
+    // oMdlMbr.Koor2(0,oMbr.getXA(),oMbr.getYA());
+    // oBlkRec.s
+
+    iStat = this->Writ(0,&oBlkRec,this->getBlockMdlRecNo());
+
+    return iStat;
+}
+//=============================================================================
+dREC04RECNUMTYP sstDxf03FncBlkCls::getBlockMdlRecNo() const
+{
+return dBlockMdlRecNo;
+}
+//=============================================================================
+void sstDxf03FncBlkCls::setBlockMdlRecNo(dREC04RECNUMTYP value)
+{
+  dBlockMdlRecNo = value;
 }
 //=============================================================================

@@ -11,6 +11,7 @@ CONFIG       -= release  # DEBUG ist aktiv
 INCLUDEPATH +=  ../../dxflib/Header
 INCLUDEPATH +=  ../../sstLibreCAD2Lib/Header
 INCLUDEPATH +=  ../../sst_str01_lib/Header
+INCLUDEPATH +=  ../../sstMath01Lib/Header
 INCLUDEPATH +=  ../../sst_misc01_lib/Header
 INCLUDEPATH +=  ../../sst_rec04_lib/Header
 INCLUDEPATH +=  ../Header
@@ -19,10 +20,12 @@ debug{
   LIBS        += ../../libs/libsst_dxf03_lib_d.a
   LIBS        += ../../libs/libsst_rec04_lib_d.a
   LIBS        += ../../libs/libsst_misc01_lib_d.a
+  LIBS        += ../../libs/libsstMath01Lib_d.a
   LIBS        += ../../libs/libsst_str01_lib_d.a
   LIBS        += ../../libs/libsstLibreCAD2Lib_d.a
   LIBS        += ../../libs/libdxflib_d.a
 }
+
 release{
 
   win32-g++:QMAKE_LFLAGS += -static

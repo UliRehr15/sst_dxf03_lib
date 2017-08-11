@@ -38,6 +38,7 @@
 #include <rs_vector.h>
 
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstDxf03Lib.h>
@@ -104,6 +105,16 @@ dREC04RECNUMTYP sstDxf03TypMainCls::getTypeID() const
 void sstDxf03TypMainCls::setTypeID(const dREC04RECNUMTYP &value)
 {
   dTypeID = value;
+}
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03TypMainCls::getMbr() const
+{
+  return this->oMinBndRct;
+}
+//=============================================================================
+void sstDxf03TypMainCls::setMbr(const sstMath01Mbr2Cls oTmpMbr)
+{
+  this->oMinBndRct = oTmpMbr;
 }
 //=============================================================================
 sstDxf03FncMainCls::sstDxf03FncMainCls():sstDxf03FncBaseCls(sizeof(sstDxf03TypMainCls))
@@ -208,36 +219,17 @@ int sstDxf03FncMainCls::Csv_Write(int iKey,
   }
   if (iStat >= 0)
     iStat = oCsvRow.Csv_UInt4_2String( 0, poSstMain->getTypeID(), ssstDxfLib_Str);
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_UInt4_2String( 0, poSstInsert->getLayerID(), ssstDxfLib_Str);
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_UInt4_2String( 0, poSstInsert->getBlockID(), ssstDxfLib_Str);
 
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Dbl_2String( 0, poSstInsert->getIpx(), ssstDxfLib_Str);
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Dbl_2String ( 0, poSstInsert->getIpy(), ssstDxfLib_Str);
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Dbl_2String ( 0, poSstInsert->getIpz(), ssstDxfLib_Str);
-
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Int2_2String ( 0, poSstInsert->getColor(), ssstDxfLib_Str);
-
-
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Dbl_2String( 0, poSstInsert->getCx(), ssstDxfLib_Str);
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Dbl_2String ( 0, poSstInsert->getCy(), ssstDxfLib_Str);
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Dbl_2String ( 0, poSstInsert->getCz(), ssstDxfLib_Str);
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Dbl_2String ( 0, poSstInsert->getRadius(), ssstDxfLib_Str);
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Dbl_2String ( 0, poSstInsert->getAngle1(), ssstDxfLib_Str);
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Dbl_2String ( 0, poSstInsert->getAngle2(), ssstDxfLib_Str);
-//  if (iStat >= 0)
-//    iStat = oCsvRow.Csv_Int2_2String ( 0, poSstInsert->getColor(), ssstDxfLib_Str);
+  sstMath01Mbr2Cls oTmpMbr;
+  oTmpMbr = poSstMain->getMbr();
+  if (iStat >= 0)
+    iStat = oCsvRow.Csv_Dbl_2String( 0, oTmpMbr.getXI(), ssstDxfLib_Str);
+  if (iStat >= 0)
+    iStat = oCsvRow.Csv_Dbl_2String( 0, oTmpMbr.getYI(), ssstDxfLib_Str);
+  if (iStat >= 0)
+    iStat = oCsvRow.Csv_Dbl_2String( 0, oTmpMbr.getXA(), ssstDxfLib_Str);
+  if (iStat >= 0)
+    iStat = oCsvRow.Csv_Dbl_2String( 0, oTmpMbr.getYA(), ssstDxfLib_Str);
 
   return iStat;
 }
@@ -263,6 +255,15 @@ int sstDxf03FncMainCls::Csv_WriteHeader(int iKey, std::string *ssstDxfLib_Str)
   iStat = oCsvRow.Csv_Str_2String( 0, oTitelStr, ssstDxfLib_Str);
   oTitelStr = "NumType";
   iStat = oCsvRow.Csv_Str_2String( 0, oTitelStr, ssstDxfLib_Str);
+  oTitelStr = "dXMin";
+  iStat = oCsvRow.Csv_Str_2String( 0, oTitelStr, ssstDxfLib_Str);
+  oTitelStr = "dYMin";
+  iStat = oCsvRow.Csv_Str_2String( 0, oTitelStr, ssstDxfLib_Str);
+  oTitelStr = "dXMax";
+  iStat = oCsvRow.Csv_Str_2String( 0, oTitelStr, ssstDxfLib_Str);
+  oTitelStr = "dYMax";
+  iStat = oCsvRow.Csv_Str_2String( 0, oTitelStr, ssstDxfLib_Str);
+
 
   // Fatal Errors goes to an assert
   if (iStat < 0)
@@ -349,5 +350,20 @@ int sstDxf03FncMainCls::WriteCsvFile(int iKey, std::string oDxfFilNam)
 
   iStat = oCsvFil.fcloseFil(0);
   return iStat;
+}
+//=============================================================================
+int sstDxf03FncMainCls::UpdateMbr (int iKey, sstMath01Mbr2Cls oTmpMbr)
+{
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+  int iStat = 0;
+  iStat = this->oMbr.Koor2(0,oTmpMbr.getXA(),oTmpMbr.getYA());
+  iStat = this->oMbr.Koor2(0,oTmpMbr.getXI(),oTmpMbr.getYI());
+  return iStat;
+}
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03FncMainCls::getMbr() const
+{
+  return this->oMbr;
 }
 //=============================================================================

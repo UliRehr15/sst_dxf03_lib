@@ -1993,11 +1993,35 @@ class sstDxf03TypBlkCls : public sstDxf03TypBaseCls
      // ----------------------------------------------------------------------------
      void setBlockID(unsigned long value);
      //==============================================================================
-
-     char Nam[dSSTDXF03BLOCKNAMELEN];  /**< Block Name */
+     /**
+     * @brief // Update Mbr with coordinates <BR>
+     * iStat = oSstDxfBlk.updateMbr(iKey)
+     *
+     * @param iKey [in] Key
+     * @param oMbr [in] Minimum bounding rectangle
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int updateMbr(int iKey, sstMath01Mbr2Cls oMbr);
+     //==============================================================================
+     /**
+     * @brief // Get Minimum Border Rectangle <BR>
+     * oMbr = oSstDxfBlk.getMbr()
+     *
+     * @return Minimum Border Rectangle
+     */
+     // ----------------------------------------------------------------------------
+     sstMath01Mbr2Cls getMbr() const;
+     //==============================================================================
+     char Nam[dSSTDXF03BLOCKNAMELEN];  /**< Block Name public because of sorting */
   private:  // Private functions
-     unsigned long ulBlockID;
+     unsigned long ulBlockID;  /**< intern Block ID */
      int  flags;               /**< Block Flags */
+     sstMath01Mbr2Cls oMbr;    /**< Minimum border rectangle */
 };
 //==============================================================================
 /**
@@ -3304,9 +3328,52 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
     //==============================================================================
+    /**
+    * @brief // Get Minimum Border Rectangle of Model Space / Section entities <BR>
+    * oMbr = oDxfFncBlock.getMbrModel()
+    *
+    * @return Minimum Border Rectangle
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbrModel();
+    //==============================================================================
+    /**
+    * @brief // Update Mbr of Model with next object Mbr <BR>
+    * iStat = oDxfFncBlock.updateMbrModel(iKey, oMbr);
+    *
+    * @param iKey [in] For the moment 0
+    * @param oMbr [in] Minimum Bounding Rectangle
+    *
+    * @return Errorstate
+    *
+    * @retval   = 0: OK
+    * @retval   < 0: Unspecified Error
+    */
+    // ----------------------------------------------------------------------------
+    int updateMbrModel(int iKey, sstMath01Mbr2Cls oMbr);
+    //==============================================================================
+    /**
+    * @brief // return Block Model Record number <BR>
+    * dRecordNo = oDxfFncBlock.getBlockMdlRecNo();
+    *
+    * @return Record number
+    */
+    // ----------------------------------------------------------------------------
+    dREC04RECNUMTYP getBlockMdlRecNo() const;
+    //==============================================================================
+    /**
+    * @brief // Set record number <BR>
+    * oDxfFncBlock.setBlockMdlRecNo(dValue);
+    *
+    * @param dValue [in] record number
+    */
+    // ----------------------------------------------------------------------------
+    void setBlockMdlRecNo(dREC04RECNUMTYP dValue);
+    //==============================================================================
 
-  private:
+private:
     sstRec04TreeKeyCls oBlockTree; /**< sort tree for block names in table */
+    dREC04RECNUMTYP dBlockMdlRecNo;  /**< actual record number of model space block (section entities)  */
 };
 
 //==============================================================================
@@ -3400,7 +3467,6 @@ class sstDxf03TypMainCls
      */
      // ----------------------------------------------------------------------------
      void setEntityType(const RS2::EntityType &eValue);
-
      //==============================================================================
      /**
      * @brief // return record number in csv file <BR>
@@ -3419,6 +3485,25 @@ class sstDxf03TypMainCls
      */
      // ----------------------------------------------------------------------------
      void setTypeID(const dREC04RECNUMTYP &dValue);
+     //==============================================================================
+     /**
+     * @brief // Get Minimum Bounding Rectangle <BR>
+     * oMinBndRct = oDxfMainRec.getMbr();
+     *
+     * @return Record number of main record
+     */
+     // ----------------------------------------------------------------------------
+     sstMath01Mbr2Cls getMbr() const;
+     //==============================================================================
+     /**
+     * @brief // Set minimum bounding rectangle <BR>
+     * oDxfMainRec.SetMbr( oMbr);
+     *
+     * @param oMbr [in] Minimum bounding rectangle
+     */
+     // ----------------------------------------------------------------------------
+     void setMbr(const sstMath01Mbr2Cls oMbr);
+     //==============================================================================
 
 private:  // Private functions
   dREC04RECNUMTYP   dMainID;          /**< Record number in this main file */
@@ -3426,7 +3511,7 @@ private:  // Private functions
   dREC04RECNUMTYP   dLayBlockID;      /**< Record number in Layer or block file */
   RS2::EntityType   eEntityType;      /**< ARC. CIRCE, LINE, VERTEX and so on ... */
   dREC04RECNUMTYP   dTypeID;          /**< Record number in type file */
-
+  sstMath01Mbr2Cls  oMinBndRct;       /**< Minimum Bounding Rectangle */
 };
 //==============================================================================
 /**
@@ -3453,7 +3538,7 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      //==============================================================================
      /**
      * @brief // Shortstory <BR>
-     * iStat = oCsvArc.Func_1(iKey)
+     * iStat = oMainFnc.Func_1(iKey)
      *
      * @param iKey [in] For the moment 0
      * @param sErrTxt [in] For the moment 0
@@ -3473,7 +3558,7 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      //==============================================================================
      /**
      * @brief // convert dxf main record into csv string <BR>
-     * iStat = oCsvMain.Csv_Write(iKey, oMainRec, oMainStr);
+     * iStat = oMainFnc.Csv_Write(iKey, oMainRec, oMainStr);
      *
      * @param iKey        [in] For the moment 0
      * @param oMainRec    [in] sst dxf main record
@@ -3491,7 +3576,7 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      //==============================================================================
      /**
      * @brief // write ARC titel row to csv file <BR>
-     * iStat = oCsvArc.Csv_WriteHeader ( 0, &oCsvStr)
+     * iStat = oMainFnc.Csv_WriteHeader ( 0, &oCsvStr)
      *
      * @param iKey    [in]  For the moment 0
      * @param oCsvStr [out] return string titel row
@@ -3506,7 +3591,7 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      //==============================================================================
      /**
      * @brief // Read whole layer csv file into sst_rec_mem <BR>
-     * iStat = oSstFncLay.ReadCsvFile ( iKey, oFilNam);
+     * iStat = oMainFnc.ReadCsvFile ( iKey, oFilNam);
      *
      * @param iKey    [in] For the moment 0
      * @param oFilNam [in] File name to import to rec mem
@@ -3525,7 +3610,7 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      //==============================================================================
      /**
      * @brief // write whole main data from table to csv file  <BR>
-     * iStat = oDxfFncMain.WriteCsvFile ( iKey, oDxfFilNam);
+     * iStat = oMainFnc.WriteCsvFile ( iKey, oDxfFilNam);
      *
      * @param iKey       [in] For the moment 0
      * @param oDxfFilNam [in] File name to export to csv file
@@ -3538,8 +3623,32 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      // ----------------------------------------------------------------------------
      int WriteCsvFile(int iKey, std::string oDxfFilNam);
      //==============================================================================
+     /**
+     * @brief // Update Mbr  <BR>
+     * iStat = oMainFnc.UpdateMbr ( iKey, oDxfFilNam);
+     *
+     * @param iKey   [in] For the moment 0
+     * @param oMbr   [in] Update Mbr with next Data
+     *
+     * @return Errorstate
+     *
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     */
+     // ----------------------------------------------------------------------------
+     int UpdateMbr (int iKey, sstMath01Mbr2Cls oMbr);
+     //==============================================================================
+     /**
+     * @brief // Get Minimum Bounding Rectangle <BR>
+     * oMinBndRct = oDxfMainRec.getMbr();
+     *
+     * @return Record number of main record
+     */
+     // ----------------------------------------------------------------------------
+     sstMath01Mbr2Cls getMbr() const;
+     //==============================================================================
 private:  // Private functions
-int Dum;        /**< Dummy */
+  sstMath01Mbr2Cls oMbr; /**< Minimum Border Rectangle */
 };
 //==============================================================================
 
@@ -5170,7 +5279,7 @@ class sstDxf03TypLineCls : public sstDxf03TypBaseCls
     sstDxf03TypLineCls(); // Constructor
     //==============================================================================
     /**
-    * @brief // read line data from dxflib text <BR>
+    * @brief // read line data from dxflib line <BR>
     * oSstDxfLine.ReadFromDL(poDLLine);
     *
     * @param poDLLine [in] dxflib line structure
@@ -5187,6 +5296,13 @@ class sstDxf03TypLineCls : public sstDxf03TypBaseCls
     // ----------------------------------------------------------------------------
     void WritToDL(DL_LineData *poDLLine);
     //==============================================================================
+    /**
+    * @brief // Get Minimum Bounding Rectangle  <BR>
+    *
+    * @return MinMax
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMinMax() const;
     //==============================================================================
     /**
     * @brief // Get Value  <BR>
@@ -5203,7 +5319,6 @@ class sstDxf03TypLineCls : public sstDxf03TypBaseCls
     */
     // ----------------------------------------------------------------------------
     void setX1(double value);
-
     //==============================================================================
     /**
     * @brief // Get Value  <BR>
@@ -5220,7 +5335,6 @@ class sstDxf03TypLineCls : public sstDxf03TypBaseCls
     */
     // ----------------------------------------------------------------------------
     void setY1(double value);
-
     //==============================================================================
     /**
     * @brief // Get Value  <BR>
@@ -5237,7 +5351,6 @@ class sstDxf03TypLineCls : public sstDxf03TypBaseCls
     */
     // ----------------------------------------------------------------------------
     void setZ1(double value);
-
     //==============================================================================
     /**
     * @brief // Get Value  <BR>
@@ -5254,7 +5367,6 @@ class sstDxf03TypLineCls : public sstDxf03TypBaseCls
     */
     // ----------------------------------------------------------------------------
     void setX2(double value);
-
     //==============================================================================
     /**
     * @brief // Get Value  <BR>
@@ -5271,7 +5383,6 @@ class sstDxf03TypLineCls : public sstDxf03TypBaseCls
     */
     // ----------------------------------------------------------------------------
     void setY2(double value);
-
     //==============================================================================
     /**
     * @brief // Get Value  <BR>
@@ -5288,6 +5399,14 @@ class sstDxf03TypLineCls : public sstDxf03TypBaseCls
     */
     // ----------------------------------------------------------------------------
     void setZ2(double value);
+    //==============================================================================
+    /**
+    * @brief // Get Minimum bounding rectangle  <BR>
+    *
+    * @return Mbr
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
     //==============================================================================
 
 private:
@@ -5834,7 +5953,28 @@ class sstDxf03DatabaseCls
      // ----------------------------------------------------------------------------
      int ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::EntityType *eEntityType, dREC04RECNUMTYP *dEntRecNo);
      //==============================================================================
-
+     /**
+     * @brief // Update all minimum bounding rectangles <BR>
+     * iStat = oDxfDb.updateAllMbr( iKey);
+     *
+     * @param iKey        [in] For the moment 0
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int updateAllMbr(int iKey);
+     //==============================================================================
+     /**
+     * @brief // Get Minimum Bounding rectangle from section entities /model space  <BR>
+     *
+     * @return Minimum Bounding rectangle
+     */
+     // ----------------------------------------------------------------------------
+     sstMath01Mbr2Cls getMbrModel();
+     //==============================================================================
 
 private:  // Private functions
 
@@ -6301,3 +6441,4 @@ private:  // Private functions
 #endif
 
 // --------------------------------------------------------------- File End ----
+

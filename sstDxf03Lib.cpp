@@ -38,6 +38,7 @@
 #include <rs_vector.h>
 
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstDxf03Lib.h>
@@ -148,5 +149,10 @@ int sstDxf03DbCls::ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData 
 int sstDxf03DbCls::ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::EntityType *eEntityType, dREC04RECNUMTYP *dEntRecNo)
 {
   return this->poDxf03DbIntern->ReadMainTable(iKey,dMainRecNo, eEntityType, dEntRecNo);
+}
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03DbCls::getMbrModel()
+{
+  return this->poDxf03DbIntern->getMbrModel();
 }
 //=============================================================================

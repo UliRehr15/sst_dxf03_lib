@@ -40,6 +40,7 @@
 #include <rs_vector.h>
 
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstDxf03Lib.h>
@@ -68,12 +69,18 @@ int main(int argc, char** argv)
     iStat = oDxfDB.ReadAllFromDxf(0,"Test.dxf");
     assert(iStat >= 0);
 
+    // Get Minimum Bounding rectangle from section entities /model space
+    sstMath01Mbr2Cls oMbrModel = oDxfDB.getMbrModel();
+
+    // Test Minimum Bounding rectangle from testfile test.dxf, which is created by
+    // testframe function -testwriting-
+    if (oMbrModel.getXI() != 25.0) assert(0);
+    if (oMbrModel.getYI() != 30.0) assert(0);
+    if (oMbrModel.getXA() != 100.0) assert(0);
+    if (oMbrModel.getYA() != 120.0) assert(0);
+
     // Write dxf database to dxf file
     iStat = oDxfDB.WritAll2DxfFil(0,"Test2.dxf");
-    assert(iStat >= 0);
-
-    // Write dxf database to csv files
-    iStat = oDxfDB.WritAll2Csv(0,"Test3.dxf");
     assert(iStat >= 0);
 
     iStat = sstMisc01FileCompare(0,"Test.dxf","Test2.dxf",&ulRowNo);
@@ -81,6 +88,10 @@ int main(int argc, char** argv)
     {
       assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
     }
+
+    // Write dxf database to csv files
+    iStat = oDxfDB.WritAll2Csv(0,"Test3.dxf");
+    assert(iStat >= 0);
 
   } // Close śstDxf Database
 

@@ -237,7 +237,7 @@ class sstDxf03DbCls
   int ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchData *oDLHatch, DL_Attributes *oDLAttributes);
   //==============================================================================
   /**
-  * @brief // Read hatch edge from table <BR>
+  * @brief // Read hatch edge element from table <BR>
   * iStat = oDxfDb.ReadHatchEdge( iKey, dRecNo, &oDLHatchEdge);
   *
   * @param iKey [in] For the moment 0
@@ -253,7 +253,7 @@ class sstDxf03DbCls
   int ReadHatchEdge( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchEdgeData *oDLHatchEdge);
   //==============================================================================
   /**
-  * @brief // Read hatch loop from table <BR>
+  * @brief // Read hatch loop element from table <BR>
   * iStat = oDxfDb.ReadHatchLoop( iKey, dRecNo, &oDLHatchLoop);
   *
   * @param iKey [in] For the moment 0
@@ -302,53 +302,23 @@ class sstDxf03DbCls
   // ----------------------------------------------------------------------------
   int ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::EntityType *eEntityType, dREC04RECNUMTYP *dEntRecNo);
   //==============================================================================
-
+  /**
+  * @brief // Get Minimum Bounding rectangle from section entities /model space  <BR>
+  *
+  * @return Minimum Bounding rectangle
+  */
+  // ----------------------------------------------------------------------------
+  sstMath01Mbr2Cls getMbrModel();
+  //==============================================================================
 
 // ----------------------------------------------------------------------------
   private:  // Private functions
     sstDxf03DatabaseCls *poDxf03DbIntern;   /**< Pointer to intern object */
 };
 //==============================================================================
-///**
-//* @brief Helper Class for DL_Attibutes
-//*
-//* Changed: 09.07.15  Re.
-//*
-//* @ingroup sstTemplateLib
-//*
-//* @author Re.
-//*
-//* @date 09.07.15
-//*/
-//// ----------------------------------------------------------------------------
-//class sstDxf03AttribHlpCls
-//{
-//  public:   // Public functions
-//     sstDxf03AttribHlpCls();  // Constructor
-//    //~sstTestBaseCls();  // Destructor
-//     //==============================================================================
-//     /**
-//     * @brief // Set Layername to DL_Attribute <BR>
-//     * iStat = oObj.Func_1(iKey);
-//     *
-//     * @param iKey [in] For the moment 0
-//     *
-//     * @return Errorstate
-//     *
-//     * @retval   = 0: OK
-//     * @retval   < 0: Unspecified Error
-//     */
-//     // ----------------------------------------------------------------------------
-//    // Func_1(int iKey);
-//    void SetLayerNam(DL_Attributes *DL_Attribute, const std::string oLayNam);
-
-//// ----------------------------------------------------------------------------
-//  private:  // Private functions
-//  int Dum;        /**< Dummy */
-//};
-//-----------------------------------------------------------------------------
 
 #endif
+
 //
 // --------------------------------------------------------------- File End ----
 

@@ -40,6 +40,7 @@
 #include <rs_vector.h>
 
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstDxf03Lib.h>
@@ -207,13 +208,13 @@ int sstDxf03DatabaseCls::ReadAllCsvFiles(int iKey, std::string oDxfFilNam)
   // Read whole hatch loop csv file into sst_rec_mem
   iStat = oSstFncHatchLoop.ReadCsvFile ( 0, oFilNamHatchLoop);
 
-  // Read whole hatch loop csv file into sst_rec_mem
+  // Read whole circle csv file into sst_rec_mem
   iStat = oSstFncCircle.ReadCsvFile ( 0, oFilNamCircle);
 
-  // Read whole hatch loop csv file into sst_rec_mem
+  // Read whole mtext csv file into sst_rec_mem
   iStat = oSstFncMText.ReadCsvFile ( 0, oFilNamMText);
 
-  // Read whole hatch loop csv file into sst_rec_mem
+  // Read whole text csv file into sst_rec_mem
   iStat = oSstFncText.ReadCsvFile ( 0, oFilNamText);
 
   // Read whole point csv file into sst_rec_mem
@@ -221,6 +222,9 @@ int sstDxf03DatabaseCls::ReadAllCsvFiles(int iKey, std::string oDxfFilNam)
 
   // Read whole line csv file into sst_rec_mem
   iStat = oSstFncLine.ReadCsvFile ( 0, oFilNamLine);
+
+  // update all minimum bounding rectangles in main table
+  iStat = this->updateAllMbr(0);
 
   return 0;
 }
@@ -619,7 +623,7 @@ int sstDxf03DatabaseCls::WritAll2DxfFil(int iKey, const std::string oDxfFilNam)
   if (iStat >= 0) iStat = oWrite.WrtSecEntities(0);  // write entities section to dxf file
   if (iStat >= 0) iStat = oWrite.WrtSecObjects(0);   // write objects section to dxf file
 
-  this->oPrt->SST_PrtWrtInt4(1,this->MainCount(),(char*)"Number of Data written: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->MainCount(),(char*)"Number of Main Data written: ");
   this->oPrt->SST_PrtWrtChar(1,(char*)oDxfFilNam.c_str(),(char*)"Dxf Database to File written: ");
 
   return iStat;
@@ -786,6 +790,8 @@ int sstDxf03DatabaseCls::ReadAllFromDxf(int iKey, const std::string oDxfFilNam)
   delete dxf;
   delete creationClass;
 
+  // Update all Trees?
+
   return iStat;
 }
 //=============================================================================
@@ -888,4 +894,19 @@ int sstDxf03DatabaseCls::ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS
 
   return iStat;
 }
+//=============================================================================
+int sstDxf03DatabaseCls::updateAllMbr(int iKey)
+{
+  // int iRet  = 0;
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+  return iStat;
+}
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03DatabaseCls::getMbrModel()
+{
+  return this->oSstFncBlk.getMbrModel();
+}
+
 //=============================================================================

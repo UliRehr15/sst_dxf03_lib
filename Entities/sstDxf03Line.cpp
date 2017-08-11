@@ -41,6 +41,7 @@
 #include <rs_vector.h>
 
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 
@@ -134,6 +135,14 @@ double sstDxf03TypLineCls::getZ2() const
 void sstDxf03TypLineCls::setZ2(double value)
 {
   z2 = value;
+}
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03TypLineCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  oTmpMbr.Koor2(0,this->getX1(),this->getY1());
+  oTmpMbr.Koor2(0,this->getX2(),this->getY2());
+  return oTmpMbr;
 }
 //=============================================================================
 // // Constructor

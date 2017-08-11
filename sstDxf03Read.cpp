@@ -36,6 +36,7 @@
 #include <rs_vector.h>
 
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstDxf03Lib.h>
@@ -123,6 +124,9 @@ void sstDxf03ReadCls::addBlock(const DL_BlockData& data)
   oBlk.setLinetypeID(dLTypeRecNo);
   iStat = poBlkFnc->TreWriteNew( 0, &oBlk, &dRecNo);
   assert(iStat == 0);
+  std::string oModelSpaceName = "*Model_Space";
+  iStat = oModelSpaceName.compare(data.name);
+  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
 }
 //=============================================================================
 void sstDxf03ReadCls::endBlock()
@@ -280,10 +284,7 @@ void sstDxf03ReadCls::addInsert(const DL_InsertData& data)
 }
 //=============================================================================
 void sstDxf03ReadCls::addLine(const DL_LineData& data) {
-//    printf("LINE     (%6.3f, %6.3f, %6.3f) (%6.3f, %6.3f, %6.3f)\n",
-//           data.x1, data.y1, data.z1, data.x2, data.y2, data.z2);
-//    printAttributes();
-//    this->poPrt->SST_PrtWrtChar( 1,(char*)"LINE skiped",(char*)"Dxf Reading: ");
+
   int iStat = 0;
   std::string oLayerStr;
 
@@ -317,6 +318,8 @@ void sstDxf03ReadCls::addLine(const DL_LineData& data) {
     iStat = poLayFnc->TreSeaEQ( 0, poLayFnc->getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
     assert(iStat == 1);
     oDxfLine.setLayerID(dLayRecNo);
+    // Set Minimum Bounding Rectangle in Block Table
+    poBlkFnc->updateMbrModel(0,oDxfLine.getMbr());
   }
   iStat = poLineFnc->WritNew(0,&oDxfLine,&dRecNo);
 
@@ -327,6 +330,9 @@ void sstDxf03ReadCls::addLine(const DL_LineData& data) {
   oMainRec.setMainID(dMainRecNo+1);
   oMainRec.setEntityType(RS2::EntityLine);
   oMainRec.setTypeID(dRecNo);
+
+  // Set Minimum Bounding Rectangle in Main Table
+  oMainRec.setMbr(oDxfLine.getMbr());
 
   // is it layer or block??
   if (this->oActBlockNam.length() > 0)
