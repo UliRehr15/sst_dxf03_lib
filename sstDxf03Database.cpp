@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-//  sstDxf03Database.cpp   21.05.17  Re.   06.07.16  Re.
+//  sstDxf03Database.cpp   23.02.18  Re.   06.07.16  Re.
 //
 //  Functions for Class "sstDxf03Lib"
 //
@@ -806,6 +806,9 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::EntityCount(RS2::EntityType eEntityType)
 
   switch (eEntityType)
   {
+  case RS2::EntityLine:
+    dTmpCount = this->oSstFncLine.count();
+    break;
   case RS2::EntityHatch:
     dTmpCount = this->oSstFncHatch.count();
     break;
@@ -816,6 +819,7 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::EntityCount(RS2::EntityType eEntityType)
     dTmpCount = this->oSstFncHatchEdge.count();
     break;
   default:
+    assert(0);
     break;
   }
   return dTmpCount;
@@ -827,10 +831,26 @@ int sstDxf03DatabaseCls::ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchD
   //-----------------------------------------------------------------------------
   if ( iKey != 0) return -1;
 
+  sstDxf03FncLayCls *oLocSstFncLay = NULL;       /**< layer sst table object */
+  oLocSstFncLay = this->getSstFncLay();
+  sstDxf03FncLTypeCls *oLocSstFncLType = NULL;   /**< linetype sst table object */
+  oLocSstFncLType = this->getSstFncLType();
+
   sstDxf03TypHatchCls oHatch;
 
   iStat = this->oSstFncHatch.Read(0,dRecNo,&oHatch);
   oHatch.BaseWritToDL(oDLAttributes);
+
+  dREC04RECNUMTYP dID =  oHatch.getLayerID();
+  sstDxf03TypLayCls oLayRec;
+  iStat = oLocSstFncLay->Read(0,dID,&oLayRec);
+  oDLAttributes->setLayer(oLayRec.getName());
+
+  dID =  oHatch.getLinetypeID();
+  sstDxf03TypLTypeCls oLTypeRec;
+  iStat = oLocSstFncLType->Read(0,dID,&oLTypeRec);
+  oDLAttributes->setLineType( oLTypeRec.getName());
+
   oHatch.WritToDL(oDLHatch);
   return iStat;
 }
@@ -870,11 +890,57 @@ int sstDxf03DatabaseCls::ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_Circl
   //-----------------------------------------------------------------------------
   if ( iKey != 0) return -1;
 
+  sstDxf03FncLayCls *oLocSstFncLay = NULL;       /**< layer sst table object */
+  oLocSstFncLay = this->getSstFncLay();
+  sstDxf03FncLTypeCls *oLocSstFncLType = NULL;   /**< linetype sst table object */
+  oLocSstFncLType = this->getSstFncLType();
+
   sstDxf03TypCircleCls oCircle;
 
   iStat = this->oSstFncCircle.Read(0,dRecNo,&oCircle);
   oCircle.BaseWritToDL(oDLAttributes);
+
+  dREC04RECNUMTYP dID =  oCircle.getLayerID();
+  sstDxf03TypLayCls oLayRec;
+  iStat = oLocSstFncLay->Read(0,dID,&oLayRec);
+  oDLAttributes->setLayer(oLayRec.getName());
+
+  dID =  oCircle.getLinetypeID();
+  sstDxf03TypLTypeCls oLTypeRec;
+  iStat = oLocSstFncLType->Read(0,dID,&oLTypeRec);
+  oDLAttributes->setLineType( oLTypeRec.getName());
+
   oCircle.WritToDL(oDLCircle);
+  return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypLineCls oLine;
+
+  sstDxf03FncLayCls *oLocSstFncLay = NULL;       /**< layer sst table object */
+  oLocSstFncLay = this->getSstFncLay();
+  sstDxf03FncLTypeCls *oLocSstFncLType = NULL;   /**< linetype sst table object */
+  oLocSstFncLType = this->getSstFncLType();
+
+  iStat = this->oSstFncLine.Read(0,dRecNo,&oLine);
+  oLine.BaseWritToDL(oDLAttributes);
+
+  dREC04RECNUMTYP dID =  oLine.getLayerID();
+  sstDxf03TypLayCls oLayRec;
+  iStat = oLocSstFncLay->Read(0,dID,&oLayRec);
+  oDLAttributes->setLayer(oLayRec.getName());
+
+  dID =  oLine.getLinetypeID();
+  sstDxf03TypLTypeCls oLTypeRec;
+  iStat = oLocSstFncLType->Read(0,dID,&oLTypeRec);
+  oDLAttributes->setLineType( oLTypeRec.getName());
+
+  oLine.WritToDL(oDLLine);
   return iStat;
 }
 //=============================================================================

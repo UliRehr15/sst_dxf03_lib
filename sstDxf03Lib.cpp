@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstDxf03Lib.cpp    18.11.16  Re.    18.11.16  Re.
+// sstDxf03Lib.cpp    23.02.18  Re.    18.11.16  Re.
 //
 #include <stdio.h>
 #include <stdlib.h>
@@ -144,6 +144,11 @@ int sstDxf03DbCls::ReadHatchLoop( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchLoop
 int sstDxf03DbCls::ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData *oDLCircle, DL_Attributes *oDLAttributes)
 {
   return this->poDxf03DbIntern->ReadCircle(iKey,dRecNo, oDLCircle, oDLAttributes);
+}
+//=============================================================================
+int sstDxf03DbCls::ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes)
+{
+  return this->poDxf03DbIntern->ReadLine(iKey,dRecNo, oDLLine, oDLAttributes);
 }
 //=============================================================================
 int sstDxf03DbCls::ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::EntityType *eEntityType, dREC04RECNUMTYP *dEntRecNo)

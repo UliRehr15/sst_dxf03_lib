@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstDxf03LibInt.h   02.11.16  Re.   02.11.16  Re.
+// sstDxf03LibInt.h   23.02.18  Re.   02.11.16  Re.
 //
 // Intern Datastructures and Prototypes for system "sstDxf03LibInt"
 //
@@ -5935,6 +5935,23 @@ class sstDxf03DatabaseCls
      */
      // ----------------------------------------------------------------------------
      int ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData *oDLCircle, DL_Attributes *oDLAttributes);
+     //==============================================================================
+     /**
+     * @brief // Read Line from table with attributes <BR>
+     * iStat = oDxfDb.ReadLine( iKey, dRecNo, &oDLLine, &oDLAttributes);
+     *
+     * @param iKey [in] For the moment 0
+     * @param dRecNo [int] Record number in table
+     * @param oDLLine [out] Return Line
+     * @param oDLAttributes [out] Return Circle attributes
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes);
      //==============================================================================
      /**
      * @brief // Read information in main table <BR>

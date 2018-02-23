@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstDxf03Lib.h   22.02.16  Re.   22.02.16  Re.
+// sstDxf03Lib.h   23.02.18  Re.   22.02.16  Re.
 //
 // Datastructures and Prototypes for system "sstDxf03Lib"
 //
@@ -210,7 +210,10 @@ class sstDxf03DbCls
   //==============================================================================
   /**
   * @brief // return number of records in entity table <BR>
-  * dMainRecs = oDxfDb.EntityCount(eEntityType);
+  * dEntityRecs = oDxfDb.EntityCount(eEntityType);
+  *
+  * for example:
+  * RS2::EntityPoint, RS2::EntityLine, RS2::EntityPolyline, RS2::EntityVertex
   *
   * @param eEntityType [in] specify entity type
   *
@@ -284,6 +287,23 @@ class sstDxf03DbCls
   */
   // ----------------------------------------------------------------------------
   int ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData *oDLCircle, DL_Attributes *oDLAttributes);
+  //==============================================================================
+  /**
+  * @brief // Read line from table with attributes <BR>
+  * iStat = oDxfDb.ReadLine ( iKey, dRecNo, &oDLLine, &oDLAttributes);
+  *
+  * @param iKey          [in]  For the moment 0
+  * @param dRecNo        [int] Record number in line table
+  * @param oDLLine       [out] Return Line
+  * @param oDLAttributes [out] Return Line attributes
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes);
   //==============================================================================
   /**
   * @brief // Read entity information from main table <BR>
