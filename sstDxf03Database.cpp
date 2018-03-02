@@ -831,25 +831,13 @@ int sstDxf03DatabaseCls::ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchD
   //-----------------------------------------------------------------------------
   if ( iKey != 0) return -1;
 
-  sstDxf03FncLayCls *oLocSstFncLay = NULL;       /**< layer sst table object */
-  oLocSstFncLay = this->getSstFncLay();
-  sstDxf03FncLTypeCls *oLocSstFncLType = NULL;   /**< linetype sst table object */
-  oLocSstFncLType = this->getSstFncLType();
-
   sstDxf03TypHatchCls oHatch;
 
   iStat = this->oSstFncHatch.Read(0,dRecNo,&oHatch);
   oHatch.BaseWritToDL(oDLAttributes);
 
-  dREC04RECNUMTYP dID =  oHatch.getLayerID();
-  sstDxf03TypLayCls oLayRec;
-  iStat = oLocSstFncLay->Read(0,dID,&oLayRec);
-  oDLAttributes->setLayer(oLayRec.getName());
-
-  dID =  oHatch.getLinetypeID();
-  sstDxf03TypLTypeCls oLTypeRec;
-  iStat = oLocSstFncLType->Read(0,dID,&oLTypeRec);
-  oDLAttributes->setLineType( oLTypeRec.getName());
+  // Update DL Attributes with Layer/LType Identifier
+  iStat = this->UpdateAttribWithId( 0, oHatch.getLayerID(), oHatch.getLinetypeID(), oDLAttributes);
 
   oHatch.WritToDL(oDLHatch);
   return iStat;
@@ -890,25 +878,13 @@ int sstDxf03DatabaseCls::ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_Circl
   //-----------------------------------------------------------------------------
   if ( iKey != 0) return -1;
 
-  sstDxf03FncLayCls *oLocSstFncLay = NULL;       /**< layer sst table object */
-  oLocSstFncLay = this->getSstFncLay();
-  sstDxf03FncLTypeCls *oLocSstFncLType = NULL;   /**< linetype sst table object */
-  oLocSstFncLType = this->getSstFncLType();
-
   sstDxf03TypCircleCls oCircle;
 
   iStat = this->oSstFncCircle.Read(0,dRecNo,&oCircle);
   oCircle.BaseWritToDL(oDLAttributes);
 
-  dREC04RECNUMTYP dID =  oCircle.getLayerID();
-  sstDxf03TypLayCls oLayRec;
-  iStat = oLocSstFncLay->Read(0,dID,&oLayRec);
-  oDLAttributes->setLayer(oLayRec.getName());
-
-  dID =  oCircle.getLinetypeID();
-  sstDxf03TypLTypeCls oLTypeRec;
-  iStat = oLocSstFncLType->Read(0,dID,&oLTypeRec);
-  oDLAttributes->setLineType( oLTypeRec.getName());
+  // Update DL Attributes with Layer/LType Identifier
+  iStat = this->UpdateAttribWithId( 0, oCircle.getLayerID(), oCircle.getLinetypeID(), oDLAttributes);
 
   oCircle.WritToDL(oDLCircle);
   return iStat;
@@ -922,23 +898,11 @@ int sstDxf03DatabaseCls::ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineDat
 
   sstDxf03TypLineCls oLine;
 
-  sstDxf03FncLayCls *oLocSstFncLay = NULL;       /**< layer sst table object */
-  oLocSstFncLay = this->getSstFncLay();
-  sstDxf03FncLTypeCls *oLocSstFncLType = NULL;   /**< linetype sst table object */
-  oLocSstFncLType = this->getSstFncLType();
-
   iStat = this->oSstFncLine.Read(0,dRecNo,&oLine);
   oLine.BaseWritToDL(oDLAttributes);
 
-  dREC04RECNUMTYP dID =  oLine.getLayerID();
-  sstDxf03TypLayCls oLayRec;
-  iStat = oLocSstFncLay->Read(0,dID,&oLayRec);
-  oDLAttributes->setLayer(oLayRec.getName());
-
-  dID =  oLine.getLinetypeID();
-  sstDxf03TypLTypeCls oLTypeRec;
-  iStat = oLocSstFncLType->Read(0,dID,&oLTypeRec);
-  oDLAttributes->setLineType( oLTypeRec.getName());
+  // Update DL Attributes with Layer/LType Identifier
+  iStat = this->UpdateAttribWithId(0,oLine.getLayerID(),oLine.getLinetypeID(), oDLAttributes);
 
   oLine.WritToDL(oDLLine);
   return iStat;
@@ -975,4 +939,47 @@ sstMath01Mbr2Cls sstDxf03DatabaseCls::getMbrModel()
   return this->oSstFncBlk.getMbrModel();
 }
 
+//=============================================================================
+int sstDxf03DatabaseCls::UpdateAttribWithId (int iKey,
+                                          dREC04RECNUMTYP dLayID,
+                                          dREC04RECNUMTYP dLTypeID,
+                                          DL_Attributes *oDLAttributes)
+//-----------------------------------------------------------------------------
+{
+  sstDxf03FncLayCls *oLocSstFncLay = NULL;       /**< layer sst table object */
+  oLocSstFncLay = this->getSstFncLay();
+  sstDxf03FncLTypeCls *oLocSstFncLType = NULL;   /**< linetype sst table object */
+  oLocSstFncLType = this->getSstFncLType();
+
+  int iRet  = 0;
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  if (dLayID > 0)
+  {
+    sstDxf03TypLayCls oLayRec;
+    iStat = oLocSstFncLay->Read(0,dLayID,&oLayRec);
+    oDLAttributes->setLayer(oLayRec.getName());
+  }
+
+  if (dLTypeID > 0)
+  {
+    sstDxf03TypLTypeCls oLTypeRec;
+    iStat = oLocSstFncLType->Read(0,dLTypeID,&oLTypeRec);
+    oDLAttributes->setLineType( oLTypeRec.getName());
+  }
+
+  // Fatal Errors goes to an assert
+  if (iRet < 0)
+  {
+    // Expression (iRet >= 0) has to be fullfilled
+    assert(0);
+  }
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
+}
 //=============================================================================

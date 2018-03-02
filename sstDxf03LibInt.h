@@ -5992,6 +5992,26 @@ class sstDxf03DatabaseCls
      // ----------------------------------------------------------------------------
      sstMath01Mbr2Cls getMbrModel();
      //==============================================================================
+     /**
+     * @brief // Update DL Attributes with Layer/LType Identifier <BR>
+     * iStat = oDxfDb.UpdateAttribWithId( iKey, dLayId, dLTypeId, &oDLAttributes);
+     *
+     * @param iKey          [in]  For the moment 0
+     * @param dLayID        [in]  Layer Identifier
+     * @param dLTypeID      [in]  Linetype Identifier
+     * @param oDLAttributes [out] update DL Attributes
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int UpdateAttribWithId (int iKey,
+                          dREC04RECNUMTYP dLayID,
+                          dREC04RECNUMTYP dLTypeID,
+                          DL_Attributes *oDLAttributes);
+     //==============================================================================
 
 private:  // Private functions
 

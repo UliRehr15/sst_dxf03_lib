@@ -87,6 +87,7 @@ void sstDxf03TypBaseCls::BaseWritToDL(DL_Attributes *poDLAttrib)
   poDLAttrib->setColor24(this->color24);
   poDLAttrib->setWidth(this->width);
   poDLAttrib->setHandle(this->handle);
+
 }
 //=============================================================================
 dREC04RECNUMTYP sstDxf03TypBaseCls::getBlockID() const
