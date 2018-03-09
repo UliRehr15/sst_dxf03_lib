@@ -146,9 +146,24 @@ int sstDxf03DbCls::ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData 
   return this->poDxf03DbIntern->ReadCircle(iKey,dRecNo, oDLCircle, oDLAttributes);
 }
 //=============================================================================
+int sstDxf03DbCls::ReadVertex( int iKey, dREC04RECNUMTYP dRecNo, DL_VertexData *oDLVertex)
+{
+  return this->poDxf03DbIntern->ReadVertex(iKey,dRecNo, oDLVertex);
+}
+//=============================================================================
 int sstDxf03DbCls::ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes)
 {
   return this->poDxf03DbIntern->ReadLine(iKey,dRecNo, oDLLine, oDLAttributes);
+}
+//=============================================================================
+int sstDxf03DbCls::ReadPolyline ( int iKey, dREC04RECNUMTYP dRecNo, DL_PolylineData *oDLPolyline, DL_Attributes *oDLAttributes)
+{
+  return this->poDxf03DbIntern->ReadPolyline(iKey,dRecNo, oDLPolyline, oDLAttributes);
+}
+//=============================================================================
+int sstDxf03DbCls::ReadBlock ( int iKey, dREC04RECNUMTYP dRecNo, DL_BlockData *oDLBlock, DL_Attributes *oDLAttributes)
+{
+  return this->poDxf03DbIntern->ReadBlock(iKey,dRecNo, oDLBlock, oDLAttributes);
 }
 //=============================================================================
 int sstDxf03DbCls::ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::EntityType *eEntityType, dREC04RECNUMTYP *dEntRecNo)
@@ -159,5 +174,29 @@ int sstDxf03DbCls::ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::Ent
 sstMath01Mbr2Cls sstDxf03DbCls::getMbrModel()
 {
   return this->poDxf03DbIntern->getMbrModel();
+}
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03DbCls::getMbrBlock(dREC04RECNUMTYP dBlkNo)
+{
+  return this->poDxf03DbIntern->getMbrBlock( dBlkNo);
+}
+//=============================================================================
+dREC04RECNUMTYP sstDxf03DbCls::countBlocks()
+{
+  return this->poDxf03DbIntern->countBlocks();
+}
+//=============================================================================
+dREC04RECNUMTYP sstDxf03DbCls::countEntities(int iKey, dREC04RECNUMTYP dBlkNo)
+{
+  return this->poDxf03DbIntern->countEntities(iKey, dBlkNo);
+}
+//=============================================================================
+int sstDxf03DbCls::ReadEntityType(int iKey,
+                                  dREC04RECNUMTYP dBlkNo,
+                                  dREC04RECNUMTYP dMainNo,
+                                  RS2::EntityType *eEntType,
+                                  dREC04RECNUMTYP *dEntNo)
+{
+  return this->poDxf03DbIntern->ReadEntityType(iKey, dBlkNo, dMainNo, eEntType,dEntNo);
 }
 //=============================================================================

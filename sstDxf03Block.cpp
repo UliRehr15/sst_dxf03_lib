@@ -342,14 +342,25 @@ int sstDxf03FncBlkCls::updateMbrModel(int iKey, sstMath01Mbr2Cls oMbr)
     sstDxf03TypBlkCls oBlkRec;
     int iStat = this->Read(0,this->getBlockMdlRecNo(),&oBlkRec);
     assert(iStat == 0);
-    sstMath01Mbr2Cls oMdlMbr;
+    // sstMath01Mbr2Cls oMdlMbr;
     oBlkRec.updateMbr(0,oMbr);
-    // oMdlMbr = oBlkRec.getMbr();
-    // oMdlMbr.Koor2(0,oMbr.getXI(),oMbr.getYI());
-    // oMdlMbr.Koor2(0,oMbr.getXA(),oMbr.getYA());
-    // oBlkRec.s
 
     iStat = this->Writ(0,&oBlkRec,this->getBlockMdlRecNo());
+
+    return iStat;
+}
+//=============================================================================
+int sstDxf03FncBlkCls::updateMbrBlock(int iKey,   dREC04RECNUMTYP dBlkNo, sstMath01Mbr2Cls oMbr)
+{
+    if ( iKey != 0) return -1;
+
+    sstDxf03TypBlkCls oBlkRec;
+    int iStat = this->Read( 0, dBlkNo, &oBlkRec);
+    assert(iStat == 0);
+    // sstMath01Mbr2Cls oMdlMbr;
+    oBlkRec.updateMbr(0,oMbr);
+
+    iStat = this->Writ( 0, &oBlkRec, dBlkNo);
 
     return iStat;
 }

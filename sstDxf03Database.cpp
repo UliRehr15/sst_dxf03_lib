@@ -55,7 +55,7 @@ sstDxf03DatabaseCls::sstDxf03DatabaseCls(sstMisc01PrtFilCls *oTmpPrt)
   // And open all sst dxf tables
 
   this->oPrt = oTmpPrt;
-  dActRecNo = 0;                               // Actual Record Number
+  dMainTabSectEntStart = 0;                    // Start of section entities in main table
   eActEntType = RS2::EntityUnknown;            // Actual Entity Type
 
   eGrpEntType = RS2::EntityUnknown;            // Group Entity Type
@@ -309,14 +309,14 @@ sstDxf03FncMainCls* sstDxf03DatabaseCls::getSstFncMain()
   return &this->oSstFncMain;
 }
 //=============================================================================
-dREC04RECNUMTYP sstDxf03DatabaseCls::getActRecNo() const
+dREC04RECNUMTYP sstDxf03DatabaseCls::getMainTabSectEntStart() const
 {
-return dActRecNo;
+return dMainTabSectEntStart;
 }
 //=============================================================================
-void sstDxf03DatabaseCls::setActRecNo(const dREC04RECNUMTYP &value)
+void sstDxf03DatabaseCls::setMainTabSectEntStart(const dREC04RECNUMTYP &value)
 {
-dActRecNo = value;
+  this->dMainTabSectEntStart = value;
 }
 //=============================================================================
 RS2::EntityType sstDxf03DatabaseCls::getActEntType() const
@@ -480,7 +480,7 @@ int sstDxf03DatabaseCls::OpenNewHatch(int                  iKey,
   this->dGrpSubID = 0;              // Sub Group ID like HatchLoop
   this->dGrpRecNum = 0;
 
-  this->setActRecNo(*oEntRecNo);
+  this->setMainTabSectEntStart(*oEntRecNo);
   return iStat;
 }
 //==============================================================================
@@ -574,7 +574,7 @@ int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
 
   dNumBlocks = 0;
 
-  oDxfHatchEdge.setParentID(this->getActRecNo());
+  oDxfHatchEdge.setParentID(this->getMainTabSectEntStart());
 
   // iStat = poHatchEdgeFnc->WritNew(0,&oDxfHatchEdge,&dRecNo);
   iStat = poHatchEdgeFnc->WritNew(0,&oDxfHatchEdge, oEntRecNo);
@@ -890,6 +890,24 @@ int sstDxf03DatabaseCls::ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_Circl
   return iStat;
 }
 //=============================================================================
+int sstDxf03DatabaseCls::ReadVertex ( int iKey, dREC04RECNUMTYP dRecNo, DL_VertexData *oDLVertex)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypVertexCls oVertex;
+
+  iStat = this->oSstFncVertex.Read(0,dRecNo,&oVertex);
+  // oVertex.BaseWritToDL(oDLAttributes);
+
+  // Update DL Attributes with Layer/LType Identifier
+  // iStat = this->UpdateAttribWithId( 0, oVertex.getLayerID(), oVertex.getLinetypeID(), oDLAttributes);
+
+  oVertex.WritToDL(oDLVertex);
+  return iStat;
+}
+//=============================================================================
 int sstDxf03DatabaseCls::ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes)
 {
   int iStat = 0;
@@ -905,6 +923,42 @@ int sstDxf03DatabaseCls::ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineDat
   iStat = this->UpdateAttribWithId(0,oLine.getLayerID(),oLine.getLinetypeID(), oDLAttributes);
 
   oLine.WritToDL(oDLLine);
+  return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadPolyline ( int iKey, dREC04RECNUMTYP dRecNo, DL_PolylineData *oDLPolyline, DL_Attributes *oDLAttributes)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypPolylineCls oPolyline;
+
+  iStat = this->oSstFncPolyline.Read(0,dRecNo,&oPolyline);
+  oPolyline.BaseWritToDL(oDLAttributes);
+
+  // Update DL Attributes with Layer/LType Identifier
+  iStat = this->UpdateAttribWithId(0,oPolyline.getLayerID(),oPolyline.getLinetypeID(), oDLAttributes);
+
+  oPolyline.WritToDL(oDLPolyline);
+  return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadBlock ( int iKey, dREC04RECNUMTYP dRecNo, DL_BlockData *oDLBlock, DL_Attributes *oDLAttributes)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypBlkCls oBlock;
+
+  iStat = this->oSstFncBlk.Read(0,dRecNo,&oBlock);
+  oBlock.BaseWritToDL(oDLAttributes);
+
+  // Update DL Attributes with Layer/LType Identifier
+  iStat = this->UpdateAttribWithId(0,oBlock.getLayerID(),oBlock.getLinetypeID(), oDLAttributes);
+
+  oBlock.WritToDL(oDLBlock);
   return iStat;
 }
 //=============================================================================
@@ -938,7 +992,16 @@ sstMath01Mbr2Cls sstDxf03DatabaseCls::getMbrModel()
 {
   return this->oSstFncBlk.getMbrModel();
 }
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03DatabaseCls::getMbrBlock(dREC04RECNUMTYP dBlkNo)
+{
+  sstDxf03TypBlkCls oBlock;
 
+  int iStat = this->oSstFncBlk.Read(0,dBlkNo,&oBlock);
+  assert(iStat >= 0);
+
+  return oBlock.getMbr();
+}
 //=============================================================================
 int sstDxf03DatabaseCls::UpdateAttribWithId (int iKey,
                                           dREC04RECNUMTYP dLayID,
@@ -981,5 +1044,65 @@ int sstDxf03DatabaseCls::UpdateAttribWithId (int iKey,
   iRet = iStat;
 
   return iRet;
+}
+//=============================================================================
+dREC04RECNUMTYP sstDxf03DatabaseCls::countBlocks()
+{
+
+  sstDxf03FncBlkCls *oBlkTab =  this->getSstFncBlk();
+  return oBlkTab->count();
+}
+//=============================================================================
+dREC04RECNUMTYP sstDxf03DatabaseCls::countEntities(int iKey, dREC04RECNUMTYP dBlkNo)
+{
+  if ( iKey != 0) return -1;
+
+  sstDxf03FncBlkCls *oBlkTab =  this->getSstFncBlk();
+  sstDxf03TypBlkCls oBlkRec;
+
+  dREC04RECNUMTYP dNumBlks = oBlkTab->count();
+  if (dBlkNo < 1 || dBlkNo > dNumBlks) return -2;
+
+  int iStat = 0;
+  dREC04RECNUMTYP dBlk_1 = 0;
+  dREC04RECNUMTYP dBlk_2 = 0;
+  iStat = oBlkTab->Read( 0, dBlkNo, &oBlkRec);
+  assert(iStat >= 0);
+  dBlk_1 = oBlkRec.getRecordID();
+  if (dBlk_1 <= 0) return 0;
+
+  if (dBlkNo < dNumBlks)
+  {
+    iStat = oBlkTab->Read( 0, dBlkNo+1, &oBlkRec);
+    assert(iStat >= 0);
+    dBlk_2 = oBlkRec.getRecordID();
+  }
+  else
+  {  // last block
+    dBlk_2 = this->getMainTabSectEntStart();
+  }
+
+  return dBlk_2-dBlk_1;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadEntityType(int iKey,
+                                        dREC04RECNUMTYP dBlkNo,
+                                        dREC04RECNUMTYP dMainNo,
+                                        RS2::EntityType *eEntType,
+                                        dREC04RECNUMTYP *dEntNo)
+{
+  sstDxf03FncBlkCls *oBlkTab =  this->getSstFncBlk();
+  sstDxf03TypBlkCls oBlkRec;
+
+  int iStat = oBlkTab->Read( 0, dBlkNo, &oBlkRec);
+  assert(iStat >= 0);
+
+  // RS2::EntityType eEntType = RS2::EntityLine;
+  dREC04RECNUMTYP dActMainTabRecNo = oBlkRec.getRecordID()+dMainNo -1;
+  dREC04RECNUMTYP dEntRecNo = 0;
+  iStat = this->ReadMainTable(0,dActMainTabRecNo, eEntType, dEntNo);
+  assert(iStat >= 0);
+
+  return iStat;
 }
 //=============================================================================

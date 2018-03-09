@@ -289,6 +289,22 @@ class sstDxf03DbCls
   int ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData *oDLCircle, DL_Attributes *oDLAttributes);
   //==============================================================================
   /**
+  * @brief // Read vertex from table with attributes <BR>
+  * iStat = oDxfDb.ReadVertex( iKey, &oDLVertex, &oDLAttributes);
+  *
+  * @param iKey [in] For the moment 0
+  * @param dRecNo [int] Record number in table
+  * @param oDLVertex [out] Return Vertex
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadVertex ( int iKey, dREC04RECNUMTYP dRecNo, DL_VertexData *oDLVertex);
+  //==============================================================================
+  /**
   * @brief // Read line from table with attributes <BR>
   * iStat = oDxfDb.ReadLine ( iKey, dRecNo, &oDLLine, &oDLAttributes);
   *
@@ -304,6 +320,40 @@ class sstDxf03DbCls
   */
   // ----------------------------------------------------------------------------
   int ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes);
+  //==============================================================================
+  /**
+  * @brief // Read polyline from table with attributes <BR>
+  * iStat = oDxfDb.ReadPolyline ( iKey, dRecNo, &oDLPolyline, &oDLAttributes);
+  *
+  * @param iKey          [in]  For the moment 0
+  * @param dRecNo        [int] Record number in line table
+  * @param oDLPolyline   [out] Return Polyline
+  * @param oDLAttributes [out] Return Attributes
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadPolyline ( int iKey, dREC04RECNUMTYP dRecNo, DL_PolylineData *oDLPolyline, DL_Attributes *oDLAttributes);
+  //==============================================================================
+  /**
+  * @brief // Read block from table with attributes <BR>
+  * iStat = oDxfDb.ReadBlock ( iKey, dRecNo, &oDLBlock, &oDLAttributes);
+  *
+  * @param iKey          [in]  For the moment 0
+  * @param dRecNo        [int] Record number in line table
+  * @param oDLBlock      [out] Return Block
+  * @param oDLAttributes [out] Return Attributes
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadBlock ( int iKey, dREC04RECNUMTYP dRecNo, DL_BlockData *oDLBlock, DL_Attributes *oDLAttributes);
   //==============================================================================
   /**
   * @brief // Read entity information from main table <BR>
@@ -330,8 +380,58 @@ class sstDxf03DbCls
   // ----------------------------------------------------------------------------
   sstMath01Mbr2Cls getMbrModel();
   //==============================================================================
+  /**
+  * @brief // Get Minimum Bounding rectangle of Block <BR>
+  *
+  * @param dBlkNo   [in] Block number
+  *
+  * @return Minimum Bounding rectangle
+  */
+  // ----------------------------------------------------------------------------
+  sstMath01Mbr2Cls getMbrBlock(dREC04RECNUMTYP dBlkNo );
+  //==============================================================================
+  /**
+  * @brief // return number of blocks in sstDxfDb <BR>
+  * dNumBlocks = oDxfDb.countBlocks();
+  *
+  * @return Number of records in block table
+  */
+  // ----------------------------------------------------------------------------
+  dREC04RECNUMTYP countBlocks();
+  //==============================================================================
+  /**
+  * @brief // return number of entities in actual block in sstDxfDb <BR>
+  * dNumEntities = oDxfDb.countEntities (iKey, dBlkNo);
+  *
+  * @param iKey       [in] For the moment 0
+  * @param dBlkNo     [in] Block number (=0: model space)
+  *
+  *
+  * @return Number of records in block table
+  */
+  // ----------------------------------------------------------------------------
+  dREC04RECNUMTYP countEntities(int iKey, dREC04RECNUMTYP dBlkNo);
+  //==============================================================================
+  /**
+  * @brief // return type of entitiy in actual block in sstDxfDb <BR>
+  * dNumEntities = oDxfDb.countEntities (iKey, dBlkNo);
+  *
+  * @param iKey       [in] For the moment 0
+  * @param dBlkNo     [in] Block number (=0: model space)
+  * @param dMainNo    [in] Number in Main table
+  * @param eEntType   [out] enum entity type
+  * @param dEntNo     [out] Number in Entity table
+  *
+  * @return Type of entity
+  */
+  // ----------------------------------------------------------------------------
+  int ReadEntityType(int iKey,
+                     dREC04RECNUMTYP  dBlkNo,
+                     dREC04RECNUMTYP  dMainNo,
+                     RS2::EntityType *eEntType,
+                     dREC04RECNUMTYP *dEntNo);
+  //==============================================================================
 
-// ----------------------------------------------------------------------------
   private:  // Private functions
     sstDxf03DatabaseCls *poDxf03DbIntern;   /**< Pointer to intern object */
 };

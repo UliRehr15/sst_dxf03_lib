@@ -50,4 +50,5 @@ Structure of coding projects should be:
 21.05.17: Version 3.2: Add protocol events for import/export. <BR>
 11.08.17: Version 3.3: Minimum Bounding Rectangle for dxf database. <BR>
 23.02.18: Version 3.4: New function -ReadLine-. <BR>
-02.03.18: Version 3.5: New funktion -UpdateAttributesWithID.<BR>
+02.03.18: Version 3.5: New funktion -UpdateAttributesWithID. <BR>
+09.03.18: Version 3.6: More Read-Functions for sstDxfDatabase.  <BR>

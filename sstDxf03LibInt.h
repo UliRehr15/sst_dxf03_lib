@@ -263,7 +263,7 @@ class sstDxf03TypBaseCls
 
 private:
     // standard attributes
-    dREC04RECNUMTYP dRecordID;  /**< Identifier in Element table */
+    dREC04RECNUMTYP dRecordID;   /**< Identifier in Element table */
     dREC04RECNUMTYP dLayerID;    /**< Identifier in Layer table */
     dREC04RECNUMTYP dBlockID;    /**< Identifier in Block table */
     dREC04RECNUMTYP dLinetypeID; /**< Identifier in Linetype table */
@@ -3353,6 +3353,22 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     int updateMbrModel(int iKey, sstMath01Mbr2Cls oMbr);
     //==============================================================================
     /**
+    * @brief // Update Mbr of block with next object Mbr <BR>
+    * iStat = oDxfFncBlock.updateMbrBlock(iKey, dBlkNo, oMbr);
+    *
+    * @param iKey   [in] For the moment 0
+    * @param dBlkNo [in] Block number
+    * @param oMbr   [in] Minimum Bounding Rectangle
+    *
+    * @return Errorstate
+    *
+    * @retval   = 0: OK
+    * @retval   < 0: Unspecified Error
+    */
+    // ----------------------------------------------------------------------------
+    int updateMbrBlock(int iKey,   dREC04RECNUMTYP dBlkNo, sstMath01Mbr2Cls oMbr);
+    //==============================================================================
+    /**
     * @brief // return Block Model Record number <BR>
     * dRecordNo = oDxfFncBlock.getBlockMdlRecNo();
     *
@@ -4127,6 +4143,14 @@ class sstDxf03TypCircleCls  : public sstDxf03TypBaseCls
     */
     // ----------------------------------------------------------------------------
     void setRadius(double value);
+    //==============================================================================
+    /**
+    * @brief // Get Minimum bounding rectangle  <BR>
+    *
+    * @return Mbr
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
     //==============================================================================
 
 private:
@@ -5701,20 +5725,20 @@ class sstDxf03DatabaseCls
      sstDxf03FncMainCls* getSstFncMain();
      //==============================================================================
      /**
-     * @brief // return record number <BR>
+     * @brief // return Start of section entities in main table <BR>
      *
      * @return Record number
      */
      // ----------------------------------------------------------------------------
-     dREC04RECNUMTYP getActRecNo() const;
+     dREC04RECNUMTYP getMainTabSectEntStart() const;
      //==============================================================================
      /**
-     * @brief // Set record number <BR>
+     * @brief // Set Start of section entities in main table <BR>
      *
      * @param value [in] record number
      */
      // ----------------------------------------------------------------------------
-     void setActRecNo(const dREC04RECNUMTYP &value);
+     void setMainTabSectEntStart(const dREC04RECNUMTYP &value);
      //==============================================================================
      /**
      * @brief // return actual entity type <BR>
@@ -5937,6 +5961,22 @@ class sstDxf03DatabaseCls
      int ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData *oDLCircle, DL_Attributes *oDLAttributes);
      //==============================================================================
      /**
+     * @brief // Read vertex from table with attributes <BR>
+     * iStat = oDxfDb.ReadVertex( iKey, &oDLVertex, &oDLAttributes);
+     *
+     * @param iKey [in] For the moment 0
+     * @param dRecNo [int] Record number in table
+     * @param oDLVertex [out] Return Vertex
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int ReadVertex ( int iKey, dREC04RECNUMTYP dRecNo, DL_VertexData *oDLVertex);
+     //==============================================================================
+     /**
      * @brief // Read Line from table with attributes <BR>
      * iStat = oDxfDb.ReadLine( iKey, dRecNo, &oDLLine, &oDLAttributes);
      *
@@ -5952,6 +5992,40 @@ class sstDxf03DatabaseCls
      */
      // ----------------------------------------------------------------------------
      int ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes);
+     //==============================================================================
+     /**
+     * @brief // Read polyline from table with attributes <BR>
+     * iStat = oDxfDb.ReadPolyline ( iKey, dRecNo, &oDLPolyline, &oDLAttributes);
+     *
+     * @param iKey          [in]  For the moment 0
+     * @param dRecNo        [int] Record number in line table
+     * @param oDLPolyline   [out] Return Polyline
+     * @param oDLAttributes [out] Return Attributes
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int ReadPolyline ( int iKey, dREC04RECNUMTYP dRecNo, DL_PolylineData *oDLPolyline, DL_Attributes *oDLAttributes);
+     //==============================================================================
+     /**
+     * @brief // Read block from table with attributes <BR>
+     * iStat = oDxfDb.ReadBlock ( iKey, dRecNo, &oDLBlock, &oDLAttributes);
+     *
+     * @param iKey          [in]  For the moment 0
+     * @param dRecNo        [int] Record number in line table
+     * @param oDLBlock      [out] Return Block
+     * @param oDLAttributes [out] Return Attributes
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int ReadBlock ( int iKey, dREC04RECNUMTYP dRecNo, DL_BlockData *oDLBlock, DL_Attributes *oDLAttributes);
      //==============================================================================
      /**
      * @brief // Read information in main table <BR>
@@ -5993,6 +6067,16 @@ class sstDxf03DatabaseCls
      sstMath01Mbr2Cls getMbrModel();
      //==============================================================================
      /**
+     * @brief // Get Minimum Bounding rectangle of Block <BR>
+     *
+     * @param dBlkNo   [in] Block number
+     *
+     * @return Minimum Bounding rectangle
+     */
+     // ----------------------------------------------------------------------------
+     sstMath01Mbr2Cls getMbrBlock(dREC04RECNUMTYP dBlkNo );
+     //==============================================================================
+     /**
      * @brief // Update DL Attributes with Layer/LType Identifier <BR>
      * iStat = oDxfDb.UpdateAttribWithId( iKey, dLayId, dLTypeId, &oDLAttributes);
      *
@@ -6011,6 +6095,44 @@ class sstDxf03DatabaseCls
                           dREC04RECNUMTYP dLayID,
                           dREC04RECNUMTYP dLTypeID,
                           DL_Attributes *oDLAttributes);
+     //==============================================================================
+     /**
+     * @brief // return number of blocks in sstDxfDb <BR>
+     * dNumBlocks = oDxfDb.countBlocks();
+     *
+     * @return Number of records in block table
+     */
+     // ----------------------------------------------------------------------------
+     dREC04RECNUMTYP countBlocks();
+     //==============================================================================
+     /**
+     * @brief // return number of blocks in sstDxfDb <BR>
+     * dNumBlocks = oDxfDb.countBlocks();
+     *
+     * @return Number of records in block table
+     */
+     // ----------------------------------------------------------------------------
+     dREC04RECNUMTYP countEntities(int iKey, dREC04RECNUMTYP dBlkNo);
+     //==============================================================================
+     //==============================================================================
+     /**
+     * @brief // return type of entitiy in actual block in sstDxfDb <BR>
+     * dNumEntities = oDxfDb.countEntities (iKey, dBlkNo);
+     *
+     * @param iKey       [in] For the moment 0
+     * @param dBlkNo     [in] Block number (=0: model space)
+     * @param dMainNo    [in] Number in Main table
+     * @param eEntType   [out] enum entity type
+     * @param dEntNo     [out] Number in Entity table
+     *
+     * @return Type of entity
+     */
+     // ----------------------------------------------------------------------------
+     int ReadEntityType(int iKey,
+                        dREC04RECNUMTYP  dBlkNo,
+                        dREC04RECNUMTYP  dMainNo,
+                        RS2::EntityType *eEntType,
+                        dREC04RECNUMTYP *dEntNo);
      //==============================================================================
 
 private:  // Private functions
@@ -6032,7 +6154,8 @@ private:  // Private functions
   sstDxf03FncHatchEdgeCls oSstFncHatchEdge;  /**< hatch edge table object */
   sstDxf03FncHatchLoopCls oSstFncHatchLoop;  /**< hatch loop table object */
   sstMisc01PrtFilCls *oPrt;                  /**< Protocol object */
-  dREC04RECNUMTYP dActRecNo;              // Actual Record Number from what?? Unused??
+  // dREC04RECNUMTYP dActRecNo;              // Actual Record Number from what?? Unused??
+  dREC04RECNUMTYP dMainTabSectEntStart;          // Start of entity section in main table
   RS2::EntityType eActEntType;            // Actual Entity Type
   std::string sActLayBlkNam;              // Actual Layer/Block Name
   RS2::EntityType eGrpEntType;            // Group Entity Type

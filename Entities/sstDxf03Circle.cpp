@@ -112,6 +112,14 @@ void sstDxf03TypCircleCls::setRadius(double value)
   radius = value;
 }
 //=============================================================================
+sstMath01Mbr2Cls sstDxf03TypCircleCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  oTmpMbr.Koor2(0,this->getCx(),this->getCx());
+  // Better calculate complete mbr for circle
+  return oTmpMbr;
+}
+//=============================================================================
 // // Constructor
 sstDxf03FncCircleCls::sstDxf03FncCircleCls():sstDxf03FncBaseCls(sizeof(sstDxf03TypCircleCls))
 {
