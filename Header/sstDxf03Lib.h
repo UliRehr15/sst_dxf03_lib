@@ -93,6 +93,28 @@ class sstDxf03DbCls
                      dREC04RECNUMTYP *oMainRecNo);
   //==============================================================================
   /**
+  * @brief // Rewrite existing or write new Line entity into dxf database <BR>
+  * iStat = oDxfDbInt.WriteLine (iKey,oDLLine,oDLAttributes, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey          [in] For the moment 0
+  * @param oDLLine       [in] Line Entity
+  * @param oDLAttributes [in] Entity attributes
+  * @param oEntRecNo     [in out] =0: New, record number
+  * @param oMainRecNo    [out] record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int WriteLine (int iKey,
+                 const DL_LineData    oDLLine,
+                 const DL_Attributes  oDLAttributes,
+                 dREC04RECNUMTYP     *oEntRecNo,
+                 dREC04RECNUMTYP     *oMainRecNo);
+  //==============================================================================
+  /**
   * @brief // open new dxflib hatch object in sstDxfDb <BR>
   * iStat = oDxfDb.OpenNewHatch (iKey, oDLHatch, Attributes, &oEntRecNo, &oMainRecNo);
   *

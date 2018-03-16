@@ -22,9 +22,9 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-//  sstDxf03Database.cpp   23.02.18  Re.   06.07.16  Re.
+//  sstDxf03Database.cpp   15.03.18  Re.   06.07.16  Re.
 //
-//  Functions for Class "sstDxf03Lib"
+//  Functions for Class "sstDxf03DatabaseCls"
 //
 
 #include <stdio.h>
@@ -387,6 +387,79 @@ int sstDxf03DatabaseCls::WriteNewCircle(int                  iKey,
   }
   iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
 //     this->poPrt->SST_PrtWrtChar( 1,(char*)"CIRCLE skiped",(char*)"Dxf Reading: ");
+  return 0;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::WriteLine (int                  iKey,
+                                    const DL_LineData  data,
+                                    const DL_Attributes  attributes,
+                                    dREC04RECNUMTYP     *dEntRecNo,
+                                    dREC04RECNUMTYP     *dMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+  std::string oLayerStr;
+
+  sstDxf03TypLineCls oDxfLine;
+  oDxfLine.ReadFromDL(data);
+  oDxfLine.BaseReadFromDL(attributes);
+  dREC04RECNUMTYP dLayRecNo=0;
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  if (*dEntRecNo > 0)
+  {
+    // Existing Line
+    oDxfLine.ReadFromDL(data);
+    oDxfLine.BaseReadFromDL(attributes);
+    iStat = this->oSstFncLine.Writ( 0, &oDxfLine, *dEntRecNo);
+    // oLine.BaseWritToDL(oDLAttributes);
+    return iStat;
+  }
+
+  // New Line
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    dNumBlocks = this->oSstFncBlk.count();
+    oDxfLine.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = attributes.getLayer();
+    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
+
+    // Find record with exact search value
+    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    // assert(iStat == 1);
+    if ( iStat != 1) return -3;  // Layername not found in layer table
+    oDxfLine.setLayerID(dLayRecNo);
+  }
+  iStat = this->oSstFncCircle.WritNew(0,&oDxfLine, dEntRecNo);
+
+  sstDxf03TypMainCls oMainRec;
+
+  *dMainRecNo = this->oSstFncMain.count();
+
+  oMainRec.setMainID( *dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityLine);
+  oMainRec.setTypeID(*dEntRecNo);
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
   return 0;
 }
 //==============================================================================
@@ -1091,6 +1164,9 @@ int sstDxf03DatabaseCls::ReadEntityType(int iKey,
                                         RS2::EntityType *eEntType,
                                         dREC04RECNUMTYP *dEntNo)
 {
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
   sstDxf03FncBlkCls *oBlkTab =  this->getSstFncBlk();
   sstDxf03TypBlkCls oBlkRec;
 
@@ -1099,7 +1175,7 @@ int sstDxf03DatabaseCls::ReadEntityType(int iKey,
 
   // RS2::EntityType eEntType = RS2::EntityLine;
   dREC04RECNUMTYP dActMainTabRecNo = oBlkRec.getRecordID()+dMainNo -1;
-  dREC04RECNUMTYP dEntRecNo = 0;
+  // dREC04RECNUMTYP dEntRecNo = 0;
   iStat = this->ReadMainTable(0,dActMainTabRecNo, eEntType, dEntNo);
   assert(iStat >= 0);
 

@@ -48,7 +48,10 @@ Structure of coding projects should be:
                        Extent testframe with compare dxf after reading/writing. <BR>
 23.12.16: Version 3.1: Support of entity types CIRCLE and HATCH. <BR>
 21.05.17: Version 3.2: Add protocol events for import/export. <BR>
-11.08.17: Version 3.3: Minimum Bounding Rectangle for dxf database. <BR>
-23.02.18: Version 3.4: New function -ReadLine-. <BR>
+11.08.17: Version 3.3: Minimum Bounding Rectangle (Mbr)for dxf database. <BR>
+23.02.18: Version 3.4: New function -ReadLINE-. <BR>
 02.03.18: Version 3.5: New funktion -UpdateAttributesWithID. <BR>
 09.03.18: Version 3.6: More Read-Functions for sstDxfDatabase.  <BR>
+                       Calculate Mbr for block objects. <BR>
+15.03.18: Version 3.7: New function -WriteLINE-. <BR>
+

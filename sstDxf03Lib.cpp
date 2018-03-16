@@ -66,6 +66,15 @@ int sstDxf03DbCls::WriteNewCircle(int iKey,
 {
   return this->poDxf03DbIntern->WriteNewCircle(iKey,oDLCircle,attributes,oEntRecNo, oMainRecNo);
 }
+//=============================================================================
+int sstDxf03DbCls::WriteLine(int iKey,
+                   const DL_LineData oDLLine,
+                   const DL_Attributes attributes,
+                   dREC04RECNUMTYP *oEntRecNo,
+                   dREC04RECNUMTYP *oMainRecNo)
+{
+  return this->poDxf03DbIntern->WriteLine(iKey,oDLLine,attributes,oEntRecNo, oMainRecNo);
+}
 //==============================================================================
 int sstDxf03DbCls::OpenNewHatch(int                  iKey,
                                 const DL_HatchData   oDLHatch,
