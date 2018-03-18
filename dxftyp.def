@@ -1,0 +1,42 @@
+sstDxf03;Circle;cx;DD;12;4;sst Dxf Lib;sst Circle;X Coordinate of center point.
+sstDxf03;Circle;cy;DD;12;4;sst Dxf Lib;sst Circle;Y Coordinate of center point.
+sstDxf03;Circle;cz;DD;12;4;sst Dxf Lib;sst Circle;Z Coordinate of center point.
+sstDxf03;Circle;radius;DD;12;4;sst Dxf Lib;sst Circle;Radius of arc.
+sstDxf03;MText;ipx;DD;12;4;sst Dxf Lib;sst MText;X Coordinate of insertion point.
+sstDxf03;MText;ipy;DD;12;4;sst Dxf Lib;sst MText;Y Coordinate of insertion point.
+sstDxf03;MText;ipz;DD;12;4;sst Dxf Lib;sst MText;Z Coordinate of insertion point.
+sstDxf03;MText;dirx;DD;12;4;sst Dxf Lib;sst MText;X Coordinate of X direction vector.
+sstDxf03;MText;diry;DD;12;4;sst Dxf Lib;sst MText;Y Coordinate of X direction vector.
+sstDxf03;MText;dirz;DD;12;4;sst Dxf Lib;sst MText;Z Coordinate of X direction vector.
+sstDxf03;MText;height;DD;12;4;sst Dxf Lib;sst MText;Text height
+sstDxf03;MText;width;DD;12;4;sst Dxf Lib;sst MText;Width of the text box.
+sstDxf03;MText;attachmentPoint;II;6;0;sst Dxf Lib;sst MText;Attachment point.
+sstDxf03;MText;drawingDirection;II;6;0;sst Dxf Lib;sst MText;Drawing direction.
+sstDxf03;MText;lineSpacingStyle;II;6;0;sst Dxf Lib;sst MText;Line spacing style.
+sstDxf03;MText;lineSpacingFactor;DD;12;4;sst Dxf Lib;sst MText;Line spacing factor.
+sstDxf03;MText;text;CC;100;0;sst Dxf Lib;sst MText;Text string.
+sstDxf03;MText;style_ID;UL;10;0;sst Dxf Lib;sst MText;Style string.
+sstDxf03;MText;angle;DD;12;4;sst Dxf Lib;sst MText;Rotation angle.
+sstDxf03;Text;ipx;DD;12;4;sst Dxf Lib;sst Text;X Coordinate of insertion point.
+sstDxf03;Text;ipy;DD;12;4;sst Dxf Lib;sst Text;Y Coordinate of insertion point.
+sstDxf03;Text;ipz;DD;12;4;sst Dxf Lib;sst Text;Z Coordinate of insertion point.
+sstDxf03;Text;apx;DD;12;4;sst Dxf Lib;sst Text;X Coordinate of alignment point.
+sstDxf03;Text;apy;DD;12;4;sst Dxf Lib;sst Text;Y Coordinate of alignment point.
+sstDxf03;Text;apz;DD;12;4;sst Dxf Lib;sst Text;Z Coordinate of alignment point.
+sstDxf03;Text;height;DD;12;4;sst Dxf Lib;sst Text;Text height
+sstDxf03;Text;xScaleFactor;DD;12;4;sst Dxf Lib;sst Text;Relative X scale factor.
+sstDxf03;Text;textGenerationFlags;II;6;0;sst Dxf Lib;sst Text;0 = default, 2 = Backwards, 4 = Upside down
+sstDxf03;Text;hJustification;II;6;0;sst Dxf Lib;sst Text;Horizontal justification.
+sstDxf03;Text;vJustification;II;6;0;sst Dxf Lib;sst Text;Vertical justification. 
+sstDxf03;Text;text;CC;100;0;sst Dxf Lib;sst Text;Text string.
+sstDxf03;Text;style_ID;UL;10;0;sst Dxf Lib;sst Text;Style (font).
+sstDxf03;Text;angle;DD;12;4;sst Dxf Lib;sst Text;Rotation angle of dimension text away from default orientation.
+sstDxf03;Point;x;DD;12;4;sst Dxf Lib;sst Point;X Coordinate of the point
+sstDxf03;Point;y;DD;12;4;sst Dxf Lib;sst Point;Y Coordinate of the point
+sstDxf03;Point;z;DD;12;4;sst Dxf Lib;sst Point;Z Coordinate of the point
+sstDxf03;Line;x1;DD;12;4;sst Dxf Lib;sst Line;X Start coordinate of the point
+sstDxf03;Line;y1;DD;12;4;sst Dxf Lib;sst Line;Y Start coordinate of the point
+sstDxf03;Line;z1;DD;12;4;sst Dxf Lib;sst Line;Z Start coordinate of the point
+sstDxf03;Line;x2;DD;12;4;sst Dxf Lib;sst Line;X End coordinate of the point
+sstDxf03;Line;y2;DD;12;4;sst Dxf Lib;sst Line;Y End coordinate of the point
+sstDxf03;Line;z2;DD;12;4;sst Dxf Lib;sst Line;Z End coordinate of the point

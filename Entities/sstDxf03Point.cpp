@@ -99,6 +99,30 @@ void sstDxf03TypPointCls::setZ(double value)
   z = value;
 }
 //=============================================================================
+// Get Number of Class member
+unsigned int sstDxf03TypPointCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 3;
+  return uiStat;
+}
+//=============================================================================
+// Function get String of Member Names (csv)
+std::string sstDxf03TypPointCls::getStringName()
+{
+  std::string oStat;
+  oStat = "x;y;z";
+  return oStat;
+}
+//=============================================================================
+// Function get String of Member Types (csv)
+std::string sstDxf03TypPointCls::getStringType()
+{
+  std::string oStat;
+  oStat = "DD12.4;DD12.4;DD12.4";
+  return oStat;
+}
+//=============================================================================
 // Constructor
 sstDxf03FncPointCls::sstDxf03FncPointCls():sstDxf03FncBaseCls(sizeof(sstDxf03TypPointCls))
 {

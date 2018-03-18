@@ -120,7 +120,31 @@ sstMath01Mbr2Cls sstDxf03TypCircleCls::getMbr() const
   return oTmpMbr;
 }
 //=============================================================================
-// // Constructor
+// Get Number of Class member
+unsigned int sstDxf03TypCircleCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 4;
+  return uiStat;
+}
+//=============================================================================
+// Function get String of Member Names (csv)
+std::string sstDxf03TypCircleCls::getStringName()
+{
+  std::string oStat;
+  oStat = "cx;cy;cz;radius";
+  return oStat;
+}
+//=============================================================================
+// Function get String of Member Types (csv)
+std::string sstDxf03TypCircleCls::getStringType()
+{
+  std::string oStat;
+  oStat = "DD12.4;DD12.4;DD12.4;DD12.4";
+  return oStat;
+}
+//=============================================================================
+// Constructor
 sstDxf03FncCircleCls::sstDxf03FncCircleCls():sstDxf03FncBaseCls(sizeof(sstDxf03TypCircleCls))
 {
  

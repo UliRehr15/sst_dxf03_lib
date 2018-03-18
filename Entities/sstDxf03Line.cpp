@@ -145,7 +145,31 @@ sstMath01Mbr2Cls sstDxf03TypLineCls::getMbr() const
   return oTmpMbr;
 }
 //=============================================================================
-// // Constructor
+// Get Number of Class member
+unsigned int sstDxf03TypLineCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 6;
+  return uiStat;
+}
+//=============================================================================
+// Function get String of Member Names (csv)
+std::string sstDxf03TypLineCls::getStringName()
+{
+  std::string oStat;
+  oStat = "x1;y1;z1;x2;y2;z2";
+  return oStat;
+}
+//=============================================================================
+// Function get String of Member Types (csv)
+std::string sstDxf03TypLineCls::getStringType()
+{
+  std::string oStat;
+  oStat = "DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4";
+  return oStat;
+}
+//=============================================================================
+// Constructor
 sstDxf03FncLineCls::sstDxf03FncLineCls():sstDxf03FncBaseCls(sizeof(sstDxf03TypLineCls))
 {
  

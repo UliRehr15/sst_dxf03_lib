@@ -245,7 +245,31 @@ void sstDxf03TypMTextCls::setAngle(double value)
 angle = value;
 }
 //=============================================================================
-// // Constructor
+// Get Number of Class member
+unsigned int sstDxf03TypMTextCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 15;
+  return uiStat;
+}
+//=============================================================================
+// Function get String of Member Names (csv)
+std::string sstDxf03TypMTextCls::getStringName()
+{
+  std::string oStat;
+  oStat = "ipx;ipy;ipz;dirx;diry;dirz;height;width;attachmentPoint;drawingDirection;lineSpacingStyle;lineSpacingFactor;text;style_ID;angle";
+  return oStat;
+}
+//=============================================================================
+// Function get String of Member Types (csv)
+std::string sstDxf03TypMTextCls::getStringType()
+{
+  std::string oStat;
+  oStat = "DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;II6.0;II6.0;II6.0;DD12.4;CC100.0;UL10.0;DD12.4";
+  return oStat;
+}
+//=============================================================================
+// Constructor
 sstDxf03FncMTextCls::sstDxf03FncMTextCls():sstDxf03FncBaseCls(sizeof(sstDxf03TypMTextCls))
 {
  

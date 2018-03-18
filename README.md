@@ -54,4 +54,5 @@ Structure of coding projects should be:
 09.03.18: Version 3.6: More Read-Functions for sstDxfDatabase.  <BR>
                        Calculate Mbr for block objects. <BR>
 15.03.18: Version 3.7: New function -WriteLINE-. <BR>
+18.03.18: Version 3.8: General functions -getMemberNames- for Type-Classes POINT, LINE, CIRCLE, MTEXT. <BR>
 
