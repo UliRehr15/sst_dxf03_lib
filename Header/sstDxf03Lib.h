@@ -93,6 +93,28 @@ class sstDxf03DbCls
                      dREC04RECNUMTYP *oMainRecNo);
   //==============================================================================
   /**
+  * @brief // write new dxflib circle  into sstDxfDb or rewrite existing <BR>
+  * iStat = oDxfDb.WriteCicle (iKey, oDLCircle, Attributes, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey          [in] For the moment 0
+  * @param oDlCircle     [in] dxflib circle
+  * @param oDlAttributes [in] dxflib attributes
+  * @param oEntRecNo     [out] return record number in entity table
+  * @param oMainRecNo    [out] Return Record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int WriteCircle (int                   iKey,
+                   const DL_CircleData   oDlCircle,
+                   const DL_Attributes   oDlAttributes,
+                   dREC04RECNUMTYP      *oEntRecNo,
+                   dREC04RECNUMTYP      *oMainRecNo);
+  //==============================================================================
+  /**
   * @brief // Rewrite existing or write new Line entity into dxf database <BR>
   * iStat = oDxfDbInt.WriteLine (iKey,oDLLine,oDLAttributes, &oEntRecNo, &oMainRecNo);
   *
@@ -341,7 +363,10 @@ class sstDxf03DbCls
   * @retval   < 0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
-  int ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes);
+  int ReadLine ( int iKey,
+                 dREC04RECNUMTYP dRecNo,
+                 DL_LineData *oDLLine,
+                 DL_Attributes *oDLAttributes);
   //==============================================================================
   /**
   * @brief // Read polyline from table with attributes <BR>
@@ -453,7 +478,132 @@ class sstDxf03DbCls
                      RS2::EntityType *eEntType,
                      dREC04RECNUMTYP *dEntNo);
   //==============================================================================
-
+  /**
+  * @brief // write new point or rewrite existing <BR>
+  * iStat = oDxfDb.WritePoint (iKey, oDlPoint, oDlAttributes, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey          [in] For the moment 0
+  * @param oDlPoint      [in] dxflib point
+  * @param oDlAttributes [in] DL Attributes
+  * @param oEntRecNo     [out] return record number in entity table
+  * @param oMainRecNo    [out] Return Record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int WritePoint (int iKey,
+                 const DL_PointData   oDlPoint,
+                 const DL_Attributes  oDlAttributes,
+                 dREC04RECNUMTYP     *oEntRecNo,
+                 dREC04RECNUMTYP     *oMainRecNo);
+  //==============================================================================
+  /**
+  * @brief // Read point from table with attributes <BR>
+  * iStat = oDxfDb.ReadPoint ( iKey, dRecNo, &oDlPoint, &oDlAttributes);
+  *
+  * @param iKey          [in]  For the moment 0
+  * @param dRecNo        [int] Record number in line table
+  * @param oDlPoint      [out] Return Point
+  * @param oDlAttributes [out] Return DL attributes
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadPoint ( int               iKey,
+                  dREC04RECNUMTYP   dRecNo,
+                  DL_PointData     *oDlPoint,
+                  DL_Attributes    *oDlAttributes);
+  //==============================================================================
+  /**
+  * @brief // write new point or rewrite existing <BR>
+  * iStat = oDxfDb.WritePoint (iKey, oDlMText, oDlAttributes, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey          [in] For the moment 0
+  * @param oDlMText      [in] dxflib MText
+  * @param oDlAttributes [in] DL Attributes
+  * @param oEntRecNo     [out] return record number in entity table
+  * @param oMainRecNo    [out] Return Record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int WriteMText (int iKey,
+                 const DL_MTextData   oDlMText,
+                 const DL_Attributes  oDlAttributes,
+                 dREC04RECNUMTYP     *oEntRecNo,
+                 dREC04RECNUMTYP     *oMainRecNo);
+  //==============================================================================
+  /**
+  * @brief // Read MText from table with attributes <BR>
+  * iStat = oDxfDb.ReadMText ( iKey, dRecNo, &oDlMText, &oDlAttributes);
+  *
+  * @param iKey          [in]  For the moment 0
+  * @param dRecNo        [int] Record number in line table
+  * @param oDlMText      [out] Return MText
+  * @param oDlAttributes [out] Return DL attributes
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadMText ( int              iKey,
+                  dREC04RECNUMTYP  dRecNo,
+                  DL_MTextData    *oDlMText,
+                  DL_Attributes   *oDlAttributes);
+  //==============================================================================
+  /**
+  * @brief // write new text or rewrite existing <BR>
+  * iStat = oDxfDb.WriteText (iKey, oDlText, oDlAttributes, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey          [in] For the moment 0
+  * @param oDlText       [in] dxflib Text
+  * @param oDlAttributes [in] DL Attributes
+  * @param oEntRecNo     [out] return record number in entity table
+  * @param oMainRecNo    [out] Return Record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int WriteText (int iKey,
+                 const DL_TextData    oDlText,
+                 const DL_Attributes  oDlAttributes,
+                 dREC04RECNUMTYP     *oEntRecNo,
+                 dREC04RECNUMTYP     *oMainRecNo);
+  //==============================================================================
+  /**
+  * @brief // Read text from table with attributes <BR>
+  * iStat = oDxfDb.ReadText ( iKey, dRecNo, &oDlText, &oDLAttributes);
+  *
+  * @param iKey          [in]  For the moment 0
+  * @param dRecNo        [int] Record number in line table
+  * @param oDlText       [out] Return text
+  * @param oDlAttributes [out] Return DL attributes
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadText ( int              iKey,
+                 dREC04RECNUMTYP  dRecNo,
+                 DL_TextData     *oDlText,
+                 DL_Attributes   *oDlAttributes);
+  //==============================================================================
   private:  // Private functions
     sstDxf03DatabaseCls *poDxf03DbIntern;   /**< Pointer to intern object */
 };

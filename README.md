@@ -55,4 +55,5 @@ Structure of coding projects should be:
                        Calculate Mbr for block objects. <BR>
 15.03.18: Version 3.7: New function -WriteLINE-. <BR>
 18.03.18: Version 3.8: General functions -getMemberNames- for Type-Classes POINT, LINE, CIRCLE, MTEXT. <BR>
+08.05.18: Version 3.9: Small improvements in Testframe and doxy help. <BR>
 

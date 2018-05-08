@@ -53,13 +53,30 @@ int main(int argc, char** argv)
   int iStat = 0;
   unsigned long ulRowNo = 0;
 
+  sstMisc01PrtFilCls oPrt;
+  iStat = oPrt.SST_PrtAuf(1,(char*)"sstDxf03LibTest.log");
+  if(iStat < 0)
+  {
+    oPrt.SST_PrtWrt(1,(char*)"Error Opening Protocolfile");
+    oPrt.SST_PrtZu(1);
+    return 0;
+    // assert(iStat >= 0);
+  }
+
   // Call Test dxflib writing function
   // See dxflib writing example
   iStat = testWriting("Test.dxf");
   assert(iStat >= 0);
 
-  sstMisc01PrtFilCls oPrt;
-  oPrt.SST_PrtAuf(1,(char*)"sstDxf03LibTest.log");
+  oPrt.SST_PrtWrt(1,(char*)"Creating Test.dxf with dxflib Testwriting function");
+
+  {
+    DL_PointData oDLPoint;               // Entity Point from dxflib
+    DL_LineData  oDLLine(0,0,0,0,0,0);   // Entity Line from dxflib
+    DL_CircleData oDLCircle(0,0,0,1);    // Entity Circle from dxflib
+    DL_MTextData oDLMText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0.0,"","",0.0);
+    DL_TextData oDLText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,"","",0.0);
+  }
 
   {
     // Open new sstDxf Database
@@ -89,6 +106,9 @@ int main(int argc, char** argv)
       assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
     }
 
+    oPrt.SST_PrtWrt(1,(char*)"Compare Test.dxf / Test2.dxf OK");
+    oPrt.SST_PrtWrt(1,(char*)"  ");
+
     // Write dxf database to csv files
     iStat = oDxfDB.WritAll2Csv(0,"Test3.dxf");
     assert(iStat >= 0);
@@ -110,6 +130,10 @@ int main(int argc, char** argv)
     {
       assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
     }
+
+    oPrt.SST_PrtWrt(1,(char*)"Compare Test.dxf / Test3.dxf OK");
+    oPrt.SST_PrtWrt(1,(char*)"  ");
+
   }
 
   {
