@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstDxf03Write.cpp    01.11.16  Re.    05.04.16  Re.
+// sstDxf03Write.cpp    16.05.18  Re.    05.04.16  Re.
 //
 // Several functions for dxf output
 //
@@ -278,7 +278,8 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
 
 //  // ...
 //  dxf->writeEndBlock(*dw, "myblock1");
-  // End Symbol definition ================================================
+// End Symbol definition ================================================
+
   // loop over all defined blocks
   dREC04RECNUMTYP dNumBlocks = oLocSstFncBlk->count();
   for (dREC04RECNUMTYP ii=1; ii <= dNumBlocks; ii++)
@@ -293,27 +294,14 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
 
     // dREC04RECNUMTYP dActBlockID = 0;
     dREC04RECNUMTYP dNumMains = oLocSstFncMain->count();
-    for (dREC04RECNUMTYP ii=1;ii <= dNumMains;ii++)
+    for (dREC04RECNUMTYP ll=1; ll <= dNumMains; ll++)
     {
-      iStat = oLocSstFncMain->Read( 0, ii, &oMainRec);
+      iStat = oLocSstFncMain->Read( 0, ll, &oMainRec);
       std::string oSectStr = oMainRec.getSectString();
       iStat = oSectStr.compare("B");
       if(iStat == 0 && ii == oMainRec.getLayBlockID())
       {  // this element is part of the actual block
 
-//         if (oMainRec.getLayBlockID() != 0 && oMainRec.getLayBlockID() != dActBlockID)
-//         {  // new block!!
-          // if current block is not empty, write to dxf file
-//          if (dActBlockID != 0)
-//          {
-//            dxf->writeEndBlock(*dw, oBlkRec.getName());
-//          }
-//          dActBlockID = oMainRec.getLayBlockID();
-//          iStat = oLocSstFncBlk->Read( 0, oMainRec.getLayBlockID(), &oBlkRec);
-//          dxf->writeBlock(*dw,
-//                         DL_BlockData(oBlkRec.getName(), 0, 0.0, 0.0, 0.0));
-
-//        }
         switch (oMainRec.getEntityType())
         {
         case RS2::EntityArc:

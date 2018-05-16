@@ -22,13 +22,63 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstDxf03LibTest.h   13.07.16  Re.    13.07.16  Re.
+// sstDxf03LibTest.h   16.05.18  Re.    13.07.16  Re.
 //
 
 #ifndef SSTDXF03LIBTEST_HEADER
 #define SSTDXF03LIBTEST_HEADER
 
-int testWriting(const std::string oDxfFilNam);
+//==============================================================================
+/**
+* @brief Original testwriting example from dxflib
+*
+* iStat = testWriting ( oDxfFilNam);
+*
+* More Comment
+*
+* Changed: 09.05.18  Re.
+*
+* @ingroup sstDxf03Lib
+*
+* @param oDxfFilNam [in] Name of new dxf file
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 09.05.18
+*/
+//------------------------------------------------------------------------------
+int testWriting (const std::string oDxfFilNam);
+//==============================================================================
+/**
+* @brief Original testwriting example from dxflib extended with block writing
+*
+* iStat = testWriting2 ( oDxfFilNam);
+*
+* Additional write two blocks and use with inserts.
+*
+* Changed: 09.05.18  Re.
+*
+* @ingroup sstDxf03Lib
+*
+* @param oDxfFilNam [in] Name of new dxf file
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 09.05.18
+*/
+//------------------------------------------------------------------------------
+int testWriting2 (const std::string oDxfFilNam);
+//==============================================================================
 
-#endif // SSTDXF02LIBTEST_H
+#endif // SSTDXF03LIBTEST_HEADER
 
