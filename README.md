@@ -58,4 +58,5 @@ Structure of coding projects should be:
 08.05.18: Version 3.9: Small improvements in Testframe and doxy help. <BR>
 16.05.18: Version 3.10: Expand creating new dxf file with block infos and test writing/reading. <BR>
                         Fix error in function sstDxf03WriteCls::WrtSecBlocks. <BR>
+25.05.18: Version 3.11: Extend entities in sstDxf03DatabaseCls::EntityCount. <BR>
 

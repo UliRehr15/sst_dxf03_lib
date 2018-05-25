@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-//  sstDxf03Database.cpp   15.03.18  Re.   06.07.16  Re.
+//  sstDxf03Database.cpp   25.05.18  Re.   06.07.16  Re.
 //
 //  Functions for Class "sstDxf03DatabaseCls"
 //
@@ -879,8 +879,20 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::EntityCount(RS2::EntityType eEntityType)
 
   switch (eEntityType)
   {
+  case RS2::EntityCircle:
+    dTmpCount = this->oSstFncCircle.count();
+    break;
   case RS2::EntityLine:
     dTmpCount = this->oSstFncLine.count();
+    break;
+  case RS2::EntityMText:
+    dTmpCount = this->oSstFncMText.count();
+    break;
+  case RS2::EntityPoint:
+    dTmpCount = this->oSstFncPoint.count();
+    break;
+  case RS2::EntityText:
+    dTmpCount = this->oSstFncText.count();
     break;
   case RS2::EntityHatch:
     dTmpCount = this->oSstFncHatch.count();
