@@ -73,7 +73,8 @@ int sstDxf03DbCls::WriteCircle (int iKey,
                dREC04RECNUMTYP     *oEntRecNo,
                dREC04RECNUMTYP     *oMainRecNo)
 {
-  assert(0);
+  return this->poDxf03DbIntern->WriteCircle(iKey,oDlCircle,oDLAttributes,oEntRecNo, oMainRecNo);
+  // assert(0);
   return 0;
 }
 //=============================================================================
@@ -225,27 +226,30 @@ int sstDxf03DbCls::WritePoint (int iKey,
                dREC04RECNUMTYP     *oEntRecNo,
                dREC04RECNUMTYP     *oMainRecNo)
 {
-  assert(0);
+  return this->poDxf03DbIntern->WritePoint(iKey,oDlPoint,oDLAttributes,oEntRecNo, oMainRecNo);
+  // assert(0);
   return 0;
 }
 //==============================================================================
-int sstDxf03DbCls::ReadPoint ( int iKey,
-               dREC04RECNUMTYP dRecNo,
-               DL_PointData *oDlPoint,
-               DL_Attributes *oDLAttributes)
+int sstDxf03DbCls::ReadPoint ( int              iKey,
+                               dREC04RECNUMTYP  dRecNo,
+                               DL_PointData    *oDlPoint,
+                               DL_Attributes   *oDLAttributes)
 {
-  assert(0);
+  return this->poDxf03DbIntern->ReadPoint(iKey,dRecNo, oDlPoint, oDLAttributes);
+  // assert(0);
   return 0;
 }
 //==============================================================================
-int sstDxf03DbCls::WriteMText (int iKey,
-               const DL_MTextData    oDlMText,
-               const DL_Attributes  oDLAttributes,
-               dREC04RECNUMTYP     *oEntRecNo,
-               dREC04RECNUMTYP     *oMainRecNo)
+int sstDxf03DbCls::WriteMText (int                  iKey,
+                               const DL_MTextData   oDlMText,
+                               const DL_Attributes  oDLAttributes,
+                               dREC04RECNUMTYP     *oEntRecNo,
+                               dREC04RECNUMTYP     *oMainRecNo)
 {
-  assert(0);
-  return 0;
+  return this->poDxf03DbIntern->WriteMText(iKey,oDlMText,oDLAttributes,oEntRecNo, oMainRecNo);
+  // assert(0);
+  // return 0;
 }
 //==============================================================================
 int sstDxf03DbCls::ReadMText ( int iKey,
@@ -253,8 +257,9 @@ int sstDxf03DbCls::ReadMText ( int iKey,
                DL_MTextData *oDlMText,
                DL_Attributes *oDLAttributes)
 {
-  assert(0);
-  return 0;
+  return this->poDxf03DbIntern->ReadMText(iKey,dRecNo, oDlMText, oDLAttributes);
+  // assert(0);
+  // return 0;
 }
 //==============================================================================
 int sstDxf03DbCls::WriteText (int iKey,
@@ -263,8 +268,9 @@ int sstDxf03DbCls::WriteText (int iKey,
                dREC04RECNUMTYP     *oEntRecNo,
                dREC04RECNUMTYP     *oMainRecNo)
 {
-  assert(0);
-  return 0;
+  return this->poDxf03DbIntern->WriteText(iKey,oDlText,oDLAttributes,oEntRecNo, oMainRecNo);
+//  assert(0);
+//  return 0;
 }
 //==============================================================================
 int sstDxf03DbCls::ReadText ( int iKey,
@@ -272,7 +278,8 @@ int sstDxf03DbCls::ReadText ( int iKey,
                DL_TextData *oDlText,
                DL_Attributes *oDLAttributes)
 {
-  assert(0);
-  return 0;
+  return this->poDxf03DbIntern->ReadText(iKey,dRecNo, oDlText, oDLAttributes);
+//   assert(0);
+//  return 0;
 }
 //==============================================================================

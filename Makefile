@@ -66,7 +66,8 @@ SOURCES       = Entities/sstDxf03Arc.cpp \
 		sstDxf03EntityType.cpp \
 		sstDxf03Base.cpp \
 		sstDxf03Block.cpp \
-		sstDxf03Lib.cpp 
+		sstDxf03Lib.cpp \
+		Entities/sstDxf03Trace.cpp 
 OBJECTS       = sstDxf03Arc.o \
 		sstDxf03Circle.o \
 		sstDxf03Hatch.o \
@@ -88,7 +89,8 @@ OBJECTS       = sstDxf03Arc.o \
 		sstDxf03EntityType.o \
 		sstDxf03Base.o \
 		sstDxf03Block.o \
-		sstDxf03Lib.o
+		sstDxf03Lib.o \
+		sstDxf03Trace.o
 DIST          = /usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/i386-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -164,7 +166,8 @@ DIST          = /usr/lib/i386-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		sstDxf03EntityType.cpp \
 		sstDxf03Base.cpp \
 		sstDxf03Block.cpp \
-		sstDxf03Lib.cpp
+		sstDxf03Lib.cpp \
+		Entities/sstDxf03Trace.cpp
 QMAKE_TARGET  = sst_dxf03_lib_d
 DESTDIR       = ../libs/#avoid trailing-slash linebreak
 TARGET        = libsst_dxf03_lib_d.a
@@ -788,6 +791,26 @@ sstDxf03Lib.o: sstDxf03Lib.cpp ../dxflib/Header/dl_dxf.h \
 		Header/sstDxf03Lib.h \
 		sstDxf03LibInt.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sstDxf03Lib.o sstDxf03Lib.cpp
+
+sstDxf03Trace.o: Entities/sstDxf03Trace.cpp ../dxflib/Header/dl_dxf.h \
+		../dxflib/Header/dl_global.h \
+		../dxflib/Header/dl_attributes.h \
+		../dxflib/Header/dl_codes.h \
+		../dxflib/Header/dl_entities.h \
+		../dxflib/Header/dl_writer_ascii.h \
+		../dxflib/Header/dl_writer.h \
+		../dxflib/Header/dl_creationadapter.h \
+		../dxflib/Header/dl_creationinterface.h \
+		../dxflib/Header/dl_extrusion.h \
+		../sstLibreCAD2Lib/Header/rs_vector.h \
+		../sstLibreCAD2Lib/Header/rs.h \
+		../sst_str01_lib/Header/sstStr01Lib.h \
+		../sstMath01Lib/Header/sstMath01Lib.h \
+		../sst_misc01_lib/Header/sstMisc01Lib.h \
+		../sst_rec04_lib/Header/sstRec04Lib.h \
+		Header/sstDxf03Lib.h \
+		sstDxf03LibInt.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sstDxf03Trace.o Entities/sstDxf03Trace.cpp
 
 ####### Install
 

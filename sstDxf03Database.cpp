@@ -284,6 +284,11 @@ sstDxf03FncPolylineCls* sstDxf03DatabaseCls::getSstFncPolyline()
   return &this->oSstFncPolyline;
 }
 //=============================================================================
+sstDxf03FncTraceCls* sstDxf03DatabaseCls::getSstFncTrace()
+{
+  return &this->oSstFncTrace;
+}
+//=============================================================================
 sstDxf03FncVertexCls* sstDxf03DatabaseCls::getSstFncVertex()
 {
   return &this->oSstFncVertex;
@@ -390,6 +395,152 @@ int sstDxf03DatabaseCls::WriteNewCircle(int                  iKey,
   return 0;
 }
 //=============================================================================
+int sstDxf03DatabaseCls::WriteCircle (int                  iKey,
+                                      const DL_CircleData  data,
+                                      const DL_Attributes  attributes,
+                                      dREC04RECNUMTYP     *dEntRecNo,
+                                      dREC04RECNUMTYP     *dMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+  std::string oLayerStr;
+
+  sstDxf03TypCircleCls oDxfCircle;
+  oDxfCircle.ReadFromDL(data);
+  oDxfCircle.BaseReadFromDL(attributes);
+  dREC04RECNUMTYP dLayRecNo=0;
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  if (*dEntRecNo > 0)
+  {
+    // Existing Line
+    oDxfCircle.ReadFromDL(data);
+    oDxfCircle.BaseReadFromDL(attributes);
+    iStat = this->oSstFncCircle.Writ( 0, &oDxfCircle, *dEntRecNo);
+    // oLine.BaseWritToDL(oDLAttributes);
+    return iStat;
+  }
+
+  // New Line
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    dNumBlocks = this->oSstFncBlk.count();
+    oDxfCircle.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = attributes.getLayer();
+    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
+
+    // Find record with exact search value
+    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    // assert(iStat == 1);
+    if ( iStat != 1) return -3;  // Layername not found in layer table
+    oDxfCircle.setLayerID(dLayRecNo);
+  }
+  iStat = this->oSstFncCircle.WritNew(0,&oDxfCircle, dEntRecNo);
+
+  sstDxf03TypMainCls oMainRec;
+
+  *dMainRecNo = this->oSstFncMain.count();
+
+  oMainRec.setMainID( *dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityLine);
+  oMainRec.setTypeID(*dEntRecNo);
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
+  return 0;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::WritePoint (int                  iKey,
+                                     const DL_PointData   data,
+                                     const DL_Attributes  attributes,
+                                     dREC04RECNUMTYP     *dEntRecNo,
+                                     dREC04RECNUMTYP     *dMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+  std::string oLayerStr;
+
+  sstDxf03TypPointCls oDxfPoint;
+  oDxfPoint.ReadFromDL(data);
+  oDxfPoint.BaseReadFromDL(attributes);
+  dREC04RECNUMTYP dLayRecNo=0;
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  if (*dEntRecNo > 0)
+  {
+    // Existing Line
+    oDxfPoint.ReadFromDL(data);
+    oDxfPoint.BaseReadFromDL(attributes);
+    iStat = this->oSstFncPoint.Writ( 0, &oDxfPoint, *dEntRecNo);
+    // oLine.BaseWritToDL(oDLAttributes);
+    return iStat;
+  }
+
+  // New Line
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    dNumBlocks = this->oSstFncBlk.count();
+    oDxfPoint.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = attributes.getLayer();
+    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
+
+    // Find record with exact search value
+    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    // assert(iStat == 1);
+    if ( iStat != 1) return -3;  // Layername not found in layer table
+    oDxfPoint.setLayerID(dLayRecNo);
+  }
+  iStat = this->oSstFncPoint.WritNew(0,&oDxfPoint, dEntRecNo);
+
+  sstDxf03TypMainCls oMainRec;
+
+  *dMainRecNo = this->oSstFncMain.count();
+
+  oMainRec.setMainID( *dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityLine);
+  oMainRec.setTypeID(*dEntRecNo);
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
+  return 0;
+}
+//=============================================================================
 int sstDxf03DatabaseCls::WriteLine (int                  iKey,
                                     const DL_LineData  data,
                                     const DL_Attributes  attributes,
@@ -439,6 +590,152 @@ int sstDxf03DatabaseCls::WriteLine (int                  iKey,
     oDxfLine.setLayerID(dLayRecNo);
   }
   iStat = this->oSstFncCircle.WritNew(0,&oDxfLine, dEntRecNo);
+
+  sstDxf03TypMainCls oMainRec;
+
+  *dMainRecNo = this->oSstFncMain.count();
+
+  oMainRec.setMainID( *dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityLine);
+  oMainRec.setTypeID(*dEntRecNo);
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
+  return 0;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::WriteMText (int                  iKey,
+                                    const DL_MTextData  data,
+                                    const DL_Attributes  attributes,
+                                    dREC04RECNUMTYP     *dEntRecNo,
+                                    dREC04RECNUMTYP     *dMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+  std::string oLayerStr;
+
+  sstDxf03TypMTextCls oDxfMText;
+  oDxfMText.ReadFromDL(data);
+  oDxfMText.BaseReadFromDL(attributes);
+  dREC04RECNUMTYP dLayRecNo=0;
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  if (*dEntRecNo > 0)
+  {
+    // Existing Line
+    oDxfMText.ReadFromDL(data);
+    oDxfMText.BaseReadFromDL(attributes);
+    iStat = this->oSstFncMText.Writ( 0, &oDxfMText, *dEntRecNo);
+    // oLine.BaseWritToDL(oDLAttributes);
+    return iStat;
+  }
+
+  // New Line
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    dNumBlocks = this->oSstFncBlk.count();
+    oDxfMText.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = attributes.getLayer();
+    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
+
+    // Find record with exact search value
+    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    // assert(iStat == 1);
+    if ( iStat != 1) return -3;  // Layername not found in layer table
+    oDxfMText.setLayerID(dLayRecNo);
+  }
+  iStat = this->oSstFncMText.WritNew(0,&oDxfMText, dEntRecNo);
+
+  sstDxf03TypMainCls oMainRec;
+
+  *dMainRecNo = this->oSstFncMain.count();
+
+  oMainRec.setMainID( *dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityLine);
+  oMainRec.setTypeID(*dEntRecNo);
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
+  return 0;
+}
+//==============================================================================
+int sstDxf03DatabaseCls::WriteText (int                  iKey,
+                                    const DL_TextData  data,
+                                    const DL_Attributes  attributes,
+                                    dREC04RECNUMTYP     *dEntRecNo,
+                                    dREC04RECNUMTYP     *dMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+  std::string oLayerStr;
+
+  sstDxf03TypTextCls oDxfText;
+  oDxfText.ReadFromDL(data);
+  oDxfText.BaseReadFromDL(attributes);
+  dREC04RECNUMTYP dLayRecNo=0;
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  if (*dEntRecNo > 0)
+  {
+    // Existing Line
+    oDxfText.ReadFromDL(data);
+    oDxfText.BaseReadFromDL(attributes);
+    iStat = this->oSstFncText.Writ( 0, &oDxfText, *dEntRecNo);
+    // oLine.BaseWritToDL(oDLAttributes);
+    return iStat;
+  }
+
+  // New Line
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    dNumBlocks = this->oSstFncBlk.count();
+    oDxfText.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = attributes.getLayer();
+    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
+
+    // Find record with exact search value
+    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    // assert(iStat == 1);
+    if ( iStat != 1) return -3;  // Layername not found in layer table
+    oDxfText.setLayerID(dLayRecNo);
+  }
+  iStat = this->oSstFncText.WritNew(0,&oDxfText, dEntRecNo);
 
   sstDxf03TypMainCls oMainRec;
 
@@ -1008,6 +1305,60 @@ int sstDxf03DatabaseCls::ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineDat
   iStat = this->UpdateAttribWithId(0,oLine.getLayerID(),oLine.getLinetypeID(), oDLAttributes);
 
   oLine.WritToDL(oDLLine);
+  return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadPoint ( int iKey, dREC04RECNUMTYP dRecNo, DL_PointData *oDLPoint, DL_Attributes *oDLAttributes)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypPointCls oPoint;
+
+  iStat = this->oSstFncPoint.Read(0,dRecNo,&oPoint);
+  oPoint.BaseWritToDL(oDLAttributes);
+
+  // Update DL Attributes with Layer/LType Identifier
+  iStat = this->UpdateAttribWithId(0,oPoint.getLayerID(),oPoint.getLinetypeID(), oDLAttributes);
+
+  oPoint.WritToDL(oDLPoint);
+  return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadMText ( int iKey, dREC04RECNUMTYP dRecNo, DL_MTextData *oDLMText, DL_Attributes *oDLAttributes)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypMTextCls oMText;
+
+  iStat = this->oSstFncMText.Read(0,dRecNo,&oMText);
+  oMText.BaseWritToDL(oDLAttributes);
+
+  // Update DL Attributes with Layer/LType Identifier
+  iStat = this->UpdateAttribWithId(0,oMText.getLayerID(),oMText.getLinetypeID(), oDLAttributes);
+
+  oMText.WritToDL(oDLMText);
+  return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadText ( int iKey, dREC04RECNUMTYP dRecNo, DL_TextData *oDLText, DL_Attributes *oDLAttributes)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypTextCls oText;
+
+  iStat = this->oSstFncText.Read(0,dRecNo,&oText);
+  oText.BaseWritToDL(oDLAttributes);
+
+  // Update DL Attributes with Layer/LType Identifier
+  iStat = this->UpdateAttribWithId(0,oText.getLayerID(),oText.getLinetypeID(), oDLAttributes);
+
+  oText.WritToDL(oDLText);
   return iStat;
 }
 //=============================================================================

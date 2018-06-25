@@ -1594,6 +1594,115 @@ private:
 };
 //==============================================================================
 /**
+* @brief sst Trace
+*
+* More Comment
+*
+* Used Type Definitions
+* sstDxf03;Trace;sx1;DD;12;4;sst Dxf Lib;sst Trace;sx1
+* sstDxf03;Trace;sy1;DD;12;4;sst Dxf Lib;sst Trace;sy1
+* sstDxf03;Trace;sz1;DD;12;4;sst Dxf Lib;sst Trace;sz1
+* sstDxf03;Trace;sx2;DD;12;4;sst Dxf Lib;sst Trace;sx2
+* sstDxf03;Trace;sy2;DD;12;4;sst Dxf Lib;sst Trace;sy2
+* sstDxf03;Trace;sz2;DD;12;4;sst Dxf Lib;sst Trace;sz2
+* sstDxf03;Trace;sx3;DD;12;4;sst Dxf Lib;sst Trace;sx3
+* sstDxf03;Trace;sy3;DD;12;4;sst Dxf Lib;sst Trace;sy3
+* sstDxf03;Trace;sz3;DD;12;4;sst Dxf Lib;sst Trace;sz3
+* sstDxf03;Trace;sx4;DD;12;4;sst Dxf Lib;sst Trace;sx4
+* sstDxf03;Trace;sy4;DD;12;4;sst Dxf Lib;sst Trace;sy4
+* sstDxf03;Trace;sz4;DD;12;4;sst Dxf Lib;sst Trace;sz4
+* sstDxf03;Trace;thickness;DD;12;4;sst Dxf Lib;sst Trace;thickness
+*
+* Changed: 21.03.18  Re.
+*
+* @ingroup sstDxf03Lib
+*
+* @author Re.
+*
+* @date 21.03.18
+*/
+// ----------------------------------------------------------------------------
+class sstDxf03TypTraceCls : public sstDxf03TypBaseCls
+{
+  public:
+    //==============================================================================
+    /**
+    * @brief // sstDxf03TypTraceCls <BR>
+    */
+    // -----------------------------------------------------------------------------
+    sstDxf03TypTraceCls();// Constructor
+    //==============================================================================
+    /**
+    * @brief // getMemberNumber <BR>
+    */
+    // -----------------------------------------------------------------------------
+    unsigned int getMemberNumber();// Get Number of Class member
+    //==============================================================================
+    /**
+    * @brief // getStringName <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringName();// Get Csv-String with all Class member names
+    //==============================================================================
+    /**
+    * @brief // getStringType <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringType();// Get Csv-String with all Class member definition types
+    //==============================================================================
+    /**
+    * @brief // Csv_Read <BR>
+    * @param iKey
+    * @param *sErrTxt
+    * @param *ssstDxf03_Str
+    */
+    // -----------------------------------------------------------------------------
+    int Csv_Read(int iKey, std::string *sErrTxt, std::string *ssstDxf03_Str);// Csv Read Function
+    //==============================================================================
+    /**
+    * @brief // Csv_Write <BR>
+    * @param iKey
+    * @param *ssstDxf03_Str
+    */
+    // -----------------------------------------------------------------------------
+    int Csv_Write(int iKey , std::string *ssstDxf03_Str);// Csv Write Function
+    //==============================================================================
+    /**
+    * @brief // read Trace data from dxflib trace <BR>
+    * oSstDxfTrace.ReadFromDL(poDLTrace);
+    *
+    * @param poDLTrace [in] dxflib trace structure
+    */
+    // ----------------------------------------------------------------------------
+    void ReadFromDL(const DL_TraceData poDLTrace);
+    //==============================================================================
+    /**
+    * @brief // write trace data to dxflib trace <BR>
+    * oSstDxfTrace.WritToDL(poDLTrace);
+    *
+    * @param poDLTrace [out] dxflib trace structure
+    */
+    // ----------------------------------------------------------------------------
+    void WritToDL(DL_TraceData *poDLTrace);
+    //==============================================================================
+    double sx1;  /**< sx1 */
+    double sy1;  /**< sy1 */
+    double sz1;  /**< sz1 */
+    double sx2;  /**< sx2 */
+    double sy2;  /**< sy2 */
+    double sz2;  /**< sz2 */
+    double sx3;  /**< sx3 */
+    double sy3;  /**< sy3 */
+    double sz3;  /**< sz3 */
+    double sx4;  /**< sx4 */
+    double sy4;  /**< sy4 */
+    double sz4;  /**< sz4 */
+    double thickness;  /**< thickness */
+  private:
+};
+
+//==============================================================================
+/**
 * @brief sst Dxf Vertex Class
 *
 * storable vertex record
@@ -2358,6 +2467,117 @@ class sstDxf03FncArcCls : public sstDxf03FncBaseCls
     // ----------------------------------------------------------------------------
     int Csv_Write(int iKey,
                   sstDxf03TypArcCls *osstDxf03TypArcCls,
+                  std::string *ssstDxfLib_Str);  // Csv Write Function
+    //==============================================================================
+    /**
+    * @brief // write ARC titel row to csv file <BR>
+    * iStat = oDxfFncArc.Csv_WriteHeader ( 0, &oCsvStr)
+    *
+    * @param iKey    [in]  For the moment 0
+    * @param oCsvStr [out] return string titel row
+    *
+    * @return Errorstate
+    *
+    * @retval   = 0: OK
+    * @retval   < 0: Unspecified Error
+    */
+    // ----------------------------------------------------------------------------
+    int Csv_WriteHeader(int iKey, std::string *oCsvStr);
+    //==============================================================================
+    /**
+    * @brief // Read whole layer csv file into sst_rec_mem <BR>
+    * iStat = oDxfFncArc.ReadCsvFile ( iKey, oFilNam);
+    *
+    * @param iKey    [in] For the moment 0
+    * @param oFilNam [in] File name to import to rec mem
+    *
+    * @return Errorstate
+    *
+    * @retval   =  0: OK
+    * @retval   = -1: Wrong Key
+    * @retval   = -2: Open File Error
+    * @retval   = -3: General read error
+    * @retval   = -4: Record format read Error
+    * @retval   <  0: Unspecified Error
+    */
+    // ----------------------------------------------------------------------------
+    int ReadCsvFile(int iKey, std::string oFilNam);
+    //==============================================================================
+    /**
+    * @brief // write whole arc data from table to csv file  <BR>
+    * iStat = oSstFncArc.WriteCsvFile ( iKey, oDxfFilNam);
+    *
+    * @param iKey       [in] For the moment 0
+    * @param oDxfFilNam [in] File name to export to csv file
+    *
+    * @return Errorstate
+    *
+    * @retval   =  0: OK
+    * @retval   = -1: Wrong Key
+    */
+    // ----------------------------------------------------------------------------
+    int WriteCsvFile(int iKey, std::string oDxfFilNam);
+    //==============================================================================
+
+  private:
+};
+//==============================================================================
+//==============================================================================
+/**
+* @brief Definition Class sstDxf03FncArcCls
+*
+* More Comment
+*
+* Changed:   Re.
+*
+* @ingroup sstDxf03LibInt
+*
+* @author Re.
+*
+* @date
+*/
+// ----------------------------------------------------------------------------
+class sstDxf03FncTraceCls : public sstDxf03FncBaseCls
+{
+  public:
+    sstDxf03FncTraceCls();  // Constructor
+    //==============================================================================
+    /**
+    * @brief // read Trace data from csv string to Trace object <BR>
+    * iStat = oDxfFncTrace.Csv_Read( iKey, oErrStr, oCsvTraceStr, oTrace);
+    *
+    * @param iKey       [in]  For the moment 0
+    * @param oErrStr    [out] string where interpret error occors
+    * @param oCsvTraceStr [in]  Csv Trace string
+    * @param oTrace       [out] return Trace object
+    *
+    * @return Errorstate
+    *
+    * @retval   = 0: OK
+    * @retval   < 0: Unspecified Error
+    */
+    // ----------------------------------------------------------------------------
+    int Csv_Read(int                iKey,
+                 std::string       *oErrStr,
+                 std::string       *oCsvTraceStr,
+                 sstDxf03TypTraceCls *oTrace);
+    //==============================================================================
+    /**
+    * @brief // Write object to string <BR>
+    * iStat = oDxfFncTrace.Csv_Write(iKey, oTrace, &oTraceStr);
+    *
+    * @param iKey [in] For the moment 0
+    * @param osstDxf03TypTraceCls [in] Trace object
+    * @param ssstDxfLib_Str [out] Trace String
+    *
+    * @return Errorstate
+    *
+    * @retval   = 0: OK
+    * @retval   < 0: Unspecified Error
+    */
+    // ----------------------------------------------------------------------------
+    int Csv_Write(int iKey,
+                  sstDxf03TypTraceCls *osstDxf03TypTraceCls,
                   std::string *ssstDxfLib_Str);  // Csv Write Function
     //==============================================================================
     /**
@@ -5752,6 +5972,15 @@ class sstDxf03DatabaseCls
      sstDxf03FncPolylineCls* getSstFncPolyline();
      //==============================================================================
      /**
+     * @brief // get trace table from dxf database <BR>
+     * oTraceTab = oDxfDB.getSstFncTrace();
+     *
+     * @return trace table
+     */
+     // ----------------------------------------------------------------------------
+     sstDxf03FncTraceCls* getSstFncTrace();
+     //==============================================================================
+     /**
      * @brief // get vertex table from dxf database <BR>
      * oVertexTab = oDxfDB.getSstFncVertex();
      *
@@ -5851,6 +6080,50 @@ class sstDxf03DatabaseCls
                         dREC04RECNUMTYP     *oMainRecNo);
      //==============================================================================
      /**
+     * @brief // Rewrite existing or write new Circle entity into dxf database <BR>
+     * iStat = oDxfDbInt.WriteCircle (iKey,oDLCircle,oDLAttributes, &oEntRecNo, &oMainRecNo);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param oDLCircle     [in] Circle Entity
+     * @param oDLAttributes [in] Entity attributes
+     * @param oEntRecNo     [in out] =0: New, record number
+     * @param oMainRecNo    [out] record number in main table
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteCircle (int                  iKey,
+                      const DL_CircleData  oDLCircle,
+                      const DL_Attributes  oDLAttributes,
+                      dREC04RECNUMTYP     *oEntRecNo,
+                      dREC04RECNUMTYP     *oMainRecNo);
+     //==============================================================================
+     /**
+     * @brief // Rewrite existing or write new Point entity into dxf database <BR>
+     * iStat = oDxfDbInt.WritePoint (iKey,oDLPoint,oDLAttributes, &oEntRecNo, &oMainRecNo);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param oDLPoint      [in] Point Entity
+     * @param oDLAttributes [in] Entity attributes
+     * @param oEntRecNo     [in out] =0: New, record number
+     * @param oMainRecNo    [out] record number in main table
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WritePoint (int                  iKey,
+                     const DL_PointData   oDLPoint,
+                     const DL_Attributes  oDLAttributes,
+                     dREC04RECNUMTYP     *oEntRecNo,
+                     dREC04RECNUMTYP     *oMainRecNo);
+     //==============================================================================
+     /**
      * @brief // Rewrite existing or write new Line entity into dxf database <BR>
      * iStat = oDxfDbInt.WriteLine (iKey,oDLLine,oDLAttributes, &oEntRecNo, &oMainRecNo);
      *
@@ -5868,6 +6141,50 @@ class sstDxf03DatabaseCls
      // ----------------------------------------------------------------------------
      int WriteLine (int iKey,
                     const DL_LineData    oDLLine,
+                    const DL_Attributes  oDLAttributes,
+                    dREC04RECNUMTYP     *oEntRecNo,
+                    dREC04RECNUMTYP     *oMainRecNo);
+     //==============================================================================
+     /**
+     * @brief // Rewrite existing or write new MText entity into dxf database <BR>
+     * iStat = oDxfDbInt.WriteMText (iKey,oDlMText,oDLAttributes, &oEntRecNo, &oMainRecNo);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param oDlMText       [in] MText Entity
+     * @param oDLAttributes [in] Entity attributes
+     * @param oEntRecNo     [in out] =0: New, record number
+     * @param oMainRecNo    [out] record number in main table
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteMText (int iKey,
+                    const DL_MTextData    oDlMText,
+                    const DL_Attributes  oDLAttributes,
+                    dREC04RECNUMTYP     *oEntRecNo,
+                    dREC04RECNUMTYP     *oMainRecNo);
+     //==============================================================================
+     /**
+     * @brief // Rewrite existing or write new Text entity into dxf database <BR>
+     * iStat = oDxfDbInt.WriteText (iKey,oDlText,oDLAttributes, &oEntRecNo, &oMainRecNo);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param oDlText       [in] Text Entity
+     * @param oDLAttributes [in] Entity attributes
+     * @param oEntRecNo     [in out] =0: New, record number
+     * @param oMainRecNo    [out] record number in main table
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteText (int iKey,
+                    const DL_TextData    oDlText,
                     const DL_Attributes  oDLAttributes,
                     dREC04RECNUMTYP     *oEntRecNo,
                     dREC04RECNUMTYP     *oMainRecNo);
@@ -6088,6 +6405,57 @@ class sstDxf03DatabaseCls
      int ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes);
      //==============================================================================
      /**
+     * @brief // Read Point from table with attributes <BR>
+     * iStat = oDxfDb.ReadPoint( iKey, dRecNo, &oDLPoint, &oDLAttributes);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param dRecNo        [int] Record number in table
+     * @param oDLPoint      [out] Return Point
+     * @param oDLAttributes [out] Return Circle attributes
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int ReadPoint ( int iKey, dREC04RECNUMTYP dRecNo, DL_PointData *oDLPoint, DL_Attributes *oDLAttributes);
+     //==============================================================================
+     /**
+     * @brief // Read MText from table with attributes <BR>
+     * iStat = oDxfDb.ReadMText( iKey, dRecNo, &oDLMText, &oDLAttributes);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param dRecNo        [int] Record number in table
+     * @param oDLMText      [out] Return MText
+     * @param oDLAttributes [out] Return Circle attributes
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int ReadMText ( int iKey, dREC04RECNUMTYP dRecNo, DL_MTextData *oDLMText, DL_Attributes *oDLAttributes);
+     //==============================================================================
+     /**
+     * @brief // Read Text from table with attributes <BR>
+     * iStat = oDxfDb.ReadText( iKey, dRecNo, &oDlText, &oDLAttributes);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param dRecNo        [int] Record number in table
+     * @param oDlText      [out] Return Text
+     * @param oDLAttributes [out] Return Circle attributes
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int ReadText ( int iKey, dREC04RECNUMTYP dRecNo, DL_TextData *oDlText, DL_Attributes *oDLAttributes);
+     //==============================================================================
+     /**
      * @brief // Read polyline from table with attributes <BR>
      * iStat = oDxfDb.ReadPolyline ( iKey, dRecNo, &oDLPolyline, &oDLAttributes);
      *
@@ -6236,6 +6604,7 @@ private:  // Private functions
   sstDxf03FncBlkCls oSstFncBlk;        /**< Block table object */
   sstDxf03FncLTypeCls oSstFncLType;        /**< LineType table object */
   sstDxf03FncArcCls oSstFncArc;        /**< Arc table object */
+  sstDxf03FncTraceCls oSstFncTrace;        /**< Trace table object */
   sstDxf03FncCircleCls oSstFncCircle;        /**< Circle table object */
   sstDxf03FncMTextCls oSstFncMText;        /**< MText table object */
   sstDxf03FncTextCls oSstFncText;        /**< Text table object */

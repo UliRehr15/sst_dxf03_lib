@@ -59,4 +59,7 @@ Structure of coding projects should be:
 16.05.18: Version 3.10: Expand creating new dxf file with block infos and test writing/reading. <BR>
                         Fix error in function sstDxf03WriteCls::WrtSecBlocks. <BR>
 25.05.18: Version 3.11: Extend entities in sstDxf03DatabaseCls::EntityCount. <BR>
+13.06.18: Version 3.12: New entity D3Face. <BR>
+25.06.18: Version 3.13: New entity Trace, lots of reads and writes for entities. <BR>
+                        Added Type.def-File for sstDxf03. <BR>
 

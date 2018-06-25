@@ -44,8 +44,10 @@ SOURCES		+=  \
     sstDxf03Base.cpp \
     sstDxf03Block.cpp \
     sstDxf03Lib.cpp \
+    Entities/sstDxf03Trace.cpp
 
-OTHER_FILES += README.md
+OTHER_FILES += README.md \
+               sstDxf03Type.def
 
 debug{
   TARGET		= sst_dxf03_lib_d

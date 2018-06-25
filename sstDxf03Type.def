@@ -40,3 +40,16 @@ sstDxf03;Line;z1;DD;12;4;sst Dxf Lib;sst Line;Z Start coordinate of the point
 sstDxf03;Line;x2;DD;12;4;sst Dxf Lib;sst Line;X End coordinate of the point
 sstDxf03;Line;y2;DD;12;4;sst Dxf Lib;sst Line;Y End coordinate of the point
 sstDxf03;Line;z2;DD;12;4;sst Dxf Lib;sst Line;Z End coordinate of the point
+sstDxf03;Trace;sx1;DD;12;4;sst Dxf Lib;sst Trace;sx1
+sstDxf03;Trace;sy1;DD;12;4;sst Dxf Lib;sst Trace;sy1
+sstDxf03;Trace;sz1;DD;12;4;sst Dxf Lib;sst Trace;sz1
+sstDxf03;Trace;sx2;DD;12;4;sst Dxf Lib;sst Trace;sx2
+sstDxf03;Trace;sy2;DD;12;4;sst Dxf Lib;sst Trace;sy2
+sstDxf03;Trace;sz2;DD;12;4;sst Dxf Lib;sst Trace;sz2
+sstDxf03;Trace;sx3;DD;12;4;sst Dxf Lib;sst Trace;sx3
+sstDxf03;Trace;sy3;DD;12;4;sst Dxf Lib;sst Trace;sy3
+sstDxf03;Trace;sz3;DD;12;4;sst Dxf Lib;sst Trace;sz3
+sstDxf03;Trace;sx4;DD;12;4;sst Dxf Lib;sst Trace;sx4
+sstDxf03;Trace;sy4;DD;12;4;sst Dxf Lib;sst Trace;sy4
+sstDxf03;Trace;sz4;DD;12;4;sst Dxf Lib;sst Trace;sz4
+sstDxf03;Trace;thickness;DD;12;4;sst Dxf Lib;sst Trace;thickness

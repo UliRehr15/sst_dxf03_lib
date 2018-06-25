@@ -45,7 +45,7 @@
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstDxf03Lib.h>
- 
+
 #include "sstDxf03LibInt.h"
 
 // Constructor

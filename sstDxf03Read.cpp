@@ -781,17 +781,72 @@ void sstDxf03ReadCls::addVertex(const DL_VertexData& data)
     oMainRec.setSectString("L");
   }
   poMainFnc->WritNew(0,&oMainRec,&dRecNo);
-
 }
 //=============================================================================
 void sstDxf03ReadCls::add3dFace(const DL_3dFaceData& data) {
+  int iStat = 0;
+  std::string oLayerStr;
+
+  sstDxf03TypTraceCls oDxfTrace;
+  oDxfTrace.ReadFromDL(data);
+  oDxfTrace.BaseReadFromDL(attributes);
+  dREC04RECNUMTYP dRecNo=0;
+  dREC04RECNUMTYP dLayRecNo=0;
+
+  sstDxf03FncTraceCls *poTraceFnc;
+  poTraceFnc = this->poDxfDb->getSstFncTrace();
+  sstDxf03FncLayCls *poLayFnc;
+  poLayFnc = this->poDxfDb->getSstFncLay();
+  sstDxf03FncBlkCls *poBlkFnc;
+  poBlkFnc = this->poDxfDb->getSstFncBlk();
+  sstDxf03FncMainCls *poMainFnc;
+  poMainFnc = this->poDxfDb->getSstFncMain();
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  // is it layer or block??
+  if (this->oActBlockNam.length() > 0)
+  {  // Block
+    dNumBlocks = poBlkFnc->count();
+    oDxfTrace.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = attributes.getLayer();
+    // Find record with exact search value
+    iStat = poLayFnc->TreSeaEQ( 0, poLayFnc->getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    assert(iStat == 1);
+    oDxfTrace.setLayerID(dLayRecNo);
+  }
+  iStat = poTraceFnc->WritNew(0,&oDxfTrace,&dRecNo);
+
+  sstDxf03TypMainCls oMainRec;
+
+  dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
+
+  oMainRec.setMainID(dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityTrace);
+  oMainRec.setTypeID(dRecNo);
+
+  // is it layer or block??
+  if (this->oActBlockNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = poMainFnc->WritNew(0,&oMainRec,&dRecNo);
 //    printf("3DFACE\n");
 //    for (int i=0; i<4; i++) {
 //        printf("   corner %d: %6.3f %6.3f %6.3f\n",
 //            i, data.x[i], data.y[i], data.z[i]);
 //    }
 //    printAttributes();
-    this->poPrt->SST_PrtWrtChar( 1,(char*)"FACE skiped",(char*)"Dxf Reading: ");
+//    this->poPrt->SST_PrtWrtChar( 1,(char*)"FACE skiped",(char*)"Dxf Reading: ");
 }
 //=============================================================================
 void sstDxf03ReadCls::addHatch(const DL_HatchData& data)
@@ -967,7 +1022,64 @@ void sstDxf03ReadCls::addHatchLoop(const DL_HatchLoopData& data)
 //=============================================================================
 void sstDxf03ReadCls::addSolid(const DL_SolidData& data)
 {
-  this->poPrt->SST_PrtWrtChar( 1,(char*)"SOLID skiped",(char*)"Dxf Reading: ");
+  int iStat = 0;
+  std::string oLayerStr;
+
+  sstDxf03TypTraceCls oDxfTrace;
+  oDxfTrace.ReadFromDL(data);
+  oDxfTrace.BaseReadFromDL(attributes);
+  dREC04RECNUMTYP dRecNo=0;
+  dREC04RECNUMTYP dLayRecNo=0;
+
+  sstDxf03FncTraceCls *poTraceFnc;
+  poTraceFnc = this->poDxfDb->getSstFncTrace();
+  sstDxf03FncLayCls *poLayFnc;
+  poLayFnc = this->poDxfDb->getSstFncLay();
+  sstDxf03FncBlkCls *poBlkFnc;
+  poBlkFnc = this->poDxfDb->getSstFncBlk();
+  sstDxf03FncMainCls *poMainFnc;
+  poMainFnc = this->poDxfDb->getSstFncMain();
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  // is it layer or block??
+  if (this->oActBlockNam.length() > 0)
+  {  // Block
+    dNumBlocks = poBlkFnc->count();
+    oDxfTrace.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = attributes.getLayer();
+    // Find record with exact search value
+    iStat = poLayFnc->TreSeaEQ( 0, poLayFnc->getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    assert(iStat == 1);
+    oDxfTrace.setLayerID(dLayRecNo);
+  }
+  iStat = poTraceFnc->WritNew(0,&oDxfTrace,&dRecNo);
+
+  sstDxf03TypMainCls oMainRec;
+
+  dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
+
+  oMainRec.setMainID(dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityTrace);
+  oMainRec.setTypeID(dRecNo);
+
+  // is it layer or block??
+  if (this->oActBlockNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = poMainFnc->WritNew(0,&oMainRec,&dRecNo);
+
+  // this->poPrt->SST_PrtWrtChar( 1,(char*)"SOLID skiped",(char*)"Dxf Reading: ");
   // int iStat = 0;
 }
 ////=============================================================================
