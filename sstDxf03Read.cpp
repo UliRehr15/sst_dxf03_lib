@@ -85,6 +85,12 @@ sstDxf03ReadCls::~sstDxf03ReadCls()
 
 }
 //=============================================================================
+void sstDxf03ReadCls::processCodeValuePair(unsigned int uiRow,const std::string oRow)
+{
+  unsigned int uiTmpVal = uiRow;
+  int iStat = 0;
+}
+//=============================================================================
 void sstDxf03ReadCls::addLayer(const DL_LayerData& data)
 {
   sstDxf03TypLayCls LayDs;
@@ -155,6 +161,9 @@ void sstDxf03ReadCls::addBlock(const DL_BlockData& data)
   iStat = poBlkFnc->TreWriteNew( 0, &oBlk, &dRecNo);
   assert(iStat == 0);
   std::string oModelSpaceName = "*Model_Space";
+  iStat = oModelSpaceName.compare(data.name);
+  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
+  oModelSpaceName = "*MODEL_SPACE";
   iStat = oModelSpaceName.compare(data.name);
   if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
 }
@@ -349,7 +358,10 @@ void sstDxf03ReadCls::addLine(const DL_LineData& data) {
     oLayerStr = attributes.getLayer();
     // Find record with exact search value
     iStat = poLayFnc->TreSeaEQ( 0, poLayFnc->getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
-    assert(iStat == 1);
+    if (iStat != 1)
+    {
+      assert(iStat == 1);
+    }
     oDxfLine.setLayerID(dLayRecNo);
     // Set Minimum Bounding Rectangle in Block Table
     poBlkFnc->updateMbrModel(0,oDxfLine.getMbr());
@@ -572,10 +584,8 @@ void sstDxf03ReadCls::addMText(const DL_MTextData& data) {
   iStat = poMainFnc->WritNew(0,&oMainRec,&dRecNo);
 }
 //=============================================================================
-void sstDxf03ReadCls::addText(const DL_TextData& data) {
-//    printf("Text \n");
-//    printAttributes();
-    // this->poPrt->SST_PrtWrtChar( 1,(char*)"TEXT skiped",(char*)"Dxf Reading: ");
+void sstDxf03ReadCls::addText(const DL_TextData& data)
+{
   int iStat = 0;
   std::string oLayerStr;
 
@@ -607,7 +617,10 @@ void sstDxf03ReadCls::addText(const DL_TextData& data) {
     oLayerStr = attributes.getLayer();
     // Find record with exact search value
     iStat = poLayFnc->TreSeaEQ( 0, poLayFnc->getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
-    assert(iStat == 1);
+    if (iStat < 0)
+    {
+      assert(iStat == 1);
+    }
     oDxfText.setLayerID(dLayRecNo);
   }
   iStat = poTextFnc->WritNew(0,&oDxfText,&dRecNo);

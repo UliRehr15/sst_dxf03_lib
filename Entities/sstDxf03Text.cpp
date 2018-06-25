@@ -52,7 +52,7 @@
 // Constructor
 sstDxf03TypTextCls::sstDxf03TypTextCls()
 {
- 
+  memset( this->text, 0, 100);
 }
 //=============================================================================
 void sstDxf03TypTextCls::ReadFromDL(const DL_TextData oDLText)
@@ -68,7 +68,7 @@ void sstDxf03TypTextCls::ReadFromDL(const DL_TextData oDLText)
   this->textGenerationFlags = oDLText.textGenerationFlags;  // II;6;0
   this->hJustification = oDLText.hJustification;  // II;6;0
   this->vJustification = oDLText.vJustification;  // II;6;0
-  strncpy(this->text, oDLText.text.c_str(), 99);  // CC;100;0
+  strncpy(this->text, oDLText.text.c_str(), 100);  // CC;100;0
   // this->style_ID = oDLText.style;  // UL;10;0
   this->style_ID = 1;  // UL;10;0
   this->angle = oDLText.angle;  // DD;12;4

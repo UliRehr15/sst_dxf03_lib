@@ -176,6 +176,7 @@ int sstDxf03FncBaseCls::Csv_BaseRead1(int                 iKey,
                                      sstDxf03TypBaseCls *oAttributes)
 {
   dREC04RECNUMTYP dLocRecordNo = 0; // Record number in sst table
+  oCsvRow.SetReadPositon(0,0);
 
   int iStat = 0;
   int iRet  = 0;

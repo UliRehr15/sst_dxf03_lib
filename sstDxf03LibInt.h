@@ -3434,7 +3434,7 @@ class sstDxf03FncLayCls : public sstDxf03FncBaseCls
 };
 //==============================================================================
 /**
-* @brief Definition Class sstDxf03FncArcCls
+* @brief Definition Class sstDxf03FncBlkCls
 *
 * More Comment
 *
@@ -6650,6 +6650,8 @@ public:
   // ----------------------------------------------------------------------------
     sstDxf03ReadCls(sstDxf03DatabaseCls *oDxfDb, sstMisc01PrtFilCls *oTmpPrt);
     ~sstDxf03ReadCls();
+    //==============================================================================
+    virtual void processCodeValuePair(unsigned int uiRow,const std::string oRow);
     //==============================================================================
     /**
     * @brief // Process imported Layer data <BR>

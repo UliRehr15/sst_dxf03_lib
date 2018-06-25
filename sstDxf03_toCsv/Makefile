@@ -293,6 +293,7 @@ sstDxf03_toCsv.o: sstDxf03_toCsv.cpp ../../dxflib/Header/dl_dxf.h \
 		../../sstLibreCAD2Lib/Header/rs_vector.h \
 		../../sstLibreCAD2Lib/Header/rs.h \
 		../../sst_str01_lib/Header/sstStr01Lib.h \
+		../../sstMath01Lib/Header/sstMath01Lib.h \
 		../../sst_misc01_lib/Header/sstMisc01Lib.h \
 		../../sst_rec04_lib/Header/sstRec04Lib.h \
 		../Header/sstDxf03Lib.h \

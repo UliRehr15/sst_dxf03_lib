@@ -62,4 +62,5 @@ Structure of coding projects should be:
 13.06.18: Version 3.12: New entity D3Face. <BR>
 25.06.18: Version 3.13: New entity Trace, lots of reads and writes for entities. <BR>
                         Added Type.def-File for sstDxf03. <BR>
+25.06.18: Version 3.14: Fix problems in converting from dxf to csv and back. <BR>
 

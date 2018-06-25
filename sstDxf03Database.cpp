@@ -993,7 +993,23 @@ int sstDxf03DatabaseCls::WritAll2DxfFil(int iKey, const std::string oDxfFilNam)
   if (iStat >= 0) iStat = oWrite.WrtSecEntities(0);  // write entities section to dxf file
   if (iStat >= 0) iStat = oWrite.WrtSecObjects(0);   // write objects section to dxf file
 
-  this->oPrt->SST_PrtWrtInt4(1,this->MainCount(),(char*)"Number of Main Data written: ");
+  // this->oPrt->SST_PrtWrtInt4(1,this->MainCount(),(char*)"Number of Main Data written: ");
+
+  // Write Import Statistics to protocol
+  this->oPrt->SST_PrtWrtInt4(1,this->MainCount(),(char*)"Number of Data read: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityArc),(char*)"Number of ARC entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityCircle),(char*)"Number of CIRCLE entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityLine),(char*)"Number of LINE entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityPolyline),(char*)"Number of POLYLINE entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityHatch),(char*)"Number of HATCH entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityHatchLoop),(char*)"Number of HATCHLOOP entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityHatchEdge),(char*)"Number of HATCHEDGE entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityInsert),(char*)"Number of INSERT entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityMText),(char*)"Number of MTEXT entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityText),(char*)"Number of TEXT entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityPoint),(char*)"Number of POINT entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityVertex),(char*)"Number of VERTEX entities: ");
+
   this->oPrt->SST_PrtWrtChar(1,(char*)oDxfFilNam.c_str(),(char*)"Dxf Database to File written: ");
 
   return iStat;
@@ -1139,8 +1155,6 @@ int sstDxf03DatabaseCls::ReadAllFromDxf(int iKey, const std::string oDxfFilNam)
   if ( iKey != 0) return -1;
   int iStat = 0;
 
-  // std::cout << "Reading file " << file << "...\n";
-  // std::cout << "Reading file " << oDxfFilNam << "...\n";
   this->oPrt->SST_PrtWrtChar(1,(char*) oDxfFilNam.c_str(), (char*)"Reading file: ");
   sstDxf03ReadCls* creationClass = new sstDxf03ReadCls( this, this->GetPrtAdr());
 
@@ -1149,13 +1163,24 @@ int sstDxf03DatabaseCls::ReadAllFromDxf(int iKey, const std::string oDxfFilNam)
   DL_Dxf* dxf = new DL_Dxf();
   if (!dxf->in(oDxfFilNam, creationClass))
   { // if file open failed
-      // std::cerr << oDxfFilNam << " could not be opened.\n";
     this->oPrt->SST_PrtWrtChar(1,(char*) oDxfFilNam.c_str(),(char*)"Error: Could not open: ");
-      iStat = -2;
-      // return;
+    iStat = -2;
   }
 
+  // Write Import Statistics to protocol
   this->oPrt->SST_PrtWrtInt4(1,this->MainCount(),(char*)"Number of Data read: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityArc),(char*)"Number of ARC entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityCircle),(char*)"Number of CIRCLE entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityLine),(char*)"Number of LINE entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityPolyline),(char*)"Number of POLYLINE entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityHatch),(char*)"Number of HATCH entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityHatchLoop),(char*)"Number of HATCHLOOP entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityHatchEdge),(char*)"Number of HATCHEDGE entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityInsert),(char*)"Number of INSERT entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityMText),(char*)"Number of MTEXT entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityText),(char*)"Number of TEXT entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityPoint),(char*)"Number of POINT entities: ");
+  this->oPrt->SST_PrtWrtInt4(1,this->EntityCount(RS2::EntityVertex),(char*)"Number of VERTEX entities: ");
 
   delete dxf;
   delete creationClass;
@@ -1176,11 +1201,20 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::EntityCount(RS2::EntityType eEntityType)
 
   switch (eEntityType)
   {
+  case RS2::EntityArc:
+    dTmpCount = this->oSstFncArc.count();
+    break;
   case RS2::EntityCircle:
     dTmpCount = this->oSstFncCircle.count();
     break;
   case RS2::EntityLine:
     dTmpCount = this->oSstFncLine.count();
+    break;
+  case RS2::EntityInsert:
+    dTmpCount = this->oSstFncInsert.count();
+    break;
+  case RS2::EntityPolyline:
+    dTmpCount = this->oSstFncPolyline.count();
     break;
   case RS2::EntityMText:
     dTmpCount = this->oSstFncMText.count();
@@ -1199,6 +1233,9 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::EntityCount(RS2::EntityType eEntityType)
     break;
   case RS2::EntityHatchEdge:
     dTmpCount = this->oSstFncHatchEdge.count();
+    break;
+  case RS2::EntityVertex:
+    dTmpCount = this->oSstFncVertex.count();
     break;
   default:
     assert(0);

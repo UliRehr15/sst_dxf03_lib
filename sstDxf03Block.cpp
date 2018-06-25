@@ -342,7 +342,8 @@ int sstDxf03FncBlkCls::updateMbrModel(int iKey, sstMath01Mbr2Cls oMbr)
     sstDxf03TypBlkCls oBlkRec;
     int iStat = this->Read(0,this->getBlockMdlRecNo(),&oBlkRec);
     assert(iStat == 0);
-    // sstMath01Mbr2Cls oMdlMbr;
+
+    // Update Mbr from actual block
     oBlkRec.updateMbr(0,oMbr);
 
     iStat = this->Writ(0,&oBlkRec,this->getBlockMdlRecNo());

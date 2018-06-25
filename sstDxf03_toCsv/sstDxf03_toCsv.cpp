@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstDxf03_toCsv.cpp    18.11.16  Re.    18.11.16  Re.
+// sstDxf03_toCsv.cpp    25.06.18  Re.    18.11.16  Re.
 //
 // Tool splits dxf drawing file into object csv files.
 // Csv file for layers, blocks, arc elements and so on ...
@@ -41,6 +41,7 @@
 #include <rs_vector.h>
 
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstDxf03Lib.h>

@@ -42,6 +42,7 @@
 #include <rs_vector.h>
 
 #include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
 #include <sstMisc01Lib.h>
 #include <sstRec04Lib.h>
 #include <sstDxf03Lib.h>
@@ -76,6 +77,10 @@ int main(int argc, char** argv)
   sstDxf03DbCls oDxfDb(&oPrt);
 
   iStat = oDxfDb.ReadAllCsvFiles( 0, oDxfFilNam);
+  assert(iStat == 0);
+
+  iStat = oDxfDb.WritAll2DxfFil(0,oDxfFilNam);
+  assert(iStat == 0);
 
     // Close Protocol
   iStat = oPrt.SST_PrtZu ( 1);
