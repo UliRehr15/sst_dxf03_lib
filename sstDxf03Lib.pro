@@ -10,7 +10,7 @@ CONFIG    -= release  # ist DEBUG aktiv
 
 CONFIG    += staticlib
 
-INCLUDEPATH += ../dxflib/Header
+INCLUDEPATH += ../dxflib/src
 INCLUDEPATH += ../sstLibreCAD2Lib/Header
 INCLUDEPATH += ../sst_str01_lib/Header
 INCLUDEPATH += ../sstMath01Lib/Header

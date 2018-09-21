@@ -110,7 +110,8 @@ int main()
     iStat = sstMisc01FileCompare( 1,"Test.dxf","Test2.dxf",&ulRowNo);
     if (iStat != 0)
     {
-      assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
+        // assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
+        assert(ulRowNo == 886);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test.dxf / Test2.dxf OK");
@@ -135,7 +136,7 @@ int main()
     iStat = sstMisc01FileCompare( 1,"Test.dxf","Test3.dxf",&ulRowNo);
     if (iStat != 0)
     {
-      assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
+      assert(ulRowNo == 886);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test.dxf / Test3.dxf OK");
@@ -150,7 +151,7 @@ int main()
     dREC04RECNUMTYP oEntRecNo = 0;
     dREC04RECNUMTYP oMainRecNo = 0;
     oAttributes.setLayer("0");
-    oAttributes.setLineType("CONTINUOUS");
+    oAttributes.setLinetype("CONTINUOUS");
 
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDB(&oPrt);
@@ -286,50 +287,44 @@ int testWriting(const std::string oDxfFilNam) {
     dw->sectionEnd();
     dw->sectionTables();
     dxf->writeVPort(*dw);
-    dw->tableLineTypes(25);
-    dxf->writeLineType(*dw, DL_LineTypeData("BYBLOCK", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("BYLAYER", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("CONTINUOUS", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("ACAD_ISO02W100", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("ACAD_ISO03W100", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("ACAD_ISO04W100", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("ACAD_ISO05W100", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("BORDER", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("BORDER2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("BORDERX2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("CENTER", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("CENTER2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("CENTERX2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DASHDOT", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DASHDOT2", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("DASHDOTX2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DASHED", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DASHED2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DASHEDX2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DIVIDE", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DIVIDE2", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("DIVIDEX2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DOT", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DOT2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DOTX2", 0));
+    dw->tableLinetypes(25);
+    dxf->writeLinetype(*dw, DL_LinetypeData("BYBLOCK", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("BYLAYER", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("CONTINUOUS", "Description",0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("ACAD_ISO02W100", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("ACAD_ISO03W100", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("ACAD_ISO04W100", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("ACAD_ISO05W100", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("BORDER", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("BORDER2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("BORDERX2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("CENTER", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("CENTER2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("CENTERX2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHDOT", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHDOT2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHDOTX2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHED", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHED2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHEDX2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DIVIDE", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DIVIDE2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DIVIDEX2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DOT", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DOT2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DOTX2", "Description", 0, 0, 0.0));
     dw->tableEnd();
     int numberOfLayers = 3;
     dw->tableLayers(numberOfLayers);
 
+    double dLineTypeScale = 1.0;
     dxf->writeLayer(*dw,
                    DL_LayerData("0", 0),
                    DL_Attributes(
                        std::string(""),      // leave empty
                        DL_Codes::black,        // default color
                        100,                  // default width
-                       "CONTINUOUS"));       // default line style
+                       "CONTINUOUS", dLineTypeScale));       // default line style
 
     dxf->writeLayer(*dw,
                    DL_LayerData("mainlayer", 0),
@@ -337,7 +332,7 @@ int testWriting(const std::string oDxfFilNam) {
                        std::string(""),
                        DL_Codes::red,
                        100,
-                       "CONTINUOUS"));
+                       "CONTINUOUS", dLineTypeScale));
 
     dxf->writeLayer(*dw,
                    DL_LayerData("anotherlayer", 0),
@@ -345,7 +340,7 @@ int testWriting(const std::string oDxfFilNam) {
                        std::string(""),
                        DL_Codes::black,
                        100,
-                       "CONTINUOUS"));
+                       "CONTINUOUS", dLineTypeScale));
 
     dw->tableEnd();
     dxf->writeStyle(*dw, DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "standard", ""));
@@ -400,12 +395,13 @@ int testWriting(const std::string oDxfFilNam) {
     dw->sectionEntities();
 
     // write all your entities..
+    double dLinetypeScale = 1.0;
     dxf->writePoint(
         *dw,
         DL_PointData(10.0,
                      45.0,
                      0.0),
-        DL_Attributes("mainlayer", 256, -1, "BYLAYER"));
+        DL_Attributes("mainlayer", 256, -1, "BYLAYER", dLinetypeScale));
 
     dxf->writeLine(
         *dw,
@@ -415,7 +411,7 @@ int testWriting(const std::string oDxfFilNam) {
                     100.0,   // end point
                     120.0,
                     0.0),
-        DL_Attributes("mainlayer", 256, -1, "BYLAYER"));
+        DL_Attributes("mainlayer", 256, -1, "BYLAYER", dLinetypeScale));
 
     dw->sectionEnd();
     dxf->writeObjects(*dw);
@@ -455,50 +451,44 @@ int testWriting2 (const std::string oDxfFilNam) {
     dw->sectionEnd();
     dw->sectionTables();
     dxf->writeVPort(*dw);
-    dw->tableLineTypes(25);
-    dxf->writeLineType(*dw, DL_LineTypeData("BYBLOCK", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("BYLAYER", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("CONTINUOUS", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("ACAD_ISO02W100", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("ACAD_ISO03W100", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("ACAD_ISO04W100", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("ACAD_ISO05W100", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("BORDER", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("BORDER2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("BORDERX2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("CENTER", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("CENTER2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("CENTERX2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DASHDOT", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DASHDOT2", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("DASHDOTX2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DASHED", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DASHED2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DASHEDX2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DIVIDE", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DIVIDE2", 0));
-    dxf->writeLineType(*dw,
-                      DL_LineTypeData("DIVIDEX2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DOT", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DOT2", 0));
-    dxf->writeLineType(*dw, DL_LineTypeData("DOTX2", 0));
+    dw->tableLinetypes(25);
+    dxf->writeLinetype(*dw, DL_LinetypeData("BYBLOCK", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("BYLAYER", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("CONTINUOUS", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("ACAD_ISO02W100", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("ACAD_ISO03W100", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("ACAD_ISO04W100", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("ACAD_ISO05W100", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("BORDER", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("BORDER2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("BORDERX2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("CENTER", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("CENTER2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("CENTERX2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHDOT", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHDOT2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHDOTX2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHED", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHED2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DASHEDX2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DIVIDE", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DIVIDE2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DIVIDEX2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DOT", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DOT2", "Description", 0, 0, 0.0));
+    dxf->writeLinetype(*dw, DL_LinetypeData("DOTX2", "Description", 0, 0, 0.0));
     dw->tableEnd();
     int numberOfLayers = 3;
     dw->tableLayers(numberOfLayers);
 
+    double dLinetypeScale = 1.0;
     dxf->writeLayer(*dw,
                    DL_LayerData("0", 0),
                    DL_Attributes(
                        std::string(""),      // leave empty
                        DL_Codes::black,        // default color
                        100,                  // default width
-                       "CONTINUOUS"));       // default line style
+                       "CONTINUOUS", dLinetypeScale));       // default line style
 
     dxf->writeLayer(*dw,
                    DL_LayerData("mainlayer", 0),
@@ -506,7 +496,7 @@ int testWriting2 (const std::string oDxfFilNam) {
                        std::string(""),
                        DL_Codes::red,
                        100,
-                       "CONTINUOUS"));
+                       "CONTINUOUS", dLinetypeScale));
 
     dxf->writeLayer(*dw,
                    DL_LayerData("anotherlayer", 0),
@@ -514,7 +504,7 @@ int testWriting2 (const std::string oDxfFilNam) {
                        std::string(""),
                        DL_Codes::black,
                        100,
-                       "CONTINUOUS"));
+                       "CONTINUOUS", dLinetypeScale));
 
     dw->tableEnd();
     dxf->writeStyle(*dw, DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "standard", ""));
@@ -564,7 +554,7 @@ int testWriting2 (const std::string oDxfFilNam) {
                     10.0,   // end point
                     10.0,
                     0.0),
-        DL_Attributes("myblock1", 256, -1, "BYBLOCK"));
+        DL_Attributes("myblock1", 256, -1, "BYBLOCK", dLinetypeScale));
 
     dxf->writeLine(
         *dw,
@@ -574,7 +564,7 @@ int testWriting2 (const std::string oDxfFilNam) {
                     10.0,   // end point
                     0.0,
                     0.0),
-        DL_Attributes("myblock1", 256, -1, "BYBLOCK"));
+        DL_Attributes("myblock1", 256, -1, "BYBLOCK", dLinetypeScale));
 
     // ...
     dxf->writeEndBlock(*dw, "myblock1");
@@ -597,13 +587,13 @@ int testWriting2 (const std::string oDxfFilNam) {
         DL_PointData(10.0,
                      45.0,
                      0.0),
-        DL_Attributes("mainlayer", 256, -1, "BYLAYER"));
+        DL_Attributes("mainlayer", 256, -1, "BYLAYER", dLinetypeScale));
 
     // write test insert
     dxf->writeInsert(
         *dw,
         DL_InsertData("myblock1",25.0,30.0,0,1,1,1,0,1,1,0,0),
-        DL_Attributes("mainlayer", 256, -1, "BYLAYER"));
+        DL_Attributes("mainlayer", 256, -1, "BYLAYER", dLinetypeScale));
 
     // write test line
     dxf->writeLine(
@@ -614,7 +604,7 @@ int testWriting2 (const std::string oDxfFilNam) {
                     100.0,   // end point
                     120.0,
                     0.0),
-        DL_Attributes("mainlayer", 256, -1, "BYLAYER"));
+        DL_Attributes("mainlayer", 256, -1, "BYLAYER", dLinetypeScale));
 
     dw->sectionEnd();
     dxf->writeObjects(*dw);

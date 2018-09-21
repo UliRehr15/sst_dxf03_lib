@@ -86,7 +86,7 @@ sstDxf03DatabaseCls::sstDxf03DatabaseCls(sstMisc01PrtFilCls *oTmpPrt)
   DL_LayerData  oDL_Lay("0",0);
   DL_Attributes oDL_Attr;
 
-  oDL_Attr.setLineType("CONTINUOUS");
+  oDL_Attr.setLinetype("CONTINUOUS");
 
   oLayRec.ReadFromDL(oDL_Lay);
   oLayRec.BaseReadFromDL(oDL_Attr);
@@ -810,7 +810,7 @@ int sstDxf03DatabaseCls::OpenNewHatch(int                  iKey,
   poLTypeFnc = this->getSstFncLType();
 
   std::string oLTypeStr;
-  oLTypeStr = oDLAttributes.getLineType();
+  oLTypeStr = oDLAttributes.getLinetype();
 
   std::transform(oLTypeStr.begin(), oLTypeStr.end(),oLTypeStr.begin(), ::toupper);
 
@@ -1503,7 +1503,7 @@ int sstDxf03DatabaseCls::UpdateAttribWithId (int iKey,
   {
     sstDxf03TypLTypeCls oLTypeRec;
     iStat = oLocSstFncLType->Read(0,dLTypeID,&oLTypeRec);
-    oDLAttributes->setLineType( oLTypeRec.getName());
+    oDLAttributes->setLinetype( oLTypeRec.getName());
   }
 
   // Fatal Errors goes to an assert

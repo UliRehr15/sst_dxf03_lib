@@ -89,7 +89,7 @@ class sstDxf03EntityTypeCls
      RS2::EntityType String2Enum(std::string oTypeString);
 // ----------------------------------------------------------------------------
 private:  // Private functions
-int Dum;        /**< Dummy */
+// int Dum;        /**< Dummy */
 };
 //==============================================================================
 /**
@@ -6651,7 +6651,7 @@ public:
     sstDxf03ReadCls(sstDxf03DatabaseCls *oDxfDb, sstMisc01PrtFilCls *oTmpPrt);
     ~sstDxf03ReadCls();
     //==============================================================================
-    virtual void processCodeValuePair(unsigned int uiRow,const std::string oRow);
+    virtual void processCodeValuePair(unsigned int uiRow,const std::string &oRow);
     //==============================================================================
     /**
     * @brief // Process imported Layer data <BR>

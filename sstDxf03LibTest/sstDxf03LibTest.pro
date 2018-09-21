@@ -8,7 +8,7 @@ CONFIG += c++11
 # CONFIG       -= debug  # RELEASE ist aktiv
 CONFIG       -= release  # DEBUG ist aktiv
 
-INCLUDEPATH +=  ../../dxflib/Header
+INCLUDEPATH +=  ../../dxflib/src
 INCLUDEPATH +=  ../../sstLibreCAD2Lib/Header
 INCLUDEPATH +=  ../../sst_str01_lib/Header
 INCLUDEPATH +=  ../../sstMath01Lib/Header

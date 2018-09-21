@@ -179,14 +179,14 @@ sstDxf03FncHatchCls::sstDxf03FncHatchCls():sstDxf03FncBaseCls(sizeof(sstDxf03Typ
 int sstDxf03FncHatchCls::Csv_Read(int iKey, std::string *sErrTxt, std::string *ssstDxfLib_Str, sstDxf03TypHatchCls *osstDxf02TypHatch)
 {
   // dREC04RECNUMTYP dLocRecordID = 0;
-  int iLocNumLoops;
-  bool bLocSolid;
-  double dLocScale;
-  double dLocAngle;
+  int iLocNumLoops = 0;
+  bool bLocSolid = false;
+  double dLocScale = 0.0;
+  double dLocAngle = 0.0;
   // std::string dPatternID;
   dREC04RECNUMTYP dLocPatternID;  /*! Pattern name. */
-  double dLocOriginX;
-  double dLocOriginY;
+  double dLocOriginX = 0.0;
+  double dLocOriginY = 0.0;
   int iStat = 0;
   int iRet  = 0;
 //-----------------------------------------------------------------------------

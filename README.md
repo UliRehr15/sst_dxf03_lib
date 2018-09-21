@@ -5,22 +5,24 @@ for every dxf entity type like ARC, MTEXT and so on there is a table.
 this sst dxf tables could be stored in csv, so editing with spreedsheets
 like excel is possible.
 
-fork from sst_dxf01_lib: change license
+fork from sst_dxf02_lib: change license
 
 change license to GNU General Public License version 2 because of use of LibreCAD.
 
 Based on dxflib, extends dxflib
 Uses functions from LibreCAD2
 
-Compile with QT 5.5 and QTCreator 3.5
+This Library is created with QtCreator 4.5.2 and gcc 7.3.0.
 
 Structure of coding projects should be:
 
 .. [libs]  <BR>
-   [dxflib] from github <BR>
-   [muParser]  <BR>
+.. [boost_1_68_0]  from www.boost.org <BR>
+.. [muParser]  Version 2.2.5 from https://github.com/beltoforion/muparser <BR>
+.. [dxflib]  Version 3.12.2 from www.qcad.org/Download <BR>
    [sstLibreCAD2Lib]  <BR>
    [sst_str01_lib]  <BR>
+   [sst_math01_lib]  <BR>
    [sst_misc01_lib]  <BR>
    [sst_rec04_lib]  <BR>
    [sst_dxf03_lib]  <BR>
@@ -63,4 +65,6 @@ Structure of coding projects should be:
 25.06.18: Version 3.13: New entity Trace, lots of reads and writes for entities. <BR>
                         Added Type.def-File for sstDxf03. <BR>
 25.06.18: Version 3.14: Fix problems in converting from dxf to csv and back. <BR>
+21.09.18: Version 3.15: Updated to QtCreator 4.5.2 and gcc 7.3.0. <BR>
+                        Updated to dxflib 3.12.2. <BR>
 

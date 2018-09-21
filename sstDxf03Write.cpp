@@ -189,13 +189,14 @@ int sstDxf03WriteCls::WrtSecLayers (int         iKey)
     iStat = oLocSstFncLay->Read(0,dd,&oLayRec);
     iStat = oLocSstFncLType->Read(0,oLayRec.getLinetypeID(),&oLTypeRec);
 
+    double dLinetypeScale = 1.0;
     this->dxf->writeLayer(*this->dw,
                    DL_LayerData(oLayRec.getName(), 0), /** Layer flags. (1 = frozen, 2 = frozen by default, 4 = locked) */
                    DL_Attributes(
                        std::string(""),
                        oLayRec.getColor(),
                        oLayRec.getWidth(),
-                       oLTypeRec.getName()));
+                       oLTypeRec.getName(), dLinetypeScale));
   }
 
   this->dw->tableEnd();
@@ -320,7 +321,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           DL_Attributes oAttributes;  // Dxflib Attributes
           oArcRec.BaseWritToDL(&oAttributes);
           oAttributes.setLayer(oBlkRec.getName());
-          oAttributes.setLineType("BYBLOCK");
+          oAttributes.setLinetype("BYBLOCK");
 
           // write next insert into dxf file
           this->dxf->writeArc(  *this->dw, oDL_Arc, oAttributes);
@@ -341,7 +342,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           DL_Attributes oAttributes;  // Dxflib Attributes
           oCircleRec.BaseWritToDL(&oAttributes);
           oAttributes.setLayer(oBlkRec.getName());
-          oAttributes.setLineType("BYBLOCK");
+          oAttributes.setLinetype("BYBLOCK");
 
           // write next insert into dxf file
           this->dxf->writeCircle( *this->dw, oDL_Circle, oAttributes);
@@ -362,7 +363,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           DL_Attributes oAttributes;  // Dxflib Attributes
           oMTextRec.BaseWritToDL(&oAttributes);
           oAttributes.setLayer(oBlkRec.getName());
-          oAttributes.setLineType("BYBLOCK");
+          oAttributes.setLinetype("BYBLOCK");
 
           // write next insert into dxf file
           this->dxf->writeMText(  *this->dw, oDL_MText, oAttributes);
@@ -383,7 +384,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           DL_Attributes oAttributes;  // Dxflib Attributes
           oTextRec.BaseWritToDL(&oAttributes);
           oAttributes.setLayer(oBlkRec.getName());
-          oAttributes.setLineType("BYBLOCK");
+          oAttributes.setLinetype("BYBLOCK");
 
           // write next insert into dxf file
           this->dxf->writeText(  *this->dw, oDL_Text, oAttributes);
@@ -405,7 +406,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           DL_Attributes oAttributes;  // Dxflib Attributes
           oPointRec.BaseWritToDL(&oAttributes);
           oAttributes.setLayer(oBlkRec.getName());
-          oAttributes.setLineType("BYBLOCK");
+          oAttributes.setLinetype("BYBLOCK");
 
           // write next insert into dxf file
           this->dxf->writePoint(  *this->dw, oDL_Point, oAttributes);
@@ -427,7 +428,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           DL_Attributes oAttributes;  // Dxflib Attributes
           oLineRec.BaseWritToDL(&oAttributes);
           oAttributes.setLayer(oBlkRec.getName());
-          oAttributes.setLineType("BYBLOCK");
+          oAttributes.setLinetype("BYBLOCK");
 
           // write next insert into dxf file
           this->dxf->writeLine(  *this->dw, oDL_Line, oAttributes);
@@ -459,7 +460,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
   //        oAttributes.setColor24(oPolylineRec.getColor24());
   //        oAttributes.setHandle(oPolylineRec.getHandle());
           oAttributes.setLayer(oBlkRec.getName());
-          oAttributes.setLineType(oLTypeRec.getName());
+          oAttributes.setLinetype(oLTypeRec.getName());
   //        oAttributes.setWidth(oPolylineRec.getWidth());
 
           if ( strncmp( oLTypeRec.getName(), "BYBLOCK", dSSTDXF03LTYPENAMELEN) == 0)
@@ -469,7 +470,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
             iStat = oLocSstFncLType->Read ( 0, oBlkRec.getLinetypeID(), &oLTypeRec);
             assert(iStat == 0);
 
-            oAttributes.setLineType(oLTypeRec.getName());
+            oAttributes.setLinetype(oLTypeRec.getName());
 
           }
 
@@ -528,7 +529,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           oDL_Attributes.setColor( oHatchRec.getColor());
           oDL_Attributes.setWidth( oHatchRec.getWidth());
           oDL_Attributes.setHandle( oHatchRec.getHandle());
-          oDL_Attributes.setLineType( oLTypeRec.getName());
+          oDL_Attributes.setLinetype( oLTypeRec.getName());
 
 
           // write record data to dxflib object
@@ -629,39 +630,32 @@ int sstDxf03WriteCls::WrtSecTypes (int          iKey)
 
   this->dw->sectionTables();
   this->dxf->writeVPort(*this->dw);
-  this->dw->tableLineTypes(25);
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("BYBLOCK", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("BYLAYER", 0));
-  this->dxf->writeLineType(*this->dw,
-                    DL_LineTypeData("CONTINUOUS", 0));
-  this->dxf->writeLineType(*this->dw,
-                    DL_LineTypeData("ACAD_ISO02W100", 0));
-  this->dxf->writeLineType(*this->dw,
-                    DL_LineTypeData("ACAD_ISO03W100", 0));
-  this->dxf->writeLineType(*this->dw,
-                    DL_LineTypeData("ACAD_ISO04W100", 0));
-  this->dxf->writeLineType(*this->dw,
-                    DL_LineTypeData("ACAD_ISO05W100", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("BORDER", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("BORDER2", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("BORDERX2", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("CENTER", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("CENTER2", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("CENTERX2", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("DASHDOT", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("DASHDOT2", 0));
-  this->dxf->writeLineType(*this->dw,
-                    DL_LineTypeData("DASHDOTX2", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("DASHED", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("DASHED2", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("DASHEDX2", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("DIVIDE", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("DIVIDE2", 0));
-  this->dxf->writeLineType(*this->dw,
-                    DL_LineTypeData("DIVIDEX2", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("DOT", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("DOT2", 0));
-  this->dxf->writeLineType(*this->dw, DL_LineTypeData("DOTX2", 0));
+  this->dw->tableLinetypes(25);
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("BYBLOCK","Description",0,0,0.0)); //   ("BYBLOCK", 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("BYLAYER", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("CONTINUOUS", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("ACAD_ISO02W100", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("ACAD_ISO03W100", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("ACAD_ISO04W100", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("ACAD_ISO05W100", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("BORDER", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("BORDER2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("BORDERX2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("CENTER", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("CENTER2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("CENTERX2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DASHDOT", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DASHDOT2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DASHDOTX2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DASHED", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DASHED2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DASHEDX2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DIVIDE", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DIVIDE2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DIVIDEX2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DOT", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DOT2", "Description",0,0,0.0));  // 0));
+  this->dxf->writeLinetype(*this->dw, DL_LinetypeData("DOTX2", "Description",0,0,0.0));  // 0));
   this->dw->tableEnd();
 
   // Fatal Errors goes to an assert
@@ -917,9 +911,10 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       oDL_Insert.name = oBlkRec.getName();
 
       // write next insert into dxf file
+      double dLineTypeScale = 1.0;
       this->dxf->writeInsert(  *this->dw,
                                 oDL_Insert,
-                                DL_Attributes(oLayRec.getName(), 256, -1, "BYLAYER"));
+                                DL_Attributes(oLayRec.getName(), 256, -1, "BYLAYER", dLineTypeScale));
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
       this->poDxfDb->setMainTabSectEntStart(oMainRec.getTypeID());
@@ -952,7 +947,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
 //      oAttributes.setColor24(oPolylineRec.getColor24());
 //      oAttributes.setHandle(oPolylineRec.getHandle());
       oAttributes.setLayer(oLayRec.getName());
-      oAttributes.setLineType(oLTypeRec.getName());
+      oAttributes.setLinetype(oLTypeRec.getName());
 //      oAttributes.setWidth(oPolylineRec.getWidth());
 
       if ( strncmp( oLTypeRec.getName(), "BYLAYER", dSSTDXF03LTYPENAMELEN) == 0)
@@ -962,7 +957,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
         iStat = oLocSstFncLType->Read ( 0, oLayRec.getLinetypeID(), &oLTypeRec);
         assert(iStat == 0);
 
-        oAttributes.setLineType(oLTypeRec.getName());
+        oAttributes.setLinetype(oLTypeRec.getName());
 
       }
 
@@ -1084,7 +1079,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       oDL_Attributes.setColor( oHatchRec.getColor());
       oDL_Attributes.setWidth( oHatchRec.getWidth());
       oDL_Attributes.setHandle( oHatchRec.getHandle());
-      oDL_Attributes.setLineType( oLTypeRec.getName());
+      oDL_Attributes.setLinetype( oLTypeRec.getName());
 
 
       // write record data to dxflib object
@@ -1188,8 +1183,9 @@ int sstDxf03WriteCls::WrtDss2PolyLine (int           iKey,
   // iStat = DS1_DsAnz ( 0, sPntDss, &lAnzDs);
   lAnzDs = sPntDss->count();
 
+  double dLineTypeScale = 1.0;
   this->dxf->writePolyline(*this->dw, DL_PolylineData (lAnzDs,0,0,0),
-                         DL_Attributes("mainlayer", 256, -1, "BYLAYER"));
+                         DL_Attributes("mainlayer", 256, -1, "BYLAYER", dLineTypeScale));
 
   for (ii=1; ii<=lAnzDs; ii++)
   {

@@ -85,7 +85,7 @@ sstDxf03ReadCls::~sstDxf03ReadCls()
 
 }
 //=============================================================================
-void sstDxf03ReadCls::processCodeValuePair(unsigned int uiRow,const std::string oRow)
+void sstDxf03ReadCls::processCodeValuePair(unsigned int uiRow,const std::string &oRow)
 {
   unsigned int uiTmpVal = uiRow;
   int iStat = 0;
@@ -116,7 +116,7 @@ void sstDxf03ReadCls::addLayer(const DL_LayerData& data)
 
       // write new Linetype record into table if not exist
       dREC04RECNUMTYP dLTypeRecNo = 0;
-      oLTypeRec.setName(attributes.getLineType());
+      oLTypeRec.setName(attributes.getLinetype());
       iStat = poLTypeTab->WriteNewUnique( 0, oLTypeRec, &dLTypeRecNo);
 
       LayDs.setLinetypeID(dLTypeRecNo);
@@ -151,7 +151,7 @@ void sstDxf03ReadCls::addBlock(const DL_BlockData& data)
 
   // write new Linetype record into table if not exist
   dREC04RECNUMTYP dLTypeRecNo = 0;
-  oLTypeRec.setName(attributes.getLineType());
+  oLTypeRec.setName(attributes.getLinetype());
   iStat = poLTypeTab->WriteNewUnique( 0, oLTypeRec, &dLTypeRecNo);
 
   oActBlockNam = data.name;
@@ -696,7 +696,7 @@ void sstDxf03ReadCls::addPolyline(const DL_PolylineData& data)
 
   }
   std::string oLTypeStr;
-  oLTypeStr = attributes.getLineType();
+  oLTypeStr = attributes.getLinetype();
 
   std::transform(oLTypeStr.begin(), oLTypeStr.end(),oLTypeStr.begin(), ::toupper);
 
@@ -838,7 +838,7 @@ void sstDxf03ReadCls::add3dFace(const DL_3dFaceData& data) {
   dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
 
   oMainRec.setMainID(dMainRecNo+1);
-  oMainRec.setEntityType(RS2::EntityTrace);
+  oMainRec.setEntityType(RS2::EntityUnknown);  // no EntityTrace
   oMainRec.setTypeID(dRecNo);
 
   // is it layer or block??
@@ -904,7 +904,7 @@ void sstDxf03ReadCls::addHatch(const DL_HatchData& data)
   poLTypeFnc = this->poDxfDb->getSstFncLType();
 
   std::string oLTypeStr;
-  oLTypeStr = attributes.getLineType();
+  oLTypeStr = attributes.getLinetype();
 
   std::transform(oLTypeStr.begin(), oLTypeStr.end(),oLTypeStr.begin(), ::toupper);
 
@@ -1076,7 +1076,7 @@ void sstDxf03ReadCls::addSolid(const DL_SolidData& data)
   dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
 
   oMainRec.setMainID(dMainRecNo+1);
-  oMainRec.setEntityType(RS2::EntityTrace);
+  oMainRec.setEntityType(RS2::EntityUnknown);  // no entity::trace
   oMainRec.setTypeID(dRecNo);
 
   // is it layer or block??
