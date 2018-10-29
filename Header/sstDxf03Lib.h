@@ -267,6 +267,20 @@ class sstDxf03DbCls
   dREC04RECNUMTYP EntityCount(RS2::EntityType eEntityType);
   //==============================================================================
   /**
+  * @brief // ColumnCount <BR>
+  * iStat = oDxfDb.ColumnCount ( eEntityType);
+  *
+  * @param eEntityType [in] Entity Type e.g. RS2::EntityLine
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // -----------------------------------------------------------------------------
+  int ColumnCount(RS2::EntityType eEntityType);
+  //==============================================================================
+  /**
   * @brief // Read hatch from table with attributes <BR>
   * iStat = oDxfDb.ReadHatch( iKey, &oDLHatch, &oDLAttributes);
   *

@@ -1244,6 +1244,58 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::EntityCount(RS2::EntityType eEntityType)
   return dTmpCount;
 }
 //=============================================================================
+int sstDxf03DatabaseCls::ColumnCount(RS2::EntityType eEntityType)
+{
+  dREC04RECNUMTYP dTmpCount = 0;
+
+  switch (eEntityType)
+  {
+  case RS2::EntityArc:
+    dTmpCount = this->oSstFncArc.count();
+    break;
+  case RS2::EntityCircle:
+    dTmpCount = this->oSstFncCircle.count();
+    break;
+  case RS2::EntityLine:
+  {
+    sstDxf03TypLineCls oLineRec;
+    dTmpCount = oLineRec.getMemberNumber();
+    break;
+  }
+  case RS2::EntityInsert:
+    dTmpCount = this->oSstFncInsert.count();
+    break;
+  case RS2::EntityPolyline:
+    dTmpCount = this->oSstFncPolyline.count();
+    break;
+  case RS2::EntityMText:
+    dTmpCount = this->oSstFncMText.count();
+    break;
+  case RS2::EntityPoint:
+    dTmpCount = this->oSstFncPoint.count();
+    break;
+  case RS2::EntityText:
+    dTmpCount = this->oSstFncText.count();
+    break;
+  case RS2::EntityHatch:
+    dTmpCount = this->oSstFncHatch.count();
+    break;
+  case RS2::EntityHatchLoop:
+    dTmpCount = this->oSstFncHatchLoop.count();
+    break;
+  case RS2::EntityHatchEdge:
+    dTmpCount = this->oSstFncHatchEdge.count();
+    break;
+  case RS2::EntityVertex:
+    dTmpCount = this->oSstFncVertex.count();
+    break;
+  default:
+    assert(0);
+    break;
+  }
+  return dTmpCount;
+}
+//=============================================================================
 int sstDxf03DatabaseCls::ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchData *oDLHatch, DL_Attributes *oDLAttributes)
 {
   int iStat = 0;

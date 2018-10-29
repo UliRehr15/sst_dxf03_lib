@@ -67,4 +67,5 @@ Structure of coding projects should be:
 25.06.18: Version 3.14: Fix problems in converting from dxf to csv and back. <BR>
 21.09.18: Version 3.15: Updated to QtCreator 4.5.2 and gcc 7.3.0. <BR>
                         Updated to dxflib 3.12.2. <BR>
+29.10.18: Version 3.16: New function ColumnCount for dxf database class. <BR>
 

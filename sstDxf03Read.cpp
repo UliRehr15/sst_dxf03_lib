@@ -85,12 +85,12 @@ sstDxf03ReadCls::~sstDxf03ReadCls()
 
 }
 //=============================================================================
-void sstDxf03ReadCls::processCodeValuePair(unsigned int uiRow,const std::string &oRow)
-{
-  unsigned int uiTmpVal = uiRow;
-  int iStat = 0;
-}
-//=============================================================================
+//void sstDxf03ReadCls::processCodeValuePair(unsigned int uiRow,const std::string &oRow)
+//{
+//  unsigned int uiTmpVal = uiRow;
+//  int iStat = 0;
+//}
+////=============================================================================
 void sstDxf03ReadCls::addLayer(const DL_LayerData& data)
 {
   sstDxf03TypLayCls LayDs;

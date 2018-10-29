@@ -6306,6 +6306,20 @@ class sstDxf03DatabaseCls
      dREC04RECNUMTYP EntityCount(RS2::EntityType eEntityType);
      //==============================================================================
      /**
+     * @brief // ColumnCount <BR>
+     * iStat = oDxfDb.ColumnCount ( eEntityType);
+     *
+     * @param eEntityType [in] Entity Type e.g. RS2::EntityLine
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // -----------------------------------------------------------------------------
+     int ColumnCount(RS2::EntityType eEntityType);
+     //==============================================================================
+     /**
      * @brief // Read hatch from table with attributes <BR>
      * iStat = oDxfDb.ReadHatch( iKey, &oDLHatch, &oDLAttributes);
      *
@@ -6651,7 +6665,20 @@ public:
     sstDxf03ReadCls(sstDxf03DatabaseCls *oDxfDb, sstMisc01PrtFilCls *oTmpPrt);
     ~sstDxf03ReadCls();
     //==============================================================================
-    virtual void processCodeValuePair(unsigned int uiRow,const std::string &oRow);
+//    /**
+//    * @brief // processCodeValuePair <BR>
+//    * oSstDxfReadDL.processCodeValuePair ( uiRow, oRow);
+//    *
+//    * @param uiRow [in] uiRow
+//    * @param oRow  [in] oRow
+//    *
+//    * @return Errorstate
+//    *
+//    * @retval   = 0: OK
+//    * @retval   < 0: Unspecified Error
+//    */
+//    // ----------------------------------------------------------------------------
+//    virtual void processCodeValuePair(unsigned int uiRow,const std::string &oRow);
     //==============================================================================
     /**
     * @brief // Process imported Layer data <BR>
