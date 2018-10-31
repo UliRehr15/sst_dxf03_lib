@@ -58,6 +58,30 @@ sstDxf03TypPolylineCls::sstDxf03TypPolylineCls()
   this->number = 0;
 }
 //=============================================================================
+// Get Number of Class member
+unsigned int sstDxf03TypPolylineCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 4;
+  return uiStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member names
+std::string sstDxf03TypPolylineCls::getStringName()
+{
+  std::string oStat;
+  oStat = "number;m;n;flags";
+  return oStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member definition types
+std::string sstDxf03TypPolylineCls::getStringType()
+{
+  std::string oStat;
+  oStat = "UI6.0;UI6.0;UI6.0;II6.0";
+  return oStat;
+}
+//=============================================================================
 // Set Test Data
 int sstDxf03TypPolylineCls::SetTestData(int iKey)
 {

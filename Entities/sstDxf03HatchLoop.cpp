@@ -56,6 +56,30 @@ sstDxf03TypHatchLoopCls::sstDxf03TypHatchLoopCls()
   this->numEdges = 0;
 }
 //=============================================================================
+// Get Number of Class member
+unsigned int sstDxf03TypHatchLoopCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 1;
+  return uiStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member names
+std::string sstDxf03TypHatchLoopCls::getStringName()
+{
+  std::string oStat;
+  oStat = "numEdges";
+  return oStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member definition types
+std::string sstDxf03TypHatchLoopCls::getStringType()
+{
+  std::string oStat;
+  oStat = "II6.0";
+  return oStat;
+}
+//=============================================================================
 // Set Test Data
 int sstDxf03TypHatchLoopCls::SetTestData(int iKey)
 {

@@ -349,6 +349,14 @@ private:  // Private functions
 *
 * More Comment
 *
+* Used Type Definitions
+* sstDxf03;Arc;cx;DD;12;4;sst Dxf Lib;sst Arc;X Coordinate of center point
+* sstDxf03;Arc;cy;DD;12;4;sst Dxf Lib;sst Arc;Y Coordinate of center point
+* sstDxf03;Arc;cz;DD;12;4;sst Dxf Lib;sst Arc;Z Coordinate of center point
+* sstDxf03;Arc;radius;DD;12;4;sst Dxf Lib;sst Arc;Radius of arc
+* sstDxf03;Arc;angle1;DD;12;4;sst Dxf Lib;sst Arc;Startangle of arc in degrees
+* sstDxf03;Arc;angle2;DD;12;4;sst Dxf Lib;sst Arc;Endangle of arc in degrees
+*
 * Changed: 12.03.13  Re.
 *
 * @ingroup sstDxf03LibInt
@@ -362,6 +370,24 @@ class sstDxf03TypArcCls : public sstDxf03TypBaseCls
 {
   public:
     sstDxf03TypArcCls();  // Constructor
+    //==============================================================================
+    /**
+    * @brief // getMemberNumber <BR>
+    */
+    // -----------------------------------------------------------------------------
+    unsigned int getMemberNumber();// Get Number of Class member
+    //==============================================================================
+    /**
+    * @brief // getStringName <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringName();// Get Csv-String with all Class member names
+    //==============================================================================
+    /**
+    * @brief // getStringType <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringType();// Get Csv-String with all Class member definition types
     //==============================================================================
     /**
     * @brief // Set Test Data <BR>
@@ -557,6 +583,20 @@ private:
 *
 * storable insert record
 *
+* Used Type Definitions
+* sstDxf03;Insert;name;CC;256;0;sst Dxf Lib;sst Insert;Name of the referred block
+* sstDxf03;Insert;ipx;DD;12;4;sst Dxf Lib;sst Insert;X Coordinate of insertion point
+* sstDxf03;Insert;ipy;DD;12;4;sst Dxf Lib;sst Insert;Y Coordinate of insertion point
+* sstDxf03;Insert;ipz;DD;12;4;sst Dxf Lib;sst Insert;Z Coordinate of insertion point
+* sstDxf03;Insert;sx;DD;12;4;sst Dxf Lib;sst Insert;X Scale factor
+* sstDxf03;Insert;sy;DD;12;4;sst Dxf Lib;sst Insert;Y Scale factor
+* sstDxf03;Insert;sz;DD;12;4;sst Dxf Lib;sst Insert;Z Scale factor
+* sstDxf03;Insert;angle;DD;12;4;sst Dxf Lib;sst Insert;Rotation angle in degrees
+* sstDxf03;Insert;cols;II;6;0;sst Dxf Lib;sst Insert;Number of colums if we insert a
+* sstDxf03;Insert;rows;II;6;0;sst Dxf Lib;sst Insert;Number of rows if we insert an
+* sstDxf03;Insert;colSp;DD;12;4;sst Dxf Lib;sst Insert;Values for the spacing between
+* sstDxf03;Insert;rowSp;DD;12;4;sst Dxf Lib;sst Insert;Values for the spacing between
+*
 * Changed: 12.03.13  Re.
 *
 * @ingroup sstDxf03LibInt
@@ -570,6 +610,24 @@ class sstDxf03TypInsertCls : public sstDxf03TypBaseCls
 {
   public:
     sstDxf03TypInsertCls();  // Constructor
+    //==============================================================================
+    /**
+    * @brief // getMemberNumber <BR>
+    */
+    // -----------------------------------------------------------------------------
+    unsigned int getMemberNumber();// Get Number of Class member
+    //==============================================================================
+    /**
+    * @brief // getStringName <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringName();// Get Csv-String with all Class member names
+    //==============================================================================
+    /**
+    * @brief // getStringType <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringType();// Get Csv-String with all Class member definition types
     //==============================================================================
     /**
     * @brief // Set Test Data <BR>
@@ -688,6 +746,15 @@ private:
 *
 * storable hatch record
 *
+* Used Type Definitions
+* sstDxf03;Hatch;numLoops;II;6;0;sst Dxf Lib;sst Hatch;Number of boundary paths (loops
+* sstDxf03;Hatch;solid;BB;1;0;sst Dxf Lib;sst Hatch;Solid fill flag (true=solid, fa
+* sstDxf03;Hatch;scale;DD;12;4;;sst Dxf Lib;sst Hatch
+* sstDxf03;Hatch;angle;DD;12;4;;sst Dxf Lib;sst Hatch
+* sstDxf03;Hatch;dPatternID;UL;10;0;sst Dxf Lib;sst Hatch;Pattern name
+* sstDxf03;Hatch;originX;DD;12;4;;sst Dxf Lib;sst Hatch
+* sstDxf03;Hatch;originY;DD;12;4;;sst Dxf Lib;sst Hatch
+*
 * Changed: 12.03.13  Re.
 *
 * @ingroup sstDxf03LibInt
@@ -701,6 +768,24 @@ class sstDxf03TypHatchCls : public sstDxf03TypBaseCls
 {
   public:
     sstDxf03TypHatchCls();  // Constructor
+    //==============================================================================
+    /**
+    * @brief // getMemberNumber <BR>
+    */
+    // -----------------------------------------------------------------------------
+    unsigned int getMemberNumber();// Get Number of Class member
+    //==============================================================================
+    /**
+    * @brief // getStringName <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringName();// Get Csv-String with all Class member names
+    //==============================================================================
+    /**
+    * @brief // getStringType <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringType();// Get Csv-String with all Class member definition types
     //==============================================================================
     /**
     * @brief // Set Test Data <BR>
@@ -869,6 +954,35 @@ private:
 *
 * storable hatch edge record
 *
+* Used Type Definitions
+* sstDxf03;HatchEdge;dRecordID;UL;10;0;sst Dxf Lib;sst HatchEdge;record id
+* sstDxf03;HatchEdge;dParentID;UL;10;0;sst Dxf Lib;sst HatchEdge;Parent id
+* sstDxf03;HatchEdge;defined;BB;1;0;sst Dxf Lib;sst HatchEdge;Set to true if this edge is ful
+* sstDxf03;HatchEdge;type;II;6;0;sst Dxf Lib;sst HatchEdge;type. 1=line, 2=arc, 3=elliptic
+* sstDxf03;HatchEdge;x1;DD;12;4;sst Dxf Lib;sst HatchEdge;Start point (X)
+* sstDxf03;HatchEdge;y1;DD;12;4;sst Dxf Lib;sst HatchEdge;Start point (Y)
+* sstDxf03;HatchEdge;x2;DD;12;4;sst Dxf Lib;sst HatchEdge;End point (X)
+* sstDxf03;HatchEdge;y2;DD;12;4;sst Dxf Lib;sst HatchEdge;End point (Y)
+* sstDxf03;HatchEdge;cx;DD;12;4;sst Dxf Lib;sst HatchEdge;Center point of arc or ellipse
+* sstDxf03;HatchEdge;cy;DD;12;4;sst Dxf Lib;sst HatchEdge;Center point of arc or ellipse
+* sstDxf03;HatchEdge;radius;DD;12;4;sst Dxf Lib;sst HatchEdge;Arc radius
+* sstDxf03;HatchEdge;angle1;DD;12;4;sst Dxf Lib;sst HatchEdge;Start angle of arc or ellipse a
+* sstDxf03;HatchEdge;angle2;DD;12;4;sst Dxf Lib;sst HatchEdge;End angle of arc or ellipse arc
+* sstDxf03;HatchEdge;ccw;BB;1;0;sst Dxf Lib;sst HatchEdge;Counterclockwise flag for arc o
+* sstDxf03;HatchEdge;mx;DD;12;4;sst Dxf Lib;sst HatchEdge;Major axis end point (X)
+* sstDxf03;HatchEdge;my;DD;12;4;sst Dxf Lib;sst HatchEdge;Major axis end point (Y)
+* sstDxf03;HatchEdge;ratio;DD;12;4;sst Dxf Lib;sst HatchEdge;Axis ratio
+* sstDxf03;HatchEdge;degree;UI;6;0;sst Dxf Lib;sst HatchEdge;Spline degree
+* sstDxf03;HatchEdge;rational;BB;1;0;sst Dxf Lib;sst HatchEdge;rational
+* sstDxf03;HatchEdge;periodic;BB;1;0;sst Dxf Lib;sst HatchEdge;periodic
+* sstDxf03;HatchEdge;nKnots;UI;6;0;sst Dxf Lib;sst HatchEdge;Number of knots
+* sstDxf03;HatchEdge;nControl;UI;6;0;sst Dxf Lib;sst HatchEdge;Number of control points
+* sstDxf03;HatchEdge;nFit;UI;6;0;sst Dxf Lib;sst HatchEdge;Number of fit points
+* sstDxf03;HatchEdge;startTangentX;DD;12;4;sst Dxf Lib;sst HatchEdge;startTangentX
+* sstDxf03;HatchEdge;startTangentY;DD;12;4;sst Dxf Lib;sst HatchEdge;startTangentY
+* sstDxf03;HatchEdge;endTangentX;DD;12;4;sst Dxf Lib;sst HatchEdge;endTangentX
+* sstDxf03;HatchEdge;endTangentY;DD;12;4;sst Dxf Lib;sst HatchEdge;entTangentY
+*
 * Changed: 12.03.13  Re.
 *
 * @ingroup sstDxf03LibInt
@@ -882,6 +996,24 @@ class sstDxf03TypHatchEdgeCls  // : public sstDxf03TypBaseCls
 {
   public:
     sstDxf03TypHatchEdgeCls();  // Constructor
+    //==============================================================================
+    /**
+    * @brief // getMemberNumber <BR>
+    */
+    // -----------------------------------------------------------------------------
+    unsigned int getMemberNumber();// Get Number of Class member
+    //==============================================================================
+    /**
+    * @brief // getStringName <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringName();// Get Csv-String with all Class member names
+    //==============================================================================
+    /**
+    * @brief // getStringType <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringType();// Get Csv-String with all Class member definition types
     //==============================================================================
     /**
     * @brief // Set Test Data <BR>
@@ -1382,6 +1514,9 @@ private:
 *
 * storable hatch Loop record
 *
+* Used Type Definitions
+* sstDxf03;HatchLoop;numEdges;II;6;0;sst Dxf Lib;sst HatchLoop;Number of edges in this loop
+*
 * Changed: 12.03.13  Re.
 *
 * @ingroup sstDxf03LibInt
@@ -1395,6 +1530,24 @@ class sstDxf03TypHatchLoopCls // : public sstDxf03TypBaseCls
 {
   public:
     sstDxf03TypHatchLoopCls();  // Constructor
+    //==============================================================================
+    /**
+    * @brief // getMemberNumber <BR>
+    */
+    // -----------------------------------------------------------------------------
+    unsigned int getMemberNumber();// Get Number of Class member
+    //==============================================================================
+    /**
+    * @brief // getStringName <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringName();// Get Csv-String with all Class member names
+    //==============================================================================
+    /**
+    * @brief // getStringType <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringType();// Get Csv-String with all Class member definition types
     //==============================================================================
     /**
     * @brief // Set Test Data <BR>
@@ -1471,6 +1624,12 @@ private:
 *
 * storable polyline record
 *
+* Used Type Definitions
+* sstDxf03;Polyline;number;UI;6;0;sst Dxf Lib;sst Polyline;Number of vertices in this poly
+* sstDxf03;Polyline;m;UI;6;0;sst Dxf Lib;sst Polyline;Number of vertices in m directi
+* sstDxf03;Polyline;n;UI;6;0;sst Dxf Lib;sst Polyline;Number of vertices in n directi
+* sstDxf03;Polyline;flags;II;6;0;sst Dxf Lib;sst Polyline;Flags
+*
 * Changed: 12.03.13  Re.
 *
 * @ingroup sstDxf03LibInt
@@ -1484,6 +1643,24 @@ class sstDxf03TypPolylineCls : public sstDxf03TypBaseCls
 {
   public:
     sstDxf03TypPolylineCls();  // Constructor
+    //==============================================================================
+    /**
+    * @brief // getMemberNumber <BR>
+    */
+    // -----------------------------------------------------------------------------
+    unsigned int getMemberNumber();// Get Number of Class member
+    //==============================================================================
+    /**
+    * @brief // getStringName <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringName();// Get Csv-String with all Class member names
+    //==============================================================================
+    /**
+    * @brief // getStringType <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringType();// Get Csv-String with all Class member definition types
     //==============================================================================
     /**
     * @brief // Set Test Data <BR>
@@ -1707,6 +1884,12 @@ class sstDxf03TypTraceCls : public sstDxf03TypBaseCls
 *
 * storable vertex record
 *
+* Used Type Definitions
+* sstDxf03;Vertex;x;DD;12;4;sst Dxf Lib;sst Vertex;X Coordinate of the vertex
+* sstDxf03;Vertex;y;DD;12;4;sst Dxf Lib;sst Vertex;Y Coordinate of the vertex
+* sstDxf03;Vertex;z;DD;12;4;sst Dxf Lib;sst Vertex;Z Coordinate of the vertex
+* sstDxf03;Vertex;bulge;DD;12;4;sst Dxf Lib;sst Vertex;Bulge of vertex
+*
 * Changed: 12.03.13  Re.
 *
 * @ingroup sstDxf03LibInt
@@ -1720,6 +1903,24 @@ class sstDxf03TypVertexCls // : public sstDxf03TypBaseCls
 {
   public:
     sstDxf03TypVertexCls();  // Constructor
+    //==============================================================================
+    /**
+    * @brief // getMemberNumber <BR>
+    */
+    // -----------------------------------------------------------------------------
+    unsigned int getMemberNumber();// Get Number of Class member
+    //==============================================================================
+    /**
+    * @brief // getStringName <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringName();// Get Csv-String with all Class member names
+    //==============================================================================
+    /**
+    * @brief // getStringType <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringType();// Get Csv-String with all Class member definition types
     //==============================================================================
     /**
     * @brief // Set Test Data <BR>
@@ -4937,20 +5138,20 @@ class sstDxf03FncMTextCls : public sstDxf03FncBaseCls
 * More Comment
 *
 * Used Type Definitions
-* sstDxf02;Text;ipx;DD;12;4
-* sstDxf02;Text;ipy;DD;12;4
-* sstDxf02;Text;ipz;DD;12;4
-* sstDxf02;Text;apx;DD;12;4
-* sstDxf02;Text;apy;DD;12;4
-* sstDxf02;Text;apz;DD;12;4
-* sstDxf02;Text;height;DD;12;4
-* sstDxf02;Text;xScaleFactor;DD;12;4
-* sstDxf02;Text;textGenerationFlags;II;6;0
-* sstDxf02;Text;hJustification;II;6;0
-* sstDxf02;Text;vJustification;II;6;0
-* sstDxf02;Text;text;CC;100;0
-* sstDxf02;Text;style_ID;UL;10;0
-* sstDxf02;Text;angle;DD;12;4
+* sstDxf03;Text;ipx;DD;12;4;sst Dxf Lib;sst Text;X Coordinate of insertion point
+* sstDxf03;Text;ipy;DD;12;4;sst Dxf Lib;sst Text;Y Coordinate of insertion point
+* sstDxf03;Text;ipz;DD;12;4;sst Dxf Lib;sst Text;Z Coordinate of insertion point
+* sstDxf03;Text;apx;DD;12;4;sst Dxf Lib;sst Text;X Coordinate of alignment point
+* sstDxf03;Text;apy;DD;12;4;sst Dxf Lib;sst Text;Y Coordinate of alignment point
+* sstDxf03;Text;apz;DD;12;4;sst Dxf Lib;sst Text;Z Coordinate of alignment point
+* sstDxf03;Text;height;DD;12;4;sst Dxf Lib;sst Text;Text height
+* sstDxf03;Text;xScaleFactor;DD;12;4;sst Dxf Lib;sst Text;Relative X scale factor.
+* sstDxf03;Text;textGenerationFlags;II;6;0;sst Dxf Lib;sst Text;0 = default, 2 = Backwards, 4 =
+* sstDxf03;Text;hJustification;II;6;0;sst Dxf Lib;sst Text;Horizontal justification.
+* sstDxf03;Text;vJustification;II;6;0;sst Dxf Lib;sst Text;Vertical justification.
+* sstDxf03;Text;text;CC;100;0;sst Dxf Lib;sst Text;Text string.
+* sstDxf03;Text;style_ID;UL;10;0;sst Dxf Lib;sst Text;Style (font).
+* sstDxf03;Text;angle;DD;12;4;sst Dxf Lib;sst Text;Rotation angle of dimension tex
 *
 * Changed: 06.07.16  Re.
 *
@@ -4970,6 +5171,24 @@ class sstDxf03TypTextCls : public sstDxf03TypBaseCls
     */
     // -----------------------------------------------------------------------------
     sstDxf03TypTextCls(); // Constructor
+    //==============================================================================
+    /**
+    * @brief // getMemberNumber <BR>
+    */
+    // -----------------------------------------------------------------------------
+    unsigned int getMemberNumber();// Get Number of Class member
+    //==============================================================================
+    /**
+    * @brief // getStringName <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringName();// Get Csv-String with all Class member names
+    //==============================================================================
+    /**
+    * @brief // getStringType <BR>
+    */
+    // -----------------------------------------------------------------------------
+    std::string getStringType();// Get Csv-String with all Class member definition types
     //==============================================================================
     /**
     * @brief // read text data from dxflib text <BR>
@@ -6664,21 +6883,6 @@ public:
   // ----------------------------------------------------------------------------
     sstDxf03ReadCls(sstDxf03DatabaseCls *oDxfDb, sstMisc01PrtFilCls *oTmpPrt);
     ~sstDxf03ReadCls();
-    //==============================================================================
-//    /**
-//    * @brief // processCodeValuePair <BR>
-//    * oSstDxfReadDL.processCodeValuePair ( uiRow, oRow);
-//    *
-//    * @param uiRow [in] uiRow
-//    * @param oRow  [in] oRow
-//    *
-//    * @return Errorstate
-//    *
-//    * @retval   = 0: OK
-//    * @retval   < 0: Unspecified Error
-//    */
-//    // ----------------------------------------------------------------------------
-//    virtual void processCodeValuePair(unsigned int uiRow,const std::string &oRow);
     //==============================================================================
     /**
     * @brief // Process imported Layer data <BR>

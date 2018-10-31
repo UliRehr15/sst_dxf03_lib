@@ -1251,44 +1251,77 @@ int sstDxf03DatabaseCls::ColumnCount(RS2::EntityType eEntityType)
   switch (eEntityType)
   {
   case RS2::EntityArc:
-    dTmpCount = this->oSstFncArc.count();
+  {
+    sstDxf03TypArcCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   case RS2::EntityCircle:
-    dTmpCount = this->oSstFncCircle.count();
+  {
+    sstDxf03TypCircleCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   case RS2::EntityLine:
   {
-    sstDxf03TypLineCls oLineRec;
-    dTmpCount = oLineRec.getMemberNumber();
+    sstDxf03TypLineCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
   }
   case RS2::EntityInsert:
-    dTmpCount = this->oSstFncInsert.count();
+  {
+    sstDxf03TypInsertCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   case RS2::EntityPolyline:
-    dTmpCount = this->oSstFncPolyline.count();
+  {
+    sstDxf03TypPolylineCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   case RS2::EntityMText:
-    dTmpCount = this->oSstFncMText.count();
+  {
+    sstDxf03TypMTextCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   case RS2::EntityPoint:
-    dTmpCount = this->oSstFncPoint.count();
+  {
+    sstDxf03TypPointCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   case RS2::EntityText:
-    dTmpCount = this->oSstFncText.count();
+  {
+    sstDxf03TypTextCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   case RS2::EntityHatch:
-    dTmpCount = this->oSstFncHatch.count();
+  {
+    sstDxf03TypHatchCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   case RS2::EntityHatchLoop:
-    dTmpCount = this->oSstFncHatchLoop.count();
+  {
+    sstDxf03TypHatchLoopCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   case RS2::EntityHatchEdge:
-    dTmpCount = this->oSstFncHatchEdge.count();
+  {
+    sstDxf03TypHatchEdgeCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   case RS2::EntityVertex:
-    dTmpCount = this->oSstFncVertex.count();
+  {
+    sstDxf03TypVertexCls oTypeRec;
+    dTmpCount = oTypeRec.getMemberNumber();
     break;
+  }
   default:
     assert(0);
     break;

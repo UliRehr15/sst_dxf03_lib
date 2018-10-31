@@ -62,6 +62,30 @@ sstDxf03TypVertexCls::sstDxf03TypVertexCls()
   this->z = 0.0;
 }
 //=============================================================================
+// Get Number of Class member
+unsigned int sstDxf03TypVertexCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 4;
+  return uiStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member names
+std::string sstDxf03TypVertexCls::getStringName()
+{
+  std::string oStat;
+  oStat = "x;y;z;bulge";
+  return oStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member definition types
+std::string sstDxf03TypVertexCls::getStringType()
+{
+  std::string oStat;
+  oStat = "DD12.4;DD12.4;DD12.4;DD12.4";
+  return oStat;
+}
+//=============================================================================
 // Set Test Data
 int sstDxf03TypVertexCls::SetTestData(int iKey)
 {

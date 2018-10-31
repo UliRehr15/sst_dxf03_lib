@@ -61,6 +61,30 @@ sstDxf03TypHatchCls::sstDxf03TypHatchCls()
   this->solid = false;
 }
 //=============================================================================
+// Get Number of Class member
+unsigned int sstDxf03TypHatchCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 7;
+  return uiStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member names
+std::string sstDxf03TypHatchCls::getStringName()
+{
+  std::string oStat;
+  oStat = "numLoops;solid;scale;angle;dPatternID;originX;originY";
+  return oStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member definition types
+std::string sstDxf03TypHatchCls::getStringType()
+{
+  std::string oStat;
+  oStat = "II6.0;BB1.0;DD12.4;DD12.4;UL10.0;DD12.4;DD12.4";
+  return oStat;
+}
+//=============================================================================
 // Set Test Data
 int sstDxf03TypHatchCls::SetTestData(int iKey)
 {

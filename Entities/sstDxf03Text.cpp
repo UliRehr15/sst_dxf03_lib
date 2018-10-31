@@ -47,12 +47,36 @@
 #include <sstDxf03Lib.h>
 
 #include "sstDxf03LibInt.h"
-
  
+//=============================================================================
 // Constructor
 sstDxf03TypTextCls::sstDxf03TypTextCls()
 {
   memset( this->text, 0, 100);
+}
+//=============================================================================
+// Get Number of Class member
+unsigned int sstDxf03TypTextCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 14;
+  return uiStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member names
+std::string sstDxf03TypTextCls::getStringName()
+{
+  std::string oStat;
+  oStat = "ipx;ipy;ipz;apx;apy;apz;height;xScaleFactor;textGenerationFlags;hJustification;vJustification;text;style_ID;angle";
+  return oStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member definition types
+std::string sstDxf03TypTextCls::getStringType()
+{
+  std::string oStat;
+  oStat = "DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;II6.0;II6.0;II6.0;CC100.0;UL10.0;DD12.4";
+  return oStat;
 }
 //=============================================================================
 void sstDxf03TypTextCls::ReadFromDL(const DL_TextData oDLText)

@@ -48,6 +48,7 @@
 
 #include "sstDxf03LibInt.h"
 
+//=============================================================================
 // Constructor
 sstDxf03TypInsertCls::sstDxf03TypInsertCls()
 {
@@ -67,7 +68,31 @@ sstDxf03TypInsertCls::sstDxf03TypInsertCls()
   this->colSp = 1.0;
   this->rowSp = 1.0;
 }
- 
+//=============================================================================
+// Get Number of Class member
+unsigned int sstDxf03TypInsertCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 12;
+  return uiStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member names
+std::string sstDxf03TypInsertCls::getStringName()
+{
+  std::string oStat;
+  oStat = "name;ipx;ipy;ipz;sx;sy;sz;angle;cols;rows;colSp;rowSp";
+  return oStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member definition types
+std::string sstDxf03TypInsertCls::getStringType()
+{
+  std::string oStat;
+  oStat = "CC256.0;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;II6.0;II6.0;DD12.4;DD12.4";
+  return oStat;
+}
+//=============================================================================
 // Set Test Data
 int sstDxf03TypInsertCls::SetTestData(int iKey)
 {

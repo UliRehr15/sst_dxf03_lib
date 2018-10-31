@@ -63,6 +63,30 @@ sstDxf03TypArcCls::sstDxf03TypArcCls()
   this->angle2 = 0.0;
 }
 //=============================================================================
+// Get Number of Class member
+unsigned int sstDxf03TypArcCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 6;
+  return uiStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member names
+std::string sstDxf03TypArcCls::getStringName()
+{
+  std::string oStat;
+  oStat = "cx;cy;cz;radius;angle1;angle2";
+  return oStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member definition types
+std::string sstDxf03TypArcCls::getStringType()
+{
+  std::string oStat;
+  oStat = "DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4";
+  return oStat;
+}
+//=============================================================================
 // Set Test Data
 int sstDxf03TypArcCls::SetTestData(int iKey)
 {

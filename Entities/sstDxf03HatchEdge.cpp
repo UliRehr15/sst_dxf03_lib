@@ -88,6 +88,30 @@ sstDxf03TypHatchEdgeCls::sstDxf03TypHatchEdgeCls()
   this->y2 = 0;
 }
 //=============================================================================
+// Get Number of Class member
+unsigned int sstDxf03TypHatchEdgeCls::getMemberNumber()
+{
+  unsigned int uiStat = 0;
+  uiStat = 27;
+  return uiStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member names
+std::string sstDxf03TypHatchEdgeCls::getStringName()
+{
+  std::string oStat;
+  oStat = "dRecordID;dParentID;defined;type;x1;y1;x2;y2;cx;cy;radius;angle1;angle2;ccw;mx;my;ratio;degree;rational;periodic;nKnots;nControl;nFit;startTangentX;startTangentY;endTangentX;endTangentY";
+  return oStat;
+}
+//=============================================================================
+// Get Csv-String with all Class member definition types
+std::string sstDxf03TypHatchEdgeCls::getStringType()
+{
+  std::string oStat;
+  oStat = "UL10.0;UL10.0;BB1.0;II6.0;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;BB1.0;DD12.4;DD12.4;DD12.4;UI6.0;BB1.0;BB1.0;UI6.0;UI6.0;UI6.0;DD12.4;DD12.4;DD12.4;DD12.4";
+  return oStat;
+}
+//=============================================================================
 // Set Test Data
 int sstDxf03TypHatchEdgeCls::SetTestData(int iKey)
 {
