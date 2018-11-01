@@ -70,4 +70,5 @@ Structure of coding projects should be:
 29.10.18: Version 3.16: New function ColumnCount for dxf database class. <BR>
 31.10.18: Version 3.17: Added more Types in DxfType.def. <BR>
                         new functions getMemberNumber, getStringName, getStringTyp for many Dxf Types <BR>
+01.11.18: Version 3.18: Forgotten to check in extended DxfType.Def file. <BR>
 

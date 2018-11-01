@@ -1,7 +1,64 @@
+sstDxf03;Arc;cx;DD;12;4;sst Dxf Lib;sst Arc;X Coordinate of center point;
+sstDxf03;Arc;cy;DD;12;4;sst Dxf Lib;sst Arc;Y Coordinate of center point;
+sstDxf03;Arc;cz;DD;12;4;sst Dxf Lib;sst Arc;Z Coordinate of center point;
+sstDxf03;Arc;radius;DD;12;4;sst Dxf Lib;sst Arc;Radius of arc;
+sstDxf03;Arc;angle1;DD;12;4;sst Dxf Lib;sst Arc;Startangle of arc in degrees;
+sstDxf03;Arc;angle2;DD;12;4;sst Dxf Lib;sst Arc;Endangle of arc in degrees;
 sstDxf03;Circle;cx;DD;12;4;sst Dxf Lib;sst Circle;X Coordinate of center point.
 sstDxf03;Circle;cy;DD;12;4;sst Dxf Lib;sst Circle;Y Coordinate of center point.
 sstDxf03;Circle;cz;DD;12;4;sst Dxf Lib;sst Circle;Z Coordinate of center point.
 sstDxf03;Circle;radius;DD;12;4;sst Dxf Lib;sst Circle;Radius of arc.
+sstDxf03;Hatch;numLoops;II;6;0;sst Dxf Lib;sst Hatch;Number of boundary paths (loops);
+sstDxf03;Hatch;solid;BB;1;0;sst Dxf Lib;sst Hatch;Solid fill flag (true=solid, false=pattern);
+sstDxf03;Hatch;scale;DD;12;4;;sst Dxf Lib;sst Hatch;Pattern scale or spacing;
+sstDxf03;Hatch;angle;DD;12;4;;sst Dxf Lib;sst Hatch;Pattern angle in degrees;
+sstDxf03;Hatch;dPatternID;UL;10;0;sst Dxf Lib;sst Hatch;Pattern name;
+sstDxf03;Hatch;originX;DD;12;4;;sst Dxf Lib;sst Hatch;Pattern origin X;
+sstDxf03;Hatch;originY;DD;12;4;;sst Dxf Lib;sst Hatch;Pattern origin Y;
+sstDxf03;HatchLoop;numEdges;II;6;0;sst Dxf Lib;sst HatchLoop;Number of edges in this loop;
+sstDxf03;HatchEdge;dRecordID;UL;10;0;sst Dxf Lib;sst HatchEdge;record id;
+sstDxf03;HatchEdge;dParentID;UL;10;0;sst Dxf Lib;sst HatchEdge;Parent id;
+sstDxf03;HatchEdge;defined;BB;1;0;sst Dxf Lib;sst HatchEdge;Set to true if this edge is fully defined;
+sstDxf03;HatchEdge;type;II;6;0;sst Dxf Lib;sst HatchEdge;type. 1=line, 2=arc, 3=elliptic arc, 4=spline;
+sstDxf03;HatchEdge;x1;DD;12;4;sst Dxf Lib;sst HatchEdge;Start point (X);
+sstDxf03;HatchEdge;y1;DD;12;4;sst Dxf Lib;sst HatchEdge;Start point (Y);
+sstDxf03;HatchEdge;x2;DD;12;4;sst Dxf Lib;sst HatchEdge;End point (X);
+sstDxf03;HatchEdge;y2;DD;12;4;sst Dxf Lib;sst HatchEdge;End point (Y);
+sstDxf03;HatchEdge;cx;DD;12;4;sst Dxf Lib;sst HatchEdge;Center point of arc or ellipse arc (X);
+sstDxf03;HatchEdge;cy;DD;12;4;sst Dxf Lib;sst HatchEdge;Center point of arc or ellipse arc (Y);
+sstDxf03;HatchEdge;radius;DD;12;4;sst Dxf Lib;sst HatchEdge;Arc radius;
+sstDxf03;HatchEdge;angle1;DD;12;4;sst Dxf Lib;sst HatchEdge;Start angle of arc or ellipse arc;
+sstDxf03;HatchEdge;angle2;DD;12;4;sst Dxf Lib;sst HatchEdge;End angle of arc or ellipse arc;
+sstDxf03;HatchEdge;ccw;BB;1;0;sst Dxf Lib;sst HatchEdge;Counterclockwise flag for arc or ellipse arc;
+sstDxf03;HatchEdge;mx;DD;12;4;sst Dxf Lib;sst HatchEdge;Major axis end point (X);
+sstDxf03;HatchEdge;my;DD;12;4;sst Dxf Lib;sst HatchEdge;Major axis end point (Y);
+sstDxf03;HatchEdge;ratio;DD;12;4;sst Dxf Lib;sst HatchEdge;Axis ratio;
+sstDxf03;HatchEdge;degree;UI;6;0;sst Dxf Lib;sst HatchEdge;Spline degree;
+sstDxf03;HatchEdge;rational;BB;1;0;sst Dxf Lib;sst HatchEdge;rational;
+sstDxf03;HatchEdge;periodic;BB;1;0;sst Dxf Lib;sst HatchEdge;periodic;
+sstDxf03;HatchEdge;nKnots;UI;6;0;sst Dxf Lib;sst HatchEdge;Number of knots;
+sstDxf03;HatchEdge;nControl;UI;6;0;sst Dxf Lib;sst HatchEdge;Number of control points;
+sstDxf03;HatchEdge;nFit;UI;6;0;sst Dxf Lib;sst HatchEdge;Number of fit points;
+sstDxf03;HatchEdge;startTangentX;DD;12;4;sst Dxf Lib;sst HatchEdge;startTangentX;
+sstDxf03;HatchEdge;startTangentY;DD;12;4;sst Dxf Lib;sst HatchEdge;startTangentY;
+sstDxf03;HatchEdge;endTangentX;DD;12;4;sst Dxf Lib;sst HatchEdge;endTangentX;
+sstDxf03;HatchEdge;endTangentY;DD;12;4;sst Dxf Lib;sst HatchEdge;entTangentY;
+sstDxf03;Insert;name;CC;256;0;sst Dxf Lib;sst Insert;Name of the referred block;
+sstDxf03;Insert;ipx;DD;12;4;sst Dxf Lib;sst Insert;X Coordinate of insertion point;
+sstDxf03;Insert;ipy;DD;12;4;sst Dxf Lib;sst Insert;Y Coordinate of insertion point;
+sstDxf03;Insert;ipz;DD;12;4;sst Dxf Lib;sst Insert;Z Coordinate of insertion point;
+sstDxf03;Insert;sx;DD;12;4;sst Dxf Lib;sst Insert;X Scale factor;
+sstDxf03;Insert;sy;DD;12;4;sst Dxf Lib;sst Insert;Y Scale factor;
+sstDxf03;Insert;sz;DD;12;4;sst Dxf Lib;sst Insert;Z Scale factor;
+sstDxf03;Insert;angle;DD;12;4;sst Dxf Lib;sst Insert;Rotation angle in degrees;
+sstDxf03;Insert;cols;II;6;0;sst Dxf Lib;sst Insert;Number of colums if we insert an array of the block or 1;
+sstDxf03;Insert;rows;II;6;0;sst Dxf Lib;sst Insert;Number of rows if we insert an array of the block or 1;
+sstDxf03;Insert;colSp;DD;12;4;sst Dxf Lib;sst Insert;Values for the spacing between cols;
+sstDxf03;Insert;rowSp;DD;12;4;sst Dxf Lib;sst Insert;Values for the spacing between rows;
+sstDxf03;Polyline;number;UI;6;0;sst Dxf Lib;sst Polyline;Number of vertices in this polyline;
+sstDxf03;Polyline;m;UI;6;0;sst Dxf Lib;sst Polyline;Number of vertices in m direction if polyline is a polygon mesh;
+sstDxf03;Polyline;n;UI;6;0;sst Dxf Lib;sst Polyline;Number of vertices in n direction if polyline is a polygon mesh;
+sstDxf03;Polyline;flags;II;6;0;sst Dxf Lib;sst Polyline;Flags;
 sstDxf03;MText;ipx;DD;12;4;sst Dxf Lib;sst MText;X Coordinate of insertion point.
 sstDxf03;MText;ipy;DD;12;4;sst Dxf Lib;sst MText;Y Coordinate of insertion point.
 sstDxf03;MText;ipz;DD;12;4;sst Dxf Lib;sst MText;Z Coordinate of insertion point.
@@ -53,3 +110,7 @@ sstDxf03;Trace;sx4;DD;12;4;sst Dxf Lib;sst Trace;sx4
 sstDxf03;Trace;sy4;DD;12;4;sst Dxf Lib;sst Trace;sy4
 sstDxf03;Trace;sz4;DD;12;4;sst Dxf Lib;sst Trace;sz4
 sstDxf03;Trace;thickness;DD;12;4;sst Dxf Lib;sst Trace;thickness
+sstDxf03;Vertex;x;DD;12;4;sst Dxf Lib;sst Vertex;X Coordinate of the vertex;
+sstDxf03;Vertex;y;DD;12;4;sst Dxf Lib;sst Vertex;Y Coordinate of the vertex;
+sstDxf03;Vertex;z;DD;12;4;sst Dxf Lib;sst Vertex;Z Coordinate of the vertex;
+sstDxf03;Vertex;bulge;DD;12;4;sst Dxf Lib;sst Vertex;Bulge of vertex;
