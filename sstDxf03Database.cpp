@@ -589,7 +589,7 @@ int sstDxf03DatabaseCls::WriteLine (int                  iKey,
     if ( iStat != 1) return -3;  // Layername not found in layer table
     oDxfLine.setLayerID(dLayRecNo);
   }
-  iStat = this->oSstFncCircle.WritNew(0,&oDxfLine, dEntRecNo);
+  iStat = this->oSstFncLine.WritNew(0,&oDxfLine, dEntRecNo);
 
   sstDxf03TypMainCls oMainRec;
 
@@ -1665,5 +1665,95 @@ int sstDxf03DatabaseCls::ReadEntityType(int iKey,
   assert(iStat >= 0);
 
   return iStat;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::GenerateData ( int iKey)
+//-----------------------------------------------------------------------------
+{
+  int iRet = 0;
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstMath01dPnt2Cls oPnt;
+  // oPnt.Set(0.0,0.0);
+  // oPnt.Set(10.0,10.0);
+  // oPnt.Set(100.0,100.0);
+  // oPnt.Set(1000.0,1000.0);
+  // oPnt.Set(10000.0,10000.0);
+  // oPnt.Set(100000.0,100000.0);
+  // oPnt.Set(1000000.0,1000000.0);
+  oPnt.Set(10000000.0,10000000.0);
+  // oPnt.Set(30000000.0,5000000.0);  // not visible in librecad 2.1.2
+  // oPnt.Set(32540679.0,5804153.0);  // Utm Germany Lower Saxony
+
+  // write new circle (border)
+  DL_CircleData oDLCircle(oPnt.getX(),oPnt.getY(),0,1);
+  DL_Attributes oAttributes;
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+  oAttributes.setLayer("0");
+  oAttributes.setLinetype("CONTINUOUS");
+
+
+  // Write new DL Circle object to sst dxf database
+  iStat = this->WriteNewCircle( 0, oDLCircle, oAttributes, &oEntRecNo, &oMainRecNo);
+  assert(iStat >= 0);
+
+  //=== Insert filled circle area
+  {
+    oAttributes.setColor(1);
+
+    DL_HatchData oDLHatch(1,1,1,0,"SOLID");
+    DL_HatchEdgeData oDLHatchEdge(oPnt.getX()+3,oPnt.getY()+3,1,0,2*M_PI,1);  // Circle
+
+    // open new dxflib hatch object in sstDxfDb
+    iStat = this->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    iStat = this->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+  }
+
+  //=== Insert filled triangel area
+  {
+    oAttributes.setColor(2);
+
+    DL_HatchData oDLHatch(1,1,1,0,"SOLID");
+    // open new dxflib hatch object in sstDxfDb
+    iStat = this->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+
+    DL_HatchEdgeData oDLHatchEdge(oPnt.getX()+1,oPnt.getY()+1,
+                                  oPnt.getX()+2,oPnt.getY()+2);  // area border point
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    iStat = this->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = oPnt.getX() +2.0; oDLHatchEdge.y1 = oPnt.getY()+2.0;
+    oDLHatchEdge.x2 = oPnt.getX() +1.0; oDLHatchEdge.y2 = oPnt.getY()+2.0;
+    iStat = this->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = oPnt.getX() + 1.0; oDLHatchEdge.y1 = oPnt.getY()+2.0;
+    oDLHatchEdge.x2 = oPnt.getX() + 1.0; oDLHatchEdge.y2 = oPnt.getY()+1.0;
+    iStat = this->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+  }
+  {
+    // Insert two Lines
+    oEntRecNo = 0;
+    DL_LineData oDlLine(oPnt.getX(),oPnt.getY()+1.5,0,oPnt.getX()+3,oPnt.getY()+4,0);
+    iStat = this->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+    oDlLine.x1 = oPnt.getX()+1; oDlLine.y1 = oPnt.getY() +2;
+    oDlLine.x2 = oPnt.getX()+3.5; oDlLine.y2 = oPnt.getY() +4;
+    oEntRecNo = 0;
+    iStat = this->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+  }
+
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
 }
 //=============================================================================

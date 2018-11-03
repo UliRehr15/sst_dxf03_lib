@@ -62,6 +62,21 @@ int main()
     return 0;
     // assert(iStat >= 0);
   }
+  {
+    // Open new sstDxf Database
+    sstDxf03DbCls oDxfDb( &oPrt);
+
+    // Generate dxf data in utm area (Germany)  <BR>
+    iStat = oDxfDb.GenerateData( 0);
+    assert(iStat >= 0);
+
+    // Write dxf database to dxf file
+    oDxfDb.WritAll2DxfFil(0,"Test_Utm.dxf");
+
+    oPrt.SST_PrtWrt(1,(char*)"Creating Test_Utm.dxf");
+  }
+
+
 
   // Call extended Test dxflib writing function
   // See dxflib writing example
@@ -121,7 +136,7 @@ int main()
     iStat = oDxfDB.WritAll2Csv(0,"Test3.dxf");
     assert(iStat >= 0);
 
-  } // Close śstDxf Database
+  } // Close sstDxf Database
 
   {
     // Open new sstDxf Database and read data from test3 csv files
@@ -235,7 +250,7 @@ int main()
   }
 
   {
-    // Open new sstDxf Database and read data from test3 csv files
+    // Open new sstDxf Database and read data from test5 csv files
     sstDxf03DbCls oDxfDB2(&oPrt);
     iStat = oDxfDB2.ReadAllFromDxf(0,"Test5.dxf");
     assert(iStat >= 0);
@@ -247,7 +262,7 @@ int main()
     iStat = sstMisc01FileCompare( 1,"Test5.dxf","Test6.dxf",&ulRowNo);
     if (iStat != 0)
     {
-      assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
+      assert(ulRowNo == 886);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test5.dxf / Test6.dxf OK");

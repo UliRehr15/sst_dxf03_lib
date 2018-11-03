@@ -6829,6 +6829,21 @@ class sstDxf03DatabaseCls
                         RS2::EntityType *eEntType,
                         dREC04RECNUMTYP *dEntNo);
      //==============================================================================
+     /**
+     * @brief // Generate dxf data in utm area (Germany)  <BR>
+     * iStat = oDxfDb.GenerateData ( iKey, &oPrt);
+     *
+     * @param iKey [in] For the moment 0
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int GenerateData ( int iKey);
+     //==============================================================================
+
 
 private:  // Private functions
 

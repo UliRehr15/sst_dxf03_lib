@@ -618,6 +618,20 @@ class sstDxf03DbCls
                  DL_TextData     *oDlText,
                  DL_Attributes   *oDlAttributes);
   //==============================================================================
+  /**
+  * @brief // Generate dxf data in utm area (Germany)  <BR>
+  * iStat = oDxfDb.GenerateData ( iKey, &oPrt);
+  *
+  * @param iKey [in] For the moment 0
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int GenerateData ( int iKey);
+  //==============================================================================
   private:  // Private functions
     sstDxf03DatabaseCls *poDxf03DbIntern;   /**< Pointer to intern object */
 };

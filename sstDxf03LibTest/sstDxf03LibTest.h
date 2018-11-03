@@ -80,5 +80,6 @@ int testWriting (const std::string oDxfFilNam);
 int testWriting2 (const std::string oDxfFilNam);
 //==============================================================================
 
+
 #endif // SSTDXF03LIBTEST_HEADER
 
