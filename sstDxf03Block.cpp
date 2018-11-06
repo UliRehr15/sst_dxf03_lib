@@ -326,9 +326,10 @@ sstMath01Mbr2Cls sstDxf03FncBlkCls::getMbrModel()
   sstMath01Mbr2Cls oMbr;
   std::string oBlkStr = "*Model_Space";
   dREC04RECNUMTYP dBlkRecNo=0;
-  // iStat = this->TreSeaEQ( 0, this->getNameSortKey(), (void*) oBlkStr.c_str(), &dBlkRecNo);
   iStat = this->TreSeaEQ( 0, &this->oBlockTree, (void*) oBlkStr.c_str(), &dBlkRecNo);
-  assert(iStat == 1);
+  // assert(iStat == 1);
+  if (iStat != 1) return oMbr;  // nothing found, return empty mbr
+
   sstDxf03TypBlkCls oBlkRec;
   this->Read(0,dBlkRecNo,&oBlkRec);
 

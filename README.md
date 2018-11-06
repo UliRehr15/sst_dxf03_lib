@@ -71,6 +71,7 @@ Structure of coding projects should be:
 31.10.18: Version 3.17: Added more Types in DxfType.def. <BR>
                         new functions getMemberNumber, getStringName, getStringTyp for many Dxf Types <BR>
 01.11.18: Version 3.18: Forgotten to check in extended DxfType.Def file. <BR>
-03.11.18: Version 2.19: new data generate function for all entitity types in utm coordinate system. <BR>
+03.11.18: Version 3.19: new data generate function for all entitity types in utm coordinate system. <BR>
                         first realized for line, circle, hatch. <BR>
+06.11.18: Version 3.20: class database write default blocks paperspace/modelspace in dxf file BR>
 

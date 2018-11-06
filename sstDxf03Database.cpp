@@ -98,8 +98,8 @@ sstDxf03DatabaseCls::sstDxf03DatabaseCls(sstMisc01PrtFilCls *oTmpPrt)
   iStat = oLayTab->WritNew(0,&oLayRec,&dRecNo);
   assert(iStat == 0);
 
-  // default write Blocks in database
-
+  // default write Blocks in database modelspace / paperspace
+  // Are written with close of object
 
 }
 //=============================================================================
@@ -1548,6 +1548,7 @@ int sstDxf03DatabaseCls::updateAllMbr(int iKey)
 //=============================================================================
 sstMath01Mbr2Cls sstDxf03DatabaseCls::getMbrModel()
 {
+  // Get mbr from block -modelspace-
   return this->oSstFncBlk.getMbrModel();
 }
 //=============================================================================
@@ -1683,9 +1684,9 @@ int sstDxf03DatabaseCls::GenerateData ( int iKey)
   // oPnt.Set(10000.0,10000.0);
   // oPnt.Set(100000.0,100000.0);
   // oPnt.Set(1000000.0,1000000.0);
-  oPnt.Set(10000000.0,10000000.0);
+  // oPnt.Set(10000000.0,10000000.0);
   // oPnt.Set(30000000.0,5000000.0);  // not visible in librecad 2.1.2
-  // oPnt.Set(32540679.0,5804153.0);  // Utm Germany Lower Saxony
+  oPnt.Set(32540679.0,5804153.0);  // Utm Germany Lower Saxony
 
   // write new circle (border)
   DL_CircleData oDLCircle(oPnt.getX(),oPnt.getY(),0,1);

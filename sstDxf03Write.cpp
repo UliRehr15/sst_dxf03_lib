@@ -238,13 +238,13 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
 
   this->dw->sectionBlocks();
 
-//  this->dxf->writeBlock(*this->dw,
-//                 DL_BlockData("*Model_Space", 0, 0.0, 0.0, 0.0));
-//  this->dxf->writeEndBlock(*this->dw, "*Model_Space");
+  this->dxf->writeBlock(*this->dw,
+                 DL_BlockData("*Model_Space", 0, 0.0, 0.0, 0.0));
+  this->dxf->writeEndBlock(*this->dw, "*Model_Space");
 
-//  this->dxf->writeBlock(*this->dw,
-//                 DL_BlockData("*Paper_Space", 0, 0.0, 0.0, 0.0));
-//  this->dxf->writeEndBlock(*this->dw, "*Paper_Space");
+  this->dxf->writeBlock(*this->dw,
+                 DL_BlockData("*Paper_Space", 0, 0.0, 0.0, 0.0));
+  this->dxf->writeEndBlock(*this->dw, "*Paper_Space");
 
 //  this->dxf->writeBlock(*this->dw,
 //                 DL_BlockData("*Paper_Space0", 0, 0.0, 0.0, 0.0));

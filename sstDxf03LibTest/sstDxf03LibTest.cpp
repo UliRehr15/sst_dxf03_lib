@@ -262,7 +262,7 @@ int main()
     iStat = sstMisc01FileCompare( 1,"Test5.dxf","Test6.dxf",&ulRowNo);
     if (iStat != 0)
     {
-      assert(ulRowNo == 886);  // Problem with handle 340 in DIMSTYLE
+      assert(ulRowNo == 1042);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test5.dxf / Test6.dxf OK");

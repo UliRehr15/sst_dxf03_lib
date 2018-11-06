@@ -358,10 +358,7 @@ void sstDxf03ReadCls::addLine(const DL_LineData& data) {
     oLayerStr = attributes.getLayer();
     // Find record with exact search value
     iStat = poLayFnc->TreSeaEQ( 0, poLayFnc->getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
-    if (iStat != 1)
-    {
-      assert(iStat == 1);
-    }
+    assert(iStat == 1);
     oDxfLine.setLayerID(dLayRecNo);
     // Set Minimum Bounding Rectangle in Block Table
     poBlkFnc->updateMbrModel(0,oDxfLine.getMbr());
