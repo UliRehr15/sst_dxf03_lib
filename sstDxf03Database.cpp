@@ -1614,13 +1614,24 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::countBlocks()
 //=============================================================================
 dREC04RECNUMTYP sstDxf03DatabaseCls::countEntities(int iKey, dREC04RECNUMTYP dBlkNo)
 {
-  if ( iKey != 0) return -1;
+  if ( iKey != 0) return 0;
+
+  if(dBlkNo == 0)
+  { // Modelspace
+    dREC04RECNUMTYP dMainTabRecNo1 = this->getMainTabSectEntStart();
+    dREC04RECNUMTYP dMainTabRecNo2 = this->MainCount();
+    return (dMainTabRecNo2-dMainTabRecNo1+1);
+    // iStat = this->ReadMainTable(0,dActMainTabRecNo, eEntType, dEntNo);
+    // assert(iStat >= 0);
+    // return iStat;
+  }
+
 
   sstDxf03FncBlkCls *oBlkTab =  this->getSstFncBlk();
   sstDxf03TypBlkCls oBlkRec;
 
   dREC04RECNUMTYP dNumBlks = oBlkTab->count();
-  if (dBlkNo < 1 || dBlkNo > dNumBlks) return -2;
+  if (dBlkNo < 1 || dBlkNo > dNumBlks) return 0;
 
   int iStat = 0;
   dREC04RECNUMTYP dBlk_1 = 0;
@@ -1650,18 +1661,28 @@ int sstDxf03DatabaseCls::ReadEntityType(int iKey,
                                         RS2::EntityType *eEntType,
                                         dREC04RECNUMTYP *dEntNo)
 {
+  int iStat = 0;
   //-----------------------------------------------------------------------------
   if ( iKey != 0) return -1;
 
   sstDxf03FncBlkCls *oBlkTab =  this->getSstFncBlk();
   sstDxf03TypBlkCls oBlkRec;
 
-  int iStat = oBlkTab->Read( 0, dBlkNo, &oBlkRec);
+  dREC04RECNUMTYP dActMainTabRecNo = 0;
+
+  if(dBlkNo == 0)
+  { // Modelspace
+    dActMainTabRecNo = this->getMainTabSectEntStart();
+    iStat = this->ReadMainTable(0,dActMainTabRecNo+dMainNo-1, eEntType, dEntNo);
+    assert(iStat >= 0);
+    return iStat;
+  }
+
+  iStat = oBlkTab->Read( 0, dBlkNo, &oBlkRec);
   assert(iStat >= 0);
 
-  // RS2::EntityType eEntType = RS2::EntityLine;
-  dREC04RECNUMTYP dActMainTabRecNo = oBlkRec.getRecordID()+dMainNo -1;
-  // dREC04RECNUMTYP dEntRecNo = 0;
+  // Calculate begin of block in maintable and read
+  dActMainTabRecNo = oBlkRec.getRecordID()+dMainNo -1;
   iStat = this->ReadMainTable(0,dActMainTabRecNo, eEntType, dEntNo);
   assert(iStat >= 0);
 

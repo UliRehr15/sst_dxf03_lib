@@ -66,6 +66,9 @@ int main()
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDb( &oPrt);
 
+    RS2::EntityType eEntityType = oDxfDb.CnvtTypeString2Enum("dddd");
+    assert(eEntityType == RS2::EntityUnknown);
+
     // Generate dxf data in utm area (Germany)  <BR>
     iStat = oDxfDb.GenerateData( 0);
     assert(iStat >= 0);
@@ -98,6 +101,7 @@ int main()
     DL_MTextData oDLMText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0.0,"","",0.0);
     DL_TextData oDLText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,"","",0.0);
     DL_InsertData("test",0,0,0,0,0,0,0,0,0,0,0);
+    DL_HatchData oDlHatch(0,0,0.0,0.0,"pattern",0.0,0.0);
   }
 
   {

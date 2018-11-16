@@ -234,55 +234,26 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
   sstDxf03TypLTypeCls oLTypeRec;
   oLocSstFncLType = this->poDxfDb->getSstFncLType();
 
-  // Section Blocks
-
+  // start Section Blocks
   this->dw->sectionBlocks();
-
-  this->dxf->writeBlock(*this->dw,
-                 DL_BlockData("*Model_Space", 0, 0.0, 0.0, 0.0));
-  this->dxf->writeEndBlock(*this->dw, "*Model_Space");
-
-  this->dxf->writeBlock(*this->dw,
-                 DL_BlockData("*Paper_Space", 0, 0.0, 0.0, 0.0));
-  this->dxf->writeEndBlock(*this->dw, "*Paper_Space");
-
-//  this->dxf->writeBlock(*this->dw,
-//                 DL_BlockData("*Paper_Space0", 0, 0.0, 0.0, 0.0));
-//  this->dxf->writeEndBlock(*this->dw, "*Paper_Space0");
-
-  // Write one Symobl definition ================================================
-
-//  dxf->writeBlock(*dw,
-//                 DL_BlockData("myblock1", 0, 0.0, 0.0, 0.0));
-//  // ...
-//  // write block entities e.g. with dxf->writeLine(), ..
-
-//  dxf->writeLine(
-//      *dw,
-//      DL_LineData(0.0,   // start point
-//                  0.0,
-//                  0.0,
-//                  1.0,   // end point
-//                  1.0,
-//                  0.0),
-//      DL_Attributes("myblock1", 256, -1, "BYBLOCK"));
-
-//  dxf->writeLine(
-//      *dw,
-//      DL_LineData(0.0,   // start point
-//                  1.0,
-//                  0.0,
-//                  1.0,   // end point
-//                  0.0,
-//                  0.0),
-//      DL_Attributes("myblock1", 256, -1, "BYBLOCK"));
-
-//  // ...
-//  dxf->writeEndBlock(*dw, "myblock1");
-// End Symbol definition ================================================
 
   // loop over all defined blocks
   dREC04RECNUMTYP dNumBlocks = oLocSstFncBlk->count();
+
+  if (dNumBlocks == 0)  // no blocks defined, write standard blocks and return
+  {
+    this->dxf->writeBlock(*this->dw,
+                   DL_BlockData("*Model_Space", 0, 0.0, 0.0, 0.0));
+    this->dxf->writeEndBlock(*this->dw, "*Model_Space");
+
+    this->dxf->writeBlock(*this->dw,
+                   DL_BlockData("*Paper_Space", 0, 0.0, 0.0, 0.0));
+    this->dxf->writeEndBlock(*this->dw, "*Paper_Space");
+
+    this->dw->sectionEnd();
+    return 0;
+  }
+
   for (dREC04RECNUMTYP ii=1; ii <= dNumBlocks; ii++)
   {
     iStat = oLocSstFncBlk->Read( 0, ii, &oBlkRec);

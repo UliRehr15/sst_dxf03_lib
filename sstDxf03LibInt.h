@@ -6809,18 +6809,19 @@ class sstDxf03DatabaseCls
      // ----------------------------------------------------------------------------
      dREC04RECNUMTYP countEntities(int iKey, dREC04RECNUMTYP dBlkNo);
      //==============================================================================
-     //==============================================================================
      /**
-     * @brief // return type of entitiy in actual block in sstDxfDb <BR>
-     * dNumEntities = oDxfDb.countEntities (iKey, dBlkNo);
+     * @brief // return type/Tab Rec No of entity in block with main tab no <BR>
+     * iStat = oDxfDb.ReadEntityType (iKey, dBlkNo, dMainNo, &eEntType, &dEntNo);
+     *
+     * BlockNo=0;MainNo=1 = First Element in section entities
      *
      * @param iKey       [in] For the moment 0
-     * @param dBlkNo     [in] Block number (=0: model space)
-     * @param dMainNo    [in] Number in Main table
+     * @param dBlkNo     [in] Block number (=0: model space / section entities)
+     * @param dMainNo    [in] Record Number in Main table
      * @param eEntType   [out] enum entity type
-     * @param dEntNo     [out] Number in Entity table
+     * @param dEntNo     [out] Record Number in Entity table
      *
-     * @return Type of entity
+     * @return status
      */
      // ----------------------------------------------------------------------------
      int ReadEntityType(int iKey,

@@ -273,3 +273,19 @@ int sstDxf03DbCls::GenerateData ( int iKey)
   return this->poDxf03DbIntern->GenerateData(iKey);
 }
 //==============================================================================
+std::string sstDxf03DbCls::CnvtTypeEnum2String(RS2::EntityType eEntityType)
+{
+  std::string oTmpStr;
+  sstDxf03EntityTypeCls oEntTypeCnvt;
+  oTmpStr = oEntTypeCnvt.Enum2String(eEntityType);
+  return oTmpStr;
+}
+//==============================================================================
+RS2::EntityType sstDxf03DbCls::CnvtTypeString2Enum(std::string oEntityStr)
+{
+  RS2::EntityType eTmpType;
+  sstDxf03EntityTypeCls oEntTypeCnvt;
+  eTmpType = oEntTypeCnvt.String2Enum(oEntityStr);
+  return eTmpType;
+}
+//==============================================================================

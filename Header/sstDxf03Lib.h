@@ -464,9 +464,10 @@ class sstDxf03DbCls
   * @brief // return number of entities in actual block in sstDxfDb <BR>
   * dNumEntities = oDxfDb.countEntities (iKey, dBlkNo);
   *
+  * dBlcNo = 0:  Count entities of section entities
+  *
   * @param iKey       [in] For the moment 0
   * @param dBlkNo     [in] Block number (=0: model space)
-  *
   *
   * @return Number of records in block table
   */
@@ -474,16 +475,18 @@ class sstDxf03DbCls
   dREC04RECNUMTYP countEntities(int iKey, dREC04RECNUMTYP dBlkNo);
   //==============================================================================
   /**
-  * @brief // return type of entitiy in actual block in sstDxfDb <BR>
-  * dNumEntities = oDxfDb.countEntities (iKey, dBlkNo);
+  * @brief // return type/Tab Rec No of entity in block with main tab no <BR>
+  * iStat = oDxfDb.ReadEntityType (iKey, dBlkNo, dMainNo, &eEntType, &dEntNo);
+  *
+  * BlockNo=0;MainNo=1 = First Element in section entities
   *
   * @param iKey       [in] For the moment 0
-  * @param dBlkNo     [in] Block number (=0: model space)
-  * @param dMainNo    [in] Number in Main table
+  * @param dBlkNo     [in] Block number (=0: model space / section entities)
+  * @param dMainNo    [in] Record Number in Main table
   * @param eEntType   [out] enum entity type
-  * @param dEntNo     [out] Number in Entity table
+  * @param dEntNo     [out] Record Number in Entity table
   *
-  * @return Type of entity
+  * @return status
   */
   // ----------------------------------------------------------------------------
   int ReadEntityType(int iKey,
@@ -631,6 +634,28 @@ class sstDxf03DbCls
   */
   // ----------------------------------------------------------------------------
   int GenerateData ( int iKey);
+  //==============================================================================
+  /**
+  * @brief // convert Entity Type enum to string <BR>
+  * oeEntityString = oDxfDB.CnvtTypeEnum2String ( eEntityType);
+  *
+  * @param eEntityType [in] Entity Enum
+  *
+  * @return Entity Type String
+  */
+  // ----------------------------------------------------------------------------
+  std::string CnvtTypeEnum2String(RS2::EntityType eEntityType);
+  //==============================================================================
+  /**
+  * @brief // convert Entity String to enum <BR>
+  * eEntityType = oDxfDB.CnvtTypeString2Enum ( oEntityStr);
+  *
+  * @param oEntityStr [in] Entity String
+  *
+  * @return Entity Enum
+  */
+  // ----------------------------------------------------------------------------
+  RS2::EntityType CnvtTypeString2Enum(std::string oEntityStr);
   //==============================================================================
   private:  // Private functions
     sstDxf03DatabaseCls *poDxf03DbIntern;   /**< Pointer to intern object */

@@ -73,5 +73,7 @@ Structure of coding projects should be:
 01.11.18: Version 3.18: Forgotten to check in extended DxfType.Def file. <BR>
 03.11.18: Version 3.19: new data generate function for all entitity types in utm coordinate system. <BR>
                         first realized for line, circle, hatch. <BR>
-06.11.18: Version 3.20: class database write default blocks paperspace/modelspace in dxf file BR>
+06.11.18: Version 3.20: class database write default blocks paperspace/modelspace in dxf file <BR>
+16.11.18: Version 3.21: publish functions convert TypeEnum to string and viceversa. <BR>
+                        Small corrections in looping over section entity objects .<BR>
 
