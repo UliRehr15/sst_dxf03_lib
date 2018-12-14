@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-//  sstDxf03Database.cpp   25.05.18  Re.   06.07.16  Re.
+//  sstDxf03Database.cpp   14.12.18  Re.   06.07.16  Re.
 //
 //  Functions for Class "sstDxf03DatabaseCls"
 //
@@ -97,6 +97,8 @@ sstDxf03DatabaseCls::sstDxf03DatabaseCls(sstMisc01PrtFilCls *oTmpPrt)
 
   iStat = oLayTab->WritNew(0,&oLayRec,&dRecNo);
   assert(iStat == 0);
+
+  this->setIsUpdated(true);
 
   // default write Blocks in database modelspace / paperspace
   // Are written with close of object
@@ -314,9 +316,13 @@ sstDxf03FncMainCls* sstDxf03DatabaseCls::getSstFncMain()
   return &this->oSstFncMain;
 }
 //=============================================================================
-dREC04RECNUMTYP sstDxf03DatabaseCls::getMainTabSectEntStart() const
+dREC04RECNUMTYP sstDxf03DatabaseCls::getMainTabSectEntStart()
 {
-return dMainTabSectEntStart;
+  if( this->getIsUpdated() == false)
+  {
+    this->updateDb(0);
+  }
+  return dMainTabSectEntStart;
 }
 //=============================================================================
 void sstDxf03DatabaseCls::setMainTabSectEntStart(const dREC04RECNUMTYP &value)
@@ -369,11 +375,11 @@ int sstDxf03DatabaseCls::WriteNewCircle(int                  iKey,
     if ( iStat != 1) return -3;  // Layername not found in layer table
     oDxfCircle.setLayerID(dLayRecNo);
   }
-  iStat = this->oSstFncCircle.WritNew(0,&oDxfCircle, dEntRecNo);
-
   sstDxf03TypMainCls oMainRec;
-
   *dMainRecNo = this->oSstFncMain.count();
+
+  oDxfCircle.setMainRecNo(*dMainRecNo+1);
+  iStat = this->oSstFncCircle.WritNew(0,&oDxfCircle, dEntRecNo);
 
   oMainRec.setMainID( *dMainRecNo+1);
   oMainRec.setEntityType(RS2::EntityCircle);
@@ -391,6 +397,7 @@ int sstDxf03DatabaseCls::WriteNewCircle(int                  iKey,
     oMainRec.setSectString("L");
   }
   iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
+  this->setIsUpdated(false);
 //     this->poPrt->SST_PrtWrtChar( 1,(char*)"CIRCLE skiped",(char*)"Dxf Reading: ");
   return 0;
 }
@@ -416,9 +423,12 @@ int sstDxf03DatabaseCls::WriteCircle (int                  iKey,
 
   if (*dEntRecNo > 0)
   {
-    // Existing Line
+    // Existing circle
+    iStat = this->oSstFncCircle.Read( 0, *dEntRecNo, &oDxfCircle);
+    dREC04RECNUMTYP dMainRecNo = oDxfCircle.getMainRecNo();
     oDxfCircle.ReadFromDL(data);
     oDxfCircle.BaseReadFromDL(attributes);
+    oDxfCircle.setMainRecNo(dMainRecNo);
     iStat = this->oSstFncCircle.Writ( 0, &oDxfCircle, *dEntRecNo);
     // oLine.BaseWritToDL(oDLAttributes);
     return iStat;
@@ -563,8 +573,11 @@ int sstDxf03DatabaseCls::WriteLine (int                  iKey,
   if (*dEntRecNo > 0)
   {
     // Existing Line
+    iStat = this->oSstFncLine.Read( 0, *dEntRecNo, &oDxfLine);
+    dREC04RECNUMTYP dMainRecNo = oDxfLine.getMainRecNo();
     oDxfLine.ReadFromDL(data);
     oDxfLine.BaseReadFromDL(attributes);
+    oDxfLine.setMainRecNo(dMainRecNo);
     iStat = this->oSstFncLine.Writ( 0, &oDxfLine, *dEntRecNo);
     // oLine.BaseWritToDL(oDLAttributes);
     return iStat;
@@ -589,11 +602,11 @@ int sstDxf03DatabaseCls::WriteLine (int                  iKey,
     if ( iStat != 1) return -3;  // Layername not found in layer table
     oDxfLine.setLayerID(dLayRecNo);
   }
-  iStat = this->oSstFncLine.WritNew(0,&oDxfLine, dEntRecNo);
-
   sstDxf03TypMainCls oMainRec;
-
   *dMainRecNo = this->oSstFncMain.count();
+
+  oDxfLine.setMainRecNo(*dMainRecNo+1);
+  iStat = this->oSstFncLine.WritNew(0,&oDxfLine, dEntRecNo);
 
   oMainRec.setMainID( *dMainRecNo+1);
   oMainRec.setEntityType(RS2::EntityLine);
@@ -611,6 +624,8 @@ int sstDxf03DatabaseCls::WriteLine (int                  iKey,
     oMainRec.setSectString("L");
   }
   iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
+  this->setIsUpdated(false);
+
   return 0;
 }
 //=============================================================================
@@ -850,7 +865,7 @@ int sstDxf03DatabaseCls::OpenNewHatch(int                  iKey,
   this->dGrpSubID = 0;              // Sub Group ID like HatchLoop
   this->dGrpRecNum = 0;
 
-  this->setMainTabSectEntStart(*oEntRecNo);
+  this->setGrpMainID( *oEntRecNo);
   return iStat;
 }
 //==============================================================================
@@ -944,7 +959,7 @@ int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
 
   dNumBlocks = 0;
 
-  oDxfHatchEdge.setParentID(this->getMainTabSectEntStart());
+  oDxfHatchEdge.setParentID(this->getGrpMainID());
 
   // iStat = poHatchEdgeFnc->WritNew(0,&oDxfHatchEdge,&dRecNo);
   iStat = poHatchEdgeFnc->WritNew(0,&oDxfHatchEdge, oEntRecNo);
@@ -1682,7 +1697,7 @@ int sstDxf03DatabaseCls::ReadEntityType(int iKey,
   assert(iStat >= 0);
 
   // Calculate begin of block in maintable and read
-  dActMainTabRecNo = oBlkRec.getRecordID()+dMainNo -1;
+  dActMainTabRecNo = oBlkRec.getRecordID()+ dMainNo -1;
   iStat = this->ReadMainTable(0,dActMainTabRecNo, eEntType, dEntNo);
   assert(iStat >= 0);
 
@@ -1705,9 +1720,9 @@ int sstDxf03DatabaseCls::GenerateData ( int iKey)
   // oPnt.Set(10000.0,10000.0);
   // oPnt.Set(100000.0,100000.0);
   // oPnt.Set(1000000.0,1000000.0);
-  // oPnt.Set(10000000.0,10000000.0);
+  oPnt.Set(10000000.0,10000000.0);
   // oPnt.Set(30000000.0,5000000.0);  // not visible in librecad 2.1.2
-  oPnt.Set(32540679.0,5804153.0);  // Utm Germany Lower Saxony
+  // oPnt.Set(32540679.0,5804153.0);  // Utm Germany Lower Saxony EPSG=4647
 
   // write new circle (border)
   DL_CircleData oDLCircle(oPnt.getX(),oPnt.getY(),0,1);
@@ -1724,7 +1739,10 @@ int sstDxf03DatabaseCls::GenerateData ( int iKey)
 
   //=== Insert filled circle area
   {
-    oAttributes.setColor(1);
+
+    //The ACAD ACI colors are assigned as follows:
+    // 1 Red, 2 Yellow, 3 Green, 4 Cyan, 5 Blue, 6 Magenta, 7 White/Black.
+    oAttributes.setColor(1);  // RED
 
     DL_HatchData oDLHatch(1,1,1,0,"SOLID");
     DL_HatchEdgeData oDLHatchEdge(oPnt.getX()+3,oPnt.getY()+3,1,0,2*M_PI,1);  // Circle
@@ -1738,7 +1756,7 @@ int sstDxf03DatabaseCls::GenerateData ( int iKey)
 
   //=== Insert filled triangel area
   {
-    oAttributes.setColor(2);
+    oAttributes.setColor(2);  // YELLOW
 
     DL_HatchData oDLHatch(1,1,1,0,"SOLID");
     // open new dxflib hatch object in sstDxfDb
@@ -1778,4 +1796,144 @@ int sstDxf03DatabaseCls::GenerateData ( int iKey)
 
   return iRet;
 }
-//=============================================================================
+//==============================================================================
+// Get Main Table record number
+dREC04RECNUMTYP sstDxf03DatabaseCls::getMainTabRecNo(int iKey, RS2::EntityType eEntityType, dREC04RECNUMTYP dEntRecNo)
+{
+  // int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  std::string oLocString;
+  dREC04RECNUMTYP dMainRecNo = 0;
+
+  switch (eEntityType)
+  {
+    case RS2::EntityUnknown: oLocString = "Unknown"; break;
+    case RS2::EntityContainer: oLocString = "Container"; break;
+    case RS2::EntityBlock: oLocString = "Block"; break;
+    case RS2::EntityFontChar: oLocString = "FontChar"; break;
+    case RS2::EntityInsert: oLocString = "Insert"; break;
+    case RS2::EntityGraphic: oLocString = "Graphic"; break;
+    case RS2::EntityPoint: oLocString = "Point"; break;
+    case RS2::EntityLine:
+  {
+    sstDxf03FncLineCls *poLineTab = this->getSstFncLine();
+    sstDxf03TypLineCls oLineRec;
+    int iStat = poLineTab->Read( 0, dEntRecNo, &oLineRec);
+    assert(iStat >= 0);
+    dMainRecNo = oLineRec.getMainRecNo();
+    break;
+  }
+    case RS2::EntityPolyline: oLocString = "Polyline"; break;
+    case RS2::EntityVertex: oLocString = "Vertex"; break;
+    case RS2::EntityArc: oLocString = "Arc"; break;
+    case RS2::EntityCircle:
+  {
+    sstDxf03FncCircleCls *poCircleTab = this->getSstFncCircle();
+    sstDxf03TypCircleCls oCircleRec;
+    poCircleTab->Read( 0, dEntRecNo, &oCircleRec);
+    dMainRecNo = oCircleRec.getMainRecNo();
+    break;
+  }
+    case RS2::EntityEllipse: oLocString = "Ellipse"; break;
+    case RS2::EntityHyperbola: oLocString = "Hyperbola"; break;
+    case RS2::EntitySolid: oLocString = "Solid"; break;
+    case RS2::EntityConstructionLine: oLocString = "ConstructionLine"; break;
+    case RS2::EntityMText: oLocString = "MText"; break;
+    case RS2::EntityText: oLocString = "Text"; break;
+    case RS2::EntityDimAligned: oLocString = "DimAligned"; break;
+    case RS2::EntityDimLinear: oLocString = "DimLinear"; break;
+    case RS2::EntityDimRadial: oLocString = "DimRadial"; break;
+    case RS2::EntityDimDiametric: oLocString = "DimDiametric"; break;
+    case RS2::EntityDimAngular: oLocString = "DimAngular"; break;
+    case RS2::EntityDimLeader: oLocString = "DimLeader"; break;
+    case RS2::EntityHatch: oLocString = "Hatch"; break;
+    case RS2::EntityHatchEdge: oLocString = "HatchEdge"; break;
+    case RS2::EntityHatchLoop: oLocString = "HatchLoop"; break;
+    case RS2::EntityImage: oLocString = "Image"; break;
+    case RS2::EntitySpline: oLocString = "Spline"; break;
+    case RS2::EntitySplinePoints: oLocString = "SplinePoints"; break;
+    case RS2::EntityOverlayBox: oLocString = "OverlayBox"; break;
+    case RS2::EntityPreview: oLocString = "Preview"; break;
+    case RS2::EntityPattern: oLocString = "Pattern"; break;
+  default: oLocString = "Unknown1"; break;
+  }
+  return dMainRecNo;
+}
+//==============================================================================
+// Get Section Entities record number, is main table record number minus all block records
+dREC04RECNUMTYP sstDxf03DatabaseCls::getSectEntRecNo(int iKey, RS2::EntityType eEntityType, dREC04RECNUMTYP dEntRecNo)
+{
+  // int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+  dREC04RECNUMTYP dMainRecNo = 0;
+  dREC04RECNUMTYP dStartSectionEntities = 0;
+  dMainRecNo = this->getMainTabRecNo(iKey,eEntityType, dEntRecNo);
+  // Number of records in block 0 (Modelspace = Section entities)
+  dREC04RECNUMTYP dSectEntRecs = this->countEntities(0,0);
+  dREC04RECNUMTYP dTabMainRecs = this->MainCount();
+  dStartSectionEntities = dTabMainRecs - dSectEntRecs +1;
+  return (dMainRecNo-dStartSectionEntities+1);
+}
+//==============================================================================
+dREC04RECNUMTYP sstDxf03DatabaseCls::getGrpMainID() const
+{
+  return dGrpMainID;
+}
+//==============================================================================
+void sstDxf03DatabaseCls::setGrpMainID(const dREC04RECNUMTYP &value)
+{
+  dGrpMainID = value;
+}
+//==============================================================================
+int sstDxf03DatabaseCls::updateDb(int iKey)
+{
+  // update block table from information in main table
+
+  if ( iKey != 0) return -1;
+
+  sstDxf03FncMainCls *oMainTab =  this->getSstFncMain();
+  sstDxf03TypMainCls oMainRec;
+  sstDxf03FncBlkCls *oBlkTab =  this->getSstFncBlk();
+  sstDxf03TypBlkCls oBlkRec;
+
+  // Loop main table
+  dREC04RECNUMTYP dMainRecs = oMainTab->count();
+  dREC04RECNUMTYP dActBlkLayID = 0;
+
+  for (dREC04RECNUMTYP ii=1; ii <= dMainRecs; ii++)
+  {
+    oMainTab->Read(0,ii,&oMainRec);
+    if (oMainRec.getSectString() != "B")
+    {
+      // end of section blocks, next section entities, exit now
+      this->setMainTabSectEntStart(ii);
+      break;  // break for-loop
+    }
+
+    // if next block, update "start of block in main table" in block table
+    if (dActBlkLayID != oMainRec.getLayBlockID())
+    {
+      oBlkTab->Read(0,oMainRec.getLayBlockID(),&oBlkRec);
+      oBlkRec.setRecordID(ii);
+      oBlkTab->Writ(0,&oBlkRec,oMainRec.getLayBlockID());
+      dActBlkLayID = oMainRec.getLayBlockID();
+    }
+  }
+
+  this->setIsUpdated(true);
+  return 0;
+}
+//==============================================================================
+bool sstDxf03DatabaseCls::getIsUpdated() const
+{
+return isUpdated;
+}
+//==============================================================================
+void sstDxf03DatabaseCls::setIsUpdated(bool value)
+{
+isUpdated = value;
+}
+//==============================================================================

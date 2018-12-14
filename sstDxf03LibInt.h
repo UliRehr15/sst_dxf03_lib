@@ -47,52 +47,6 @@
 
 //==============================================================================
 /**
-* @brief Definition Class sstDxf03EntityTypeCls
-*
-* Classes and functions for LibreCAD enum EntityType <BR>
-*
-* Changed: 08.07.15  Re.
-*
-* @ingroup sstDxf03LibInt
-*
-* @author Re.
-*
-* @date 08.07.15
-*/
-// ----------------------------------------------------------------------------
-class sstDxf03EntityTypeCls
-{
-  public:   // Public functions
-     sstDxf03EntityTypeCls();  // Constructor
-    //~sstTestBaseCls();  // Destructor
-     //==============================================================================
-     /**
-     * @brief // converts enum to string <BR>
-     * oString = oEntityType.Enum2String(eType);
-     *
-     * @param eType [in] For the moment 0
-     *
-     * @return Type as string
-     */
-     // ----------------------------------------------------------------------------
-     std::string Enum2String(RS2::EntityType eType);
-     //==============================================================================
-     /**
-     * @brief // converts string to enum <BR>
-     * eType = oEntityType.String2Enum(oTypeString);
-     *
-     * @param oTypeString [in] Entity as string
-     *
-     * @return Type as librecad enum
-     */
-     // ----------------------------------------------------------------------------
-     RS2::EntityType String2Enum(std::string oTypeString);
-// ----------------------------------------------------------------------------
-private:  // Private functions
-// int Dum;        /**< Dummy */
-};
-//==============================================================================
-/**
 * @brief sst dxf base class for dxf types
 *
 * More Comment
@@ -260,6 +214,22 @@ class sstDxf03TypBaseCls
     // ----------------------------------------------------------------------------
     void setHandle(int value);
     //==============================================================================
+    /**
+    * @brief // Get Value  <BR>
+    *
+    * @return value
+    */
+    // ----------------------------------------------------------------------------
+    dREC04RECNUMTYP getMainRecNo() const;
+    //==============================================================================
+    /**
+    * @brief // Set Value  <BR>
+    *
+    * @param value [in] Set Value
+    */
+    // ----------------------------------------------------------------------------
+    void setMainRecNo(const dREC04RECNUMTYP &value);
+    //==============================================================================
 
 private:
     // standard attributes
@@ -267,6 +237,7 @@ private:
     dREC04RECNUMTYP dLayerID;    /**< Identifier in Layer table */
     dREC04RECNUMTYP dBlockID;    /**< Identifier in Block table */
     dREC04RECNUMTYP dLinetypeID; /**< Identifier in Linetype table */
+    dREC04RECNUMTYP dMainRecNo;  /**< Record Number in Main Table */
     int color;                   /**< color */
     int color24;                 /**< color24 */
     int width;                   /**< width */
@@ -6250,7 +6221,7 @@ class sstDxf03DatabaseCls
      * @return Record number
      */
      // ----------------------------------------------------------------------------
-     dREC04RECNUMTYP getMainTabSectEntStart() const;
+     dREC04RECNUMTYP getMainTabSectEntStart();
      //==============================================================================
      /**
      * @brief // Set Start of section entities in main table <BR>
@@ -6844,11 +6815,78 @@ class sstDxf03DatabaseCls
      // ----------------------------------------------------------------------------
      int GenerateData ( int iKey);
      //==============================================================================
-
+     /**
+     * @brief // Get Main Table record number
+     *
+     * @param iKey          [in] Block number
+     * @param eEntityType   [in] Block number
+     * @param dEntRecNo     [in] Entity Table Record number
+     *
+     * @return Record number in main Table
+     */
+     // ----------------------------------------------------------------------------
+     dREC04RECNUMTYP getMainTabRecNo(int iKey, RS2::EntityType eEntityType, dREC04RECNUMTYP dEntRecNo);
+     //==============================================================================
+     /**
+     * @brief // Get Section Entities record number
+     *
+     * Is main table record number minus all block records
+     *
+     * @param iKey          [in] Block number
+     * @param eEntityType   [in] Block number
+     * @param dEntRecNo     [in] Entity Table Record number
+     *
+     * @return Record number in section entities or null, if not exist in section entities
+     */
+     // ----------------------------------------------------------------------------
+     dREC04RECNUMTYP getSectEntRecNo(int iKey, RS2::EntityType eEntityType, dREC04RECNUMTYP dEntRecNo);
+     //==============================================================================
+     /**
+     * @brief // return record number of actual group start in main table <BR>
+     *
+     * @return actual group start record number in main table
+     */
+     // ----------------------------------------------------------------------------
+     dREC04RECNUMTYP getGrpMainID() const;
+     //==============================================================================
+     /**
+     * @brief // Set record number in main table of actual group start <BR>
+     *
+     * @param value [in] record number in main table
+     */
+     // ----------------------------------------------------------------------------
+     void setGrpMainID(const dREC04RECNUMTYP &value);
+     //==============================================================================
+     /**
+     * @brief // update database after changing data <BR>
+     *
+     * @param iKey [in] For the moment Null
+     *
+     * @return Success or error
+     */
+     // ----------------------------------------------------------------------------
+     int updateDb(int iKey);
+     //==============================================================================
+     /**
+     * @brief // return update state of database <BR>
+     *
+     * @return return update state of database
+     */
+     // ----------------------------------------------------------------------------
+     bool getIsUpdated() const;
+     //==============================================================================
+     /**
+     * @brief // Set update state of datebase <BR>
+     *
+     * @param value [in] update state false or true
+     */
+     // ----------------------------------------------------------------------------
+     void setIsUpdated(bool value);
+     //==============================================================================
 
 private:  // Private functions
 
-  sstDxf03FncMainCls oSstFncMain;      /**< Main table object */
+     sstDxf03FncMainCls oSstFncMain;      /**< Main table object */
   sstDxf03FncLayCls oSstFncLay;        /**< layer table object */
   sstDxf03FncBlkCls oSstFncBlk;        /**< Block table object */
   sstDxf03FncLTypeCls oSstFncLType;        /**< LineType table object */
@@ -6866,14 +6904,14 @@ private:  // Private functions
   sstDxf03FncHatchEdgeCls oSstFncHatchEdge;  /**< hatch edge table object */
   sstDxf03FncHatchLoopCls oSstFncHatchLoop;  /**< hatch loop table object */
   sstMisc01PrtFilCls *oPrt;                  /**< Protocol object */
-  // dREC04RECNUMTYP dActRecNo;              // Actual Record Number from what?? Unused??
   dREC04RECNUMTYP dMainTabSectEntStart;          // Start of entity section in main table
   RS2::EntityType eActEntType;            // Actual Entity Type
   std::string sActLayBlkNam;              // Actual Layer/Block Name
   RS2::EntityType eGrpEntType;            // Group Entity Type
   dREC04RECNUMTYP dGrpMainID;             // Group Main ID
   dREC04RECNUMTYP dGrpSubID;              // Sub Group ID like HatchLoop
-  dREC04RECNUMTYP dGrpRecNum;             // Number of entities
+  dREC04RECNUMTYP dGrpRecNum;             // Number of entities of actual group
+  bool isUpdated;
 };
 /**
 * @brief Dxf Import Data Class <BR>
@@ -7313,4 +7351,6 @@ private:  // Private functions
 #endif
 
 // --------------------------------------------------------------- File End ----
+
+
 

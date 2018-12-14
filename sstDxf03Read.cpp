@@ -52,36 +52,8 @@ sstDxf03ReadCls::sstDxf03ReadCls(sstDxf03DatabaseCls *oDxfDb, sstMisc01PrtFilCls
 //=============================================================================
 sstDxf03ReadCls::~sstDxf03ReadCls()
 {
-  // update block table from information in main table
-
-  sstDxf03FncMainCls *oMainTab =  this->poDxfDb->getSstFncMain();
-  sstDxf03TypMainCls oMainRec;
-  sstDxf03FncBlkCls *oBlkTab =  this->poDxfDb->getSstFncBlk();
-  sstDxf03TypBlkCls oBlkRec;
-
-  // Loop main table
-  dREC04RECNUMTYP dMainRecs = oMainTab->count();
-  dREC04RECNUMTYP dActBlkLayID = 0;
-
-  for (dREC04RECNUMTYP ii=1; ii <= dMainRecs; ii++)
-  {
-    oMainTab->Read(0,ii,&oMainRec);
-    if (oMainRec.getSectString() != "B")
-    {
-      // end of section blocks, next section entities, exit now
-      this->poDxfDb->setMainTabSectEntStart(ii);
-      break;  // break for-loop
-    }
-
-    // if next block, update "start of block in main table" in block table
-    if (dActBlkLayID != oMainRec.getLayBlockID())
-    {
-      oBlkTab->Read(0,oMainRec.getLayBlockID(),&oBlkRec);
-      oBlkRec.setRecordID(ii);
-      oBlkTab->Writ(0,&oBlkRec,oMainRec.getLayBlockID());
-      dActBlkLayID = oMainRec.getLayBlockID();
-    }
-  }
+//  // update block table from information in main table
+  this->poDxfDb->updateDb(0);
 
 }
 //=============================================================================
@@ -332,6 +304,7 @@ void sstDxf03ReadCls::addLine(const DL_LineData& data) {
   oDxfLine.BaseReadFromDL(attributes);
   dREC04RECNUMTYP dRecNo=0;
   dREC04RECNUMTYP dLayRecNo=0;
+  // dREC04RECNUMTYP dMainRecNo=0;
 
   sstDxf03FncLineCls *poLineFnc;
   poLineFnc = this->poDxfDb->getSstFncLine();
@@ -363,11 +336,12 @@ void sstDxf03ReadCls::addLine(const DL_LineData& data) {
     // Set Minimum Bounding Rectangle in Block Table
     poBlkFnc->updateMbrModel(0,oDxfLine.getMbr());
   }
-  iStat = poLineFnc->WritNew(0,&oDxfLine,&dRecNo);
 
   sstDxf03TypMainCls oMainRec;
-
   dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
+
+  oDxfLine.setMainRecNo(dMainRecNo+1);
+  iStat = poLineFnc->WritNew(0,&oDxfLine,&dRecNo);
 
   oMainRec.setMainID(dMainRecNo+1);
   oMainRec.setEntityType(RS2::EntityLine);
@@ -387,8 +361,8 @@ void sstDxf03ReadCls::addLine(const DL_LineData& data) {
     oMainRec.setLayBlockID(dLayRecNo);
     oMainRec.setSectString("L");
   }
-  iStat = poMainFnc->WritNew(0,&oMainRec,&dRecNo);
-
+  iStat = poMainFnc->WritNew(0,&oMainRec,&dMainRecNo);
+  // iStat = poLineFnc->Writ( 0, &oDxfLine, dRecNo);
 }
 //=============================================================================
 void sstDxf03ReadCls::addArc(const DL_ArcData& data)
@@ -494,11 +468,13 @@ void sstDxf03ReadCls::addCircle(const DL_CircleData& data)
     assert(iStat == 1);
     oDxfCircle.setLayerID(dLayRecNo);
   }
-  iStat = poCircleFnc->WritNew(0,&oDxfCircle,&dRecNo);
 
   sstDxf03TypMainCls oMainRec;
-
   dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
+
+  oDxfCircle.setMainRecNo(dMainRecNo+1);
+  iStat = poCircleFnc->WritNew(0,&oDxfCircle,&dRecNo);
+
 
   oMainRec.setMainID(dMainRecNo+1);
   oMainRec.setEntityType(RS2::EntityCircle);
@@ -725,7 +701,7 @@ void sstDxf03ReadCls::addPolyline(const DL_PolylineData& data)
   }
   iStat = poMainFnc->WritNew(0,&oMainRec,&dMainRecNo);
 
-  this->poDxfDb->setMainTabSectEntStart(dEntRecNo);
+  this->poDxfDb->setGrpMainID( dEntRecNo);
   this->poDxfDb->setActEntType(RS2::EntityPolyline);
 
 }
@@ -766,7 +742,7 @@ void sstDxf03ReadCls::addVertex(const DL_VertexData& data)
     poBlkFnc->updateMbrModel( 0, oTmpMbr);
   }
 
-  oDxfVertex.setParentID(this->poDxfDb->getMainTabSectEntStart());
+  oDxfVertex.setParentID(this->poDxfDb->getGrpMainID());
   oDxfVertex.setEntityType(this->poDxfDb->getActEntType());
 
   poVertexFnc->WritNew(0,&oDxfVertex,&dRecNo);
@@ -935,7 +911,7 @@ void sstDxf03ReadCls::addHatch(const DL_HatchData& data)
   iStat = poMainFnc->WritNew(0,&oMainRec,&dMainRecNo);
   assert(iStat == 0);
 
-  this->poDxfDb->setMainTabSectEntStart(dEntRecNo);
+  this->poDxfDb->setGrpMainID( dEntRecNo);
 
 }
 //=============================================================================
@@ -957,7 +933,7 @@ void sstDxf03ReadCls::addHatchEdge(const DL_HatchEdgeData& data)
 
   dREC04RECNUMTYP dNumBlocks = 0;
 
-  oDxfHatchEdge.setParentID(this->poDxfDb->getMainTabSectEntStart());
+  oDxfHatchEdge.setParentID(this->poDxfDb->getGrpMainID());
 
   iStat = poHatchEdgeFnc->WritNew(0,&oDxfHatchEdge,&dRecNo);
   assert(iStat == 0);

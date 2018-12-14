@@ -289,3 +289,15 @@ RS2::EntityType sstDxf03DbCls::CnvtTypeString2Enum(std::string oEntityStr)
   return eTmpType;
 }
 //==============================================================================
+// Get Main Table record number
+dREC04RECNUMTYP sstDxf03DbCls::getMainTabRecNo(int iKey, RS2::EntityType eEntityType, dREC04RECNUMTYP dEntRecNo)
+{
+  return this->poDxf03DbIntern->getMainTabRecNo ( iKey, eEntityType, dEntRecNo);
+}
+//==============================================================================
+// Get Section Entities record number, is main table record number minus all block records
+dREC04RECNUMTYP sstDxf03DbCls::getSectEntRecNo(int iKey, RS2::EntityType eEntityType, dREC04RECNUMTYP dEntRecNo)
+{
+  return this->poDxf03DbIntern->getSectEntRecNo( iKey, eEntityType, dEntRecNo);
+}
+//==============================================================================

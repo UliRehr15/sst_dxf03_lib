@@ -76,4 +76,6 @@ Structure of coding projects should be:
 06.11.18: Version 3.20: class database write default blocks paperspace/modelspace in dxf file <BR>
 16.11.18: Version 3.21: publish functions convert TypeEnum to string and viceversa. <BR>
                         Small corrections in looping over section entity objects .<BR>
+14.12.18: Version 3.22: Back Pointer Functions inserted from Entity Table to Main Table. <BR>
+                        Update Functions added after changing data. <BR>
 

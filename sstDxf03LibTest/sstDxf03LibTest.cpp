@@ -73,6 +73,21 @@ int main()
     iStat = oDxfDb.GenerateData( 0);
     assert(iStat >= 0);
 
+    // Look for first record in entity line table and get rec no in main table
+    eEntityType = RS2::EntityLine;
+    dREC04RECNUMTYP dEntRecNo =1;
+
+    // Get Main Table record number
+    dREC04RECNUMTYP dMainTabRecNo = oDxfDb.getMainTabRecNo(0,eEntityType,dEntRecNo);
+    assert(dMainTabRecNo > 0);
+
+    // Get Section Entities record number, is main table record number minus all block records
+    dREC04RECNUMTYP dSectEntRecNo = oDxfDb.getSectEntRecNo(0,eEntityType,dEntRecNo);
+    assert(dSectEntRecNo > 0);
+
+    // Write Database to group for csv files
+    oDxfDb.WritAll2Csv(0,"Test_Utm.dxf");
+
     // Write dxf database to dxf file
     oDxfDb.WritAll2DxfFil(0,"Test_Utm.dxf");
 
@@ -266,7 +281,7 @@ int main()
     iStat = sstMisc01FileCompare( 1,"Test5.dxf","Test6.dxf",&ulRowNo);
     if (iStat != 0)
     {
-      assert(ulRowNo == 1042);  // Problem with handle 340 in DIMSTYLE
+      assert(ulRowNo == 886);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test5.dxf / Test6.dxf OK");

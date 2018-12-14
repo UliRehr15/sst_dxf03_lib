@@ -43,6 +43,52 @@ class sstDxf03DatabaseCls;
 
 //==============================================================================
 /**
+* @brief Convert enum Entity Type to string and back
+*
+* Classes and functions for LibreCAD enum EntityType <BR>
+*
+* Changed: 08.07.15  Re.
+*
+* @ingroup sstDxf03Lib
+*
+* @author Re.
+*
+* @date 08.07.15
+*/
+// ----------------------------------------------------------------------------
+class sstDxf03EntityTypeCls
+{
+  public:   // Public functions
+     sstDxf03EntityTypeCls();  // Constructor
+    //~sstTestBaseCls();  // Destructor
+     //==============================================================================
+     /**
+     * @brief // converts enum to string <BR>
+     * oString = oEntityType.Enum2String(eType);
+     *
+     * @param eType [in] For the moment 0
+     *
+     * @return Type as string
+     */
+     // ----------------------------------------------------------------------------
+     std::string Enum2String(RS2::EntityType eType);
+     //==============================================================================
+     /**
+     * @brief // converts string to enum <BR>
+     * eType = oEntityType.String2Enum(oTypeString);
+     *
+     * @param oTypeString [in] Entity as string
+     *
+     * @return Type as librecad enum
+     */
+     // ----------------------------------------------------------------------------
+     RS2::EntityType String2Enum(std::string oTypeString);
+// ----------------------------------------------------------------------------
+private:  // Private functions
+// int Dum;        /**< Dummy */
+};
+//==============================================================================
+/**
 * @brief Storage Class for dxflib elements
 *
 * splits dxf data into tables with import/export of CSV-Datatypes. <BR>
@@ -656,6 +702,32 @@ class sstDxf03DbCls
   */
   // ----------------------------------------------------------------------------
   RS2::EntityType CnvtTypeString2Enum(std::string oEntityStr);
+  //==============================================================================
+  /**
+  * @brief // Get Main Table record number
+  *
+  * @param iKey          [in] Block number
+  * @param eEntityType   [in] Block number
+  * @param dEntRecNo     [in] Entity Table Record number
+  *
+  * @return Record number in main Table
+  */
+  // ----------------------------------------------------------------------------
+  dREC04RECNUMTYP getMainTabRecNo(int iKey, RS2::EntityType eEntityType, dREC04RECNUMTYP dEntRecNo);
+  //==============================================================================
+  /**
+  * @brief // Get Section Entities record number
+  *
+  * Is main table record number minus all block records
+  *
+  * @param iKey          [in] Block number
+  * @param eEntityType   [in] Block number
+  * @param dEntRecNo     [in] Entity Table Record number
+  *
+  * @return Record number in section entities
+  */
+  // ----------------------------------------------------------------------------
+  dREC04RECNUMTYP getSectEntRecNo(int iKey, RS2::EntityType eEntityType, dREC04RECNUMTYP dEntRecNo);
   //==============================================================================
   private:  // Private functions
     sstDxf03DatabaseCls *poDxf03DbIntern;   /**< Pointer to intern object */

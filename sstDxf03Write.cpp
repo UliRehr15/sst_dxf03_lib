@@ -459,7 +459,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           this->dxf->writePolyline(  *this->dw, oDL_Polyline, oAttributes);
 
           this->poDxfDb->setActEntType(oMainRec.getEntityType());
-          this->poDxfDb->setMainTabSectEntStart(oMainRec.getTypeID());
+          this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
         }
         break;
         case RS2::EntityVertex:
@@ -760,7 +760,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       this->dxf->writeArc(  *this->dw, oDL_Arc, oAttributes);
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
-      this->poDxfDb->setMainTabSectEntStart(oMainRec.getTypeID());
+      this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
 
       break;
     }
@@ -789,7 +789,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       this->dxf->writeCircle(  *this->dw, oDL_Circle, oAttributes);
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
-      this->poDxfDb->setMainTabSectEntStart(oMainRec.getTypeID());
+      this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
 
       break;
     }
@@ -818,7 +818,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       this->dxf->writeMText(  *this->dw, oDL_MText, oAttributes);
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
-      this->poDxfDb->setMainTabSectEntStart(oMainRec.getTypeID());
+      this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
 
       break;
     }
@@ -847,7 +847,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       this->dxf->writeText(  *this->dw, oDL_Text, oAttributes);
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
-      this->poDxfDb->setMainTabSectEntStart(oMainRec.getTypeID());
+      this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
 
       break;
     }
@@ -888,7 +888,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
                                 DL_Attributes(oLayRec.getName(), 256, -1, "BYLAYER", dLineTypeScale));
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
-      this->poDxfDb->setMainTabSectEntStart(oMainRec.getTypeID());
+      this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
 
       break;
     }
@@ -945,7 +945,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       this->dxf->writePolyline(  *this->dw, oDL_Polyline, oAttributes);
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
-      this->poDxfDb->setMainTabSectEntStart(oMainRec.getTypeID());
+      this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
 
       break;
     }
@@ -996,7 +996,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
                                 oDL_Point, oAttributes);
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
-      this->poDxfDb->setMainTabSectEntStart(oMainRec.getTypeID());
+      this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
 
       break;
     }
@@ -1027,7 +1027,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
                                 oDL_Line, oAttributes);
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
-      this->poDxfDb->setMainTabSectEntStart(oMainRec.getTypeID());
+      this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
 
       break;
     }

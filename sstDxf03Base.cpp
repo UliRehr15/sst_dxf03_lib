@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-//  sstDxf03Base.cpp   01.11.16  Re.   27.02.16  Re.
+//  sstDxf03Base.cpp   14.12.18  Re.   27.02.16  Re.
 //
 //  Functions for sst dxf Base Classes
 //
@@ -56,6 +56,7 @@ sstDxf03TypBaseCls::sstDxf03TypBaseCls()
   this->dLayerID = 0;
   this->dBlockID = 0;
   this->dLinetypeID = 0;
+  this->dMainRecNo = 0;
   this->color = 0;
   this->color24 = 0;
   this->width = 0;
@@ -334,5 +335,15 @@ int sstDxf03FncBaseCls::Csv_BaseHeader2(int iKey, std::string *ssstDxfLib_Str)
   }
 
   return iStat;
+}
+//=============================================================================
+dREC04RECNUMTYP sstDxf03TypBaseCls::getMainRecNo() const
+{
+return dMainRecNo;
+}
+//=============================================================================
+void sstDxf03TypBaseCls::setMainRecNo(const dREC04RECNUMTYP &value)
+{
+dMainRecNo = value;
 }
 //=============================================================================
