@@ -1000,6 +1000,37 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
 
       break;
     }
+//    case RS2::EntityInsert:
+//    {
+//      sstDxf03FncInsertCls *oLocSstFncInsert = NULL;
+//      oLocSstFncInsert = this->poDxfDb->getSstFncInsert();
+
+//      // if new entity-type, then write open polyline or hatch and close
+//      iStat = this->WriteOpenEntities(0);
+
+//      sstDxf03TypInsertCls oInsertRec;
+//      DL_InsertData oDL_Insert("0",0,0,0,1,1,1,0,1,1,0,0);
+
+//      iStat = oLocSstFncInsert->Read(0,oMainRec.getTypeID(),&oInsertRec);
+//      assert(iStat == 0);
+
+//      // write record data to dxflib object
+//      oInsertRec.WritToDL(&oDL_Insert);
+
+//      DL_Attributes oAttributes;  // Dxflib Attributes
+//      oInsertRec.BaseWritToDL(&oAttributes);
+//      oAttributes.setLayer(oLayRec.getName());
+//      // oAttributes.setLineType("BYBLOCK");
+
+//      // write next insert into dxf file
+//      this->dxf->writeInsert(  *this->dw,
+//                                oDL_Insert, oAttributes);
+
+//      this->poDxfDb->setActEntType(oMainRec.getEntityType());
+//      this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
+
+//      break;
+//    }
     case RS2::EntityLine:
     {
       sstDxf03FncLineCls *oLocSstFncLine = NULL;

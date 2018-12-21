@@ -109,39 +109,43 @@ void sstDxf03ReadCls::addLayer(const DL_LayerData& data)
 void sstDxf03ReadCls::addBlock(const DL_BlockData& data)
 {
   int iStat = 0;
-  sstDxf03TypBlkCls oBlk;
-  dREC04RECNUMTYP dRecNo = 0;
-  sstDxf03FncBlkCls *poBlkFnc;
-  poBlkFnc = this->poDxfDb->getSstFncBlk();
 
-  sstDxf03TypLTypeCls oLTypeRec;
-  sstDxf03FncLTypeCls *poLTypeTab;
-  poLTypeTab = this->poDxfDb->getSstFncLType();
+  iStat = this->poDxfDb->openBlock(0,data,attributes);
+  assert(iStat >= 0);
+//  sstDxf03TypBlkCls oBlk;
+//  dREC04RECNUMTYP dRecNo = 0;
+//  sstDxf03FncBlkCls *poBlkFnc;
+//  poBlkFnc = this->poDxfDb->getSstFncBlk();
 
-  oBlk.setName( data.name.c_str());
-  oBlk.BaseReadFromDL(attributes);
+//  sstDxf03TypLTypeCls oLTypeRec;
+//  sstDxf03FncLTypeCls *poLTypeTab;
+//  poLTypeTab = this->poDxfDb->getSstFncLType();
 
-  // write new Linetype record into table if not exist
-  dREC04RECNUMTYP dLTypeRecNo = 0;
-  oLTypeRec.setName(attributes.getLinetype());
-  iStat = poLTypeTab->WriteNewUnique( 0, oLTypeRec, &dLTypeRecNo);
+//  oBlk.setName( data.name.c_str());
+//  oBlk.BaseReadFromDL(attributes);
+
+//  // write new Linetype record into table if not exist
+//  dREC04RECNUMTYP dLTypeRecNo = 0;
+//  oLTypeRec.setName(attributes.getLinetype());
+//  iStat = poLTypeTab->WriteNewUnique( 0, oLTypeRec, &dLTypeRecNo);
 
   oActBlockNam = data.name;
 
-  // Write new record into record memory and update all trees
-  oBlk.setLinetypeID(dLTypeRecNo);
-  iStat = poBlkFnc->TreWriteNew( 0, &oBlk, &dRecNo);
-  assert(iStat == 0);
-  std::string oModelSpaceName = "*Model_Space";
-  iStat = oModelSpaceName.compare(data.name);
-  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
-  oModelSpaceName = "*MODEL_SPACE";
-  iStat = oModelSpaceName.compare(data.name);
-  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
+//  // Write new record into record memory and update all trees
+//  oBlk.setLinetypeID(dLTypeRecNo);
+//  iStat = poBlkFnc->TreWriteNew( 0, &oBlk, &dRecNo);
+//  assert(iStat == 0);
+//  std::string oModelSpaceName = "*Model_Space";
+//  iStat = oModelSpaceName.compare(data.name);
+//  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
+//  oModelSpaceName = "*MODEL_SPACE";
+//  iStat = oModelSpaceName.compare(data.name);
+//  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
 }
 //=============================================================================
 void sstDxf03ReadCls::endBlock()
 {
+  this->poDxfDb->closeBlock(0);
   oActBlockNam.clear();
 }
 //=============================================================================

@@ -6314,6 +6314,28 @@ class sstDxf03DatabaseCls
                      dREC04RECNUMTYP     *oMainRecNo);
      //==============================================================================
      /**
+     * @brief // Rewrite existing or write new Insert entity into dxf database <BR>
+     * iStat = oDxfDbInt.WriteInsert (iKey,oDlInsert,oDLAttributes, &oEntRecNo, &oMainRecNo);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param oDlInsert     [in] Insert Entity
+     * @param oDLAttributes [in] Entity attributes
+     * @param oEntRecNo     [in out] =0: New, record number
+     * @param oMainRecNo    [out] record number in main table
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteInsert (int                  iKey,
+                     const DL_InsertData   oDlInsert,
+                     const DL_Attributes   oDLAttributes,
+                     dREC04RECNUMTYP      *oEntRecNo,
+                     dREC04RECNUMTYP      *oMainRecNo);
+     //==============================================================================
+     /**
      * @brief // Rewrite existing or write new Line entity into dxf database <BR>
      * iStat = oDxfDbInt.WriteLine (iKey,oDLLine,oDLAttributes, &oEntRecNo, &oMainRecNo);
      *
@@ -6626,6 +6648,23 @@ class sstDxf03DatabaseCls
      int ReadPoint ( int iKey, dREC04RECNUMTYP dRecNo, DL_PointData *oDLPoint, DL_Attributes *oDLAttributes);
      //==============================================================================
      /**
+     * @brief // Read Insert from table with attributes <BR>
+     * iStat = oDxfDb.ReadInsert( iKey, dRecNo, &oDLInsert, &oDLAttributes);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param dRecNo        [int] Record number in table
+     * @param oDLInsert     [out] Return Insert
+     * @param oDLAttributes [out] Return Circle attributes
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int ReadInsert ( int iKey, dREC04RECNUMTYP dRecNo, DL_InsertData *oDLInsert, DL_Attributes *oDLAttributes);
+     //==============================================================================
+     /**
      * @brief // Read MText from table with attributes <BR>
      * iStat = oDxfDb.ReadMText( iKey, dRecNo, &oDLMText, &oDLAttributes);
      *
@@ -6883,10 +6922,59 @@ class sstDxf03DatabaseCls
      // ----------------------------------------------------------------------------
      void setIsUpdated(bool value);
      //==============================================================================
+     /**
+     * @brief // Open Section Blocks and open (new) Block <BR>
+     * iStat = oDxfDB.openBlock ( iKey);
+     *
+     * Open Block for reading / writing.
+     * Writing new block data only possible, if no section entities exist.
+     *
+     * @param iKey        [in] For the moment 0
+     * @param oBlock      [in] New Block Data
+     * @param oAttributes [in] New Block Attribute Data
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int openBlock(int iKey, const DL_BlockData& oBlock, const DL_Attributes oAttributes);
+     //==============================================================================
+     /**
+     * @brief // Close actual open block <BR>
+     * iStat = oDxfDB.closeBlock( iKey);
+     *
+     * @param iKey [in] For the moment 0
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int closeBlock(int iKey);
+     //==============================================================================
+     /**
+     * @brief // Close section blocks and open section entities <BR>
+     * iStat = oDxfDB.openSectionEntities( iKey);
+     *
+     * Open Section Entities for reading / writing.
+     *
+     * @param iKey [in] For the moment 0
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int openSectionEntities(int iKey);
+     //==============================================================================
 
 private:  // Private functions
 
-     sstDxf03FncMainCls oSstFncMain;      /**< Main table object */
+  sstDxf03FncMainCls oSstFncMain;      /**< Main table object */
   sstDxf03FncLayCls oSstFncLay;        /**< layer table object */
   sstDxf03FncBlkCls oSstFncBlk;        /**< Block table object */
   sstDxf03FncLTypeCls oSstFncLType;        /**< LineType table object */
@@ -6907,6 +6995,7 @@ private:  // Private functions
   dREC04RECNUMTYP dMainTabSectEntStart;          // Start of entity section in main table
   RS2::EntityType eActEntType;            // Actual Entity Type
   std::string sActLayBlkNam;              // Actual Layer/Block Name
+  // std::string oActBlockNam;               /**< actual block name */
   RS2::EntityType eGrpEntType;            // Group Entity Type
   dREC04RECNUMTYP dGrpMainID;             // Group Main ID
   dREC04RECNUMTYP dGrpSubID;              // Sub Group ID like HatchLoop

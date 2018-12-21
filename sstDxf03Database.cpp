@@ -551,6 +551,89 @@ int sstDxf03DatabaseCls::WritePoint (int                  iKey,
   return 0;
 }
 //=============================================================================
+int sstDxf03DatabaseCls::WriteInsert (int                  iKey,
+                                     const DL_InsertData   data,
+                                     const DL_Attributes  attributes,
+                                     dREC04RECNUMTYP     *dEntRecNo,
+                                     dREC04RECNUMTYP     *dMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+  std::string oLayerStr;
+  std::string oBlockStr;
+
+  sstDxf03TypInsertCls oDxfInsert;
+  oDxfInsert.ReadFromDL(data);
+  oDxfInsert.BaseReadFromDL(attributes);
+  dREC04RECNUMTYP dLayRecNo=0;
+  dREC04RECNUMTYP dBlkRecNo=0;
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  if (*dEntRecNo > 0)
+  {
+    // Existing Insert
+    oDxfInsert.ReadFromDL(data);
+    oDxfInsert.BaseReadFromDL(attributes);
+    iStat = this->oSstFncInsert.Writ( 0, &oDxfInsert, *dEntRecNo);
+    // oLine.BaseWritToDL(oDLAttributes);
+    return iStat;
+  }
+
+  // New insert
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    dNumBlocks = this->oSstFncBlk.count();
+    oDxfInsert.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = attributes.getLayer();
+    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
+    oBlockStr = data.name;
+    if (oBlockStr.length() <= 0) return -2;  // Empty Layername not allowed
+
+    // Find record with exact search value
+    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    // assert(iStat == 1);
+    if ( iStat != 1) return -3;  // Layername not found in layer table
+    oDxfInsert.setLayerID(dLayRecNo);
+
+    // Find record with exact search value
+    iStat = this->oSstFncBlk.TreSeaEQ( 0, this->oSstFncBlk.getNameSortKey(), (void*) oBlockStr.c_str(), &dBlkRecNo);
+    // assert(iStat == 1);
+    if ( iStat != 1) return -3;  // Layername not found in layer table
+    oDxfInsert.setBlockID(dBlkRecNo);
+  }
+  iStat = this->oSstFncInsert.WritNew(0,&oDxfInsert, dEntRecNo);
+
+  sstDxf03TypMainCls oMainRec;
+
+  *dMainRecNo = this->oSstFncMain.count();
+
+  oMainRec.setMainID( *dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityInsert);
+  oMainRec.setTypeID(*dEntRecNo);
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
+  return 0;
+}
+//=============================================================================
 int sstDxf03DatabaseCls::WriteLine (int                  iKey,
                                     const DL_LineData  data,
                                     const DL_Attributes  attributes,
@@ -1463,6 +1546,24 @@ int sstDxf03DatabaseCls::ReadPoint ( int iKey, dREC04RECNUMTYP dRecNo, DL_PointD
   return iStat;
 }
 //=============================================================================
+int sstDxf03DatabaseCls::ReadInsert ( int iKey, dREC04RECNUMTYP dRecNo, DL_InsertData *oDLInsert, DL_Attributes *oDLAttributes)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypInsertCls oInsert;
+
+  iStat = this->oSstFncInsert.Read(0,dRecNo,&oInsert);
+  oInsert.BaseWritToDL(oDLAttributes);
+
+  // Update DL Attributes with Layer/LType Identifier
+  iStat = this->UpdateAttribWithId(0,oInsert.getLayerID(),oInsert.getLinetypeID(), oDLAttributes);
+
+  oInsert.WritToDL(oDLInsert);
+  return iStat;
+}
+//=============================================================================
 int sstDxf03DatabaseCls::ReadMText ( int iKey, dREC04RECNUMTYP dRecNo, DL_MTextData *oDLMText, DL_Attributes *oDLAttributes)
 {
   int iStat = 0;
@@ -1713,6 +1814,27 @@ int sstDxf03DatabaseCls::GenerateData ( int iKey)
   if ( iKey != 0) return -1;
 
   sstMath01dPnt2Cls oPnt;
+
+  // Create first symbol block
+  DL_BlockData oBlock("Sym1",0,0.0,0.0,0.0);
+  DL_Attributes oAttributes;
+  iStat = this->openBlock(0,oBlock,oAttributes);
+
+  // Write new DL Circle object to block section of sst dxf database
+  // write new circle (border)
+  oPnt.Set(10.0,10.0);
+  DL_CircleData oDLCircle(oPnt.getX(),oPnt.getY(),0,1);
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+  iStat = this->WriteNewCircle( 0, oDLCircle, oAttributes, &oEntRecNo, &oMainRecNo);
+  assert(iStat >= 0);
+
+  // Start fill section entities
+  iStat = this->openSectionEntities(0);
+
+  oAttributes.setLayer("0");
+  oAttributes.setLinetype("CONTINUOUS");
+
   // oPnt.Set(0.0,0.0);
   // oPnt.Set(10.0,10.0);
   // oPnt.Set(100.0,100.0);
@@ -1724,16 +1846,22 @@ int sstDxf03DatabaseCls::GenerateData ( int iKey)
   // oPnt.Set(30000000.0,5000000.0);  // not visible in librecad 2.1.2
   // oPnt.Set(32540679.0,5804153.0);  // Utm Germany Lower Saxony EPSG=4647
 
+  // Insert in section blocks defined symbol Sym1
+  DL_InsertData oDlInsert("Sym1",oPnt.getX()-3,oPnt.getY()-3,0,1,1,1,0,1,1,0,0);
+  oEntRecNo = 0;
+  oMainRecNo = 0;
+  iStat = this->WriteInsert(0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
+  assert(iStat >= 0);
+
   // write new circle (border)
-  DL_CircleData oDLCircle(oPnt.getX(),oPnt.getY(),0,1);
-  DL_Attributes oAttributes;
-  dREC04RECNUMTYP oEntRecNo = 0;
-  dREC04RECNUMTYP oMainRecNo = 0;
-  oAttributes.setLayer("0");
-  oAttributes.setLinetype("CONTINUOUS");
+  oDLCircle.cx = oPnt.getX();
+  oDLCircle.cy = oPnt.getY();
+  oDLCircle.cz = 0;
+  oDLCircle.radius = 1;
+  oEntRecNo = 0;
+  oMainRecNo = 0;
 
-
-  // Write new DL Circle object to sst dxf database
+  // Write new DL Circle object to section entites of sst dxf database
   iStat = this->WriteNewCircle( 0, oDLCircle, oAttributes, &oEntRecNo, &oMainRecNo);
   assert(iStat >= 0);
 
@@ -1935,5 +2063,70 @@ return isUpdated;
 void sstDxf03DatabaseCls::setIsUpdated(bool value)
 {
 isUpdated = value;
+}
+//==============================================================================
+int sstDxf03DatabaseCls::openBlock(int iKey, const DL_BlockData& data, const DL_Attributes attributes)
+{
+  // int iStat = 0;
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+  sstDxf03TypBlkCls oBlk;
+  dREC04RECNUMTYP dRecNo = 0;
+  //-----------------------------------------------------------------------------
+  // Close Block, if one is actual open
+  iStat = this->closeBlock(0);
+
+  sstDxf03FncBlkCls *poBlkFnc;
+  poBlkFnc = this->getSstFncBlk();
+
+  sstDxf03TypLTypeCls oLTypeRec;
+  sstDxf03FncLTypeCls *poLTypeTab;
+  poLTypeTab = this->getSstFncLType();
+
+  oBlk.setName( data.name.c_str());
+  oBlk.BaseReadFromDL(attributes);
+
+  // write new Linetype record into table if not exist
+  dREC04RECNUMTYP dLTypeRecNo = 0;
+  oLTypeRec.setName(attributes.getLinetype());
+  iStat = poLTypeTab->WriteNewUnique( 0, oLTypeRec, &dLTypeRecNo);
+
+  this->sActLayBlkNam = data.name;
+
+  // Write new record into record memory and update all trees
+  oBlk.setLinetypeID(dLTypeRecNo);
+  iStat = poBlkFnc->TreWriteNew( 0, &oBlk, &dRecNo);
+  assert(iStat == 0);
+  std::string oModelSpaceName = "*Model_Space";
+  iStat = oModelSpaceName.compare(data.name);
+  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
+  else iStat = 0;
+  oModelSpaceName = "*MODEL_SPACE";
+  iStat = oModelSpaceName.compare(data.name);
+  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
+  else iStat = 0;
+
+  return iStat;
+}
+//==============================================================================
+int sstDxf03DatabaseCls::closeBlock(int iKey)
+{
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+  sActLayBlkNam.clear();
+  return iStat;
+}
+//==============================================================================
+int sstDxf03DatabaseCls::openSectionEntities(int iKey)
+{
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  this->closeBlock(0);
+
+  return iStat;
 }
 //==============================================================================

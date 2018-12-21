@@ -668,6 +668,48 @@ class sstDxf03DbCls
                  DL_Attributes   *oDlAttributes);
   //==============================================================================
   /**
+  * @brief // Rewrite existing or write new Insert entity into dxf database <BR>
+  * iStat = oDxfDbInt.WriteInsert (iKey,oDlInsert,oDLAttributes, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey          [in] For the moment 0
+  * @param oDlInsert     [in] Insert Entity
+  * @param oDLAttributes [in] Entity attributes
+  * @param oEntRecNo     [in out] =0: New, record number
+  * @param oMainRecNo    [out] record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int WriteInsert (int                  iKey,
+                  const DL_InsertData   oDlInsert,
+                  const DL_Attributes   oDLAttributes,
+                  dREC04RECNUMTYP      *oEntRecNo,
+                  dREC04RECNUMTYP      *oMainRecNo);
+  //==============================================================================
+  /**
+  * @brief // Read Insert from table with attributes <BR>
+  * iStat = oDxfDb.ReadInsert ( iKey, dRecNo, &oDlInsert, &oDLAttributes);
+  *
+  * @param iKey          [in]  For the moment 0
+  * @param dRecNo        [int] Record number in line table
+  * @param oDlInsert     [out] Return Insert
+  * @param oDlAttributes [out] Return DL attributes
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadInsert ( int              iKey,
+                   dREC04RECNUMTYP  dRecNo,
+                   DL_InsertData   *oDlInsert,
+                   DL_Attributes   *oDlAttributes);
+  //==============================================================================
+  /**
   * @brief // Generate dxf data in utm area (Germany)  <BR>
   * iStat = oDxfDb.GenerateData ( iKey, &oPrt);
   *
@@ -728,6 +770,41 @@ class sstDxf03DbCls
   */
   // ----------------------------------------------------------------------------
   dREC04RECNUMTYP getSectEntRecNo(int iKey, RS2::EntityType eEntityType, dREC04RECNUMTYP dEntRecNo);
+  //==============================================================================
+  /**
+  * @brief // Open Section Blocks and open (new) Block <BR>
+  * iStat = oDxfDB.openBlock ( iKey);
+  *
+  * Open Block for reading / writing.
+  * Writing new block data only possible, if no section entities exist.
+  *
+  * @param iKey        [in] For the moment 0
+  * @param oBlock      [in] New Block Data
+  * @param oAttributes [in] New Block Attribute Data
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int openBlock(int iKey,  const DL_BlockData& oBlock, const DL_Attributes oAttributes);
+  //==============================================================================
+  /**
+  * @brief // Close section blocks and open section entities <BR>
+  * iStat = oDxfDB.openSectionEntities( iKey);
+  *
+  * Open Section Entities for reading / writing.
+  *
+  * @param iKey [in] For the moment 0
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int openSectionEntities(int iKey);
   //==============================================================================
   private:  // Private functions
     sstDxf03DatabaseCls *poDxf03DbIntern;   /**< Pointer to intern object */

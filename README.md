@@ -78,4 +78,6 @@ Structure of coding projects should be:
                         Small corrections in looping over section entity objects .<BR>
 14.12.18: Version 3.22: Back Pointer Functions inserted from Entity Table to Main Table. <BR>
                         Update Functions added after changing data. <BR>
+21.12.18: Version 3.23: Database interface now supports creating blocks and insert entity.
+                        Extend dxf generate data function with blocks and inserts for testing. <BR>
 

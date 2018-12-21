@@ -268,6 +268,23 @@ int sstDxf03DbCls::ReadText ( int iKey,
   return this->poDxf03DbIntern->ReadText(iKey,dRecNo, oDlText, oDLAttributes);
 }
 //==============================================================================
+int sstDxf03DbCls::WriteInsert (int iKey,
+               const DL_InsertData    oDlInsert,
+               const DL_Attributes  oDLAttributes,
+               dREC04RECNUMTYP     *oEntRecNo,
+               dREC04RECNUMTYP     *oMainRecNo)
+{
+  return this->poDxf03DbIntern->WriteInsert(iKey,oDlInsert,oDLAttributes,oEntRecNo, oMainRecNo);
+}
+//==============================================================================
+int sstDxf03DbCls::ReadInsert ( int iKey,
+               dREC04RECNUMTYP dRecNo,
+               DL_InsertData *oDlInsert,
+               DL_Attributes *oDLAttributes)
+{
+  return this->poDxf03DbIntern->ReadInsert(iKey,dRecNo, oDlInsert, oDLAttributes);
+}
+//==============================================================================
 int sstDxf03DbCls::GenerateData ( int iKey)
 {
   return this->poDxf03DbIntern->GenerateData(iKey);
@@ -299,5 +316,15 @@ dREC04RECNUMTYP sstDxf03DbCls::getMainTabRecNo(int iKey, RS2::EntityType eEntity
 dREC04RECNUMTYP sstDxf03DbCls::getSectEntRecNo(int iKey, RS2::EntityType eEntityType, dREC04RECNUMTYP dEntRecNo)
 {
   return this->poDxf03DbIntern->getSectEntRecNo( iKey, eEntityType, dEntRecNo);
+}
+//==============================================================================
+int sstDxf03DbCls::openBlock(int iKey,  const DL_BlockData& data, const DL_Attributes attributes)
+{
+  return this->poDxf03DbIntern->openBlock(iKey, data, attributes);
+}
+//==============================================================================
+int sstDxf03DbCls::openSectionEntities(int iKey)
+{
+  return this->poDxf03DbIntern->openSectionEntities(iKey);
 }
 //==============================================================================
