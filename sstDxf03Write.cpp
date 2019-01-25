@@ -555,7 +555,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
         }
 
       }
-      else break;
+      // else break;
 
     }
 

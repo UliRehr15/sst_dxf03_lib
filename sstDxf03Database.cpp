@@ -1822,14 +1822,55 @@ int sstDxf03DatabaseCls::GenerateData ( int iKey)
 
   // Write new DL Circle object to block section of sst dxf database
   // write new circle (border)
-  oPnt.Set(10.0,10.0);
+  oPnt.Set(0.0,0.0);
   DL_CircleData oDLCircle(oPnt.getX(),oPnt.getY(),0,1);
   dREC04RECNUMTYP oEntRecNo = 0;
   dREC04RECNUMTYP oMainRecNo = 0;
   iStat = this->WriteNewCircle( 0, oDLCircle, oAttributes, &oEntRecNo, &oMainRecNo);
   assert(iStat >= 0);
 
-  // Start fill section entities
+  {
+    // Insert two Lines
+    oEntRecNo = 0;
+    oPnt.Set(0.0,0.0);
+    DL_LineData oDlLine(oPnt.getX()-1.0,oPnt.getY()-1.0,0,oPnt.getX()+1.0,oPnt.getY()+1.0,0);
+    iStat = this->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+    oDlLine.x1 = oPnt.getX()+1.0; oDlLine.y1 = oPnt.getY() -1.0;
+    oDlLine.x2 = oPnt.getX()-1.0; oDlLine.y2 = oPnt.getY() +1.0;
+    oEntRecNo = 0;
+    iStat = this->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+  }
+
+  this->closeBlock(0);
+
+  // Define next block
+  oBlock.name = "Sym2";
+  iStat = this->openBlock(0,oBlock,oAttributes);
+
+  {
+    // Insert 4 Lines
+    oEntRecNo = 0;
+    oPnt.Set(0.0,0.0);
+    DL_LineData oDlLine(oPnt.getX()-1.0,oPnt.getY()-1.0,0,oPnt.getX()+1.0,oPnt.getY()-1.0,0);
+    iStat = this->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+    oDlLine.x1 = oPnt.getX()+1.0; oDlLine.y1 = oPnt.getY() -1.0;
+    oDlLine.x2 = oPnt.getX()+1.0; oDlLine.y2 = oPnt.getY() +1.0;
+    oEntRecNo = 0;
+    iStat = this->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+    oDlLine.x1 = oPnt.getX()+1.0; oDlLine.y1 = oPnt.getY() +1.0;
+    oDlLine.x2 = oPnt.getX()-1.0; oDlLine.y2 = oPnt.getY() +1.0;
+    oEntRecNo = 0;
+    iStat = this->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+    iStat = this->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+    oDlLine.x1 = oPnt.getX()-1.0; oDlLine.y1 = oPnt.getY() +1.0;
+    oDlLine.x2 = oPnt.getX()-1.0; oDlLine.y2 = oPnt.getY() -1.0;
+    oEntRecNo = 0;
+    iStat = this->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+  }
+
+  this->closeBlock(0);
+
+  // Start fill section entities and close section blocks
   iStat = this->openSectionEntities(0);
 
   oAttributes.setLayer("0");
@@ -1847,11 +1888,27 @@ int sstDxf03DatabaseCls::GenerateData ( int iKey)
   // oPnt.Set(32540679.0,5804153.0);  // Utm Germany Lower Saxony EPSG=4647
 
   // Insert in section blocks defined symbol Sym1
-  DL_InsertData oDlInsert("Sym1",oPnt.getX()-3,oPnt.getY()-3,0,1,1,1,0,1,1,0,0);
-  oEntRecNo = 0;
-  oMainRecNo = 0;
-  iStat = this->WriteInsert(0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
-  assert(iStat >= 0);
+  {
+    DL_InsertData oDlInsert("Sym1",oPnt.getX()-3,oPnt.getY()-3,0,1,1,1,0,1,1,0,0);
+    oEntRecNo = 0;
+    oMainRecNo = 0;
+    iStat = this->WriteInsert(0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
+    assert(iStat >= 0);
+  }
+  {
+    DL_InsertData oDlInsert("Sym1",oPnt.getX()+3,oPnt.getY()-3,0,1,1,1,0,1,1,0,0);
+    oEntRecNo = 0;
+    oMainRecNo = 0;
+    iStat = this->WriteInsert(0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
+    assert(iStat >= 0);
+  }
+  {
+    DL_InsertData oDlInsert("Sym2",oPnt.getX()+2,oPnt.getY()-2,0,1,1,1,0,1,1,0,0);
+    oEntRecNo = 0;
+    oMainRecNo = 0;
+    iStat = this->WriteInsert(0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
+    assert(iStat >= 0);
+  }
 
   // write new circle (border)
   oDLCircle.cx = oPnt.getX();

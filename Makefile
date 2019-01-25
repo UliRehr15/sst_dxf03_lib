@@ -93,7 +93,8 @@ OBJECTS       = sstDxf03Arc.o \
 		sstDxf03Block.o \
 		sstDxf03Lib.o \
 		sstDxf03Trace.o
-DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
+DIST          = sstDxf03Lib.odt \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/sanitize.conf \

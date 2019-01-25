@@ -58,3 +58,6 @@ release{
 
 DESTDIR     = ../libs
 
+DISTFILES += \
+    sstDxf03Lib.odt
+

@@ -80,4 +80,5 @@ Structure of coding projects should be:
                         Update Functions added after changing data. <BR>
 21.12.18: Version 3.23: Database interface now supports creating blocks and insert entity.
                         Extend dxf generate data function with blocks and inserts for testing. <BR>
+25.01.19: Version 3.24: Extend dxf generate data function with handling more blocks. <BR>
 
