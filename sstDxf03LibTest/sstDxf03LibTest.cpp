@@ -85,6 +85,55 @@ int main()
     dREC04RECNUMTYP dSectEntRecNo = oDxfDb.getSectEntRecNo(0,eEntityType,dEntRecNo);
     assert(dSectEntRecNo > 0);
 
+    // Count Blocks in database
+    // return number of blocks in sstDxfDb
+    dREC04RECNUMTYP dNumBlocks = oDxfDb.countBlocks();
+    assert(dNumBlocks == 2);
+
+    for (dREC04RECNUMTYP ll=1; ll <= dNumBlocks; ll++)
+    {
+      // Read block from table with attributes
+      DL_BlockData    oDLBlock("",0,0.0,0.0,0.0);
+      DL_Attributes   oDLAttributes;
+      iStat = oDxfDb.ReadBlock ( 0, ll, &oDLBlock, &oDLAttributes);
+      assert (iStat == 0);
+
+      // return number of entities in actual block in sstDxfDb
+      dREC04RECNUMTYP dNumEntities = oDxfDb.countEntities (0, ll);
+      assert(dNumEntities > 0);
+
+      // return start of entities of actual block in Main table
+      dREC04RECNUMTYP dStartBlkMainTab = oDxfDb.getBlkStartMainTab (0, ll);
+      assert(dStartBlkMainTab > 0);
+      // Loop over all entities of actual block
+      for (dREC04RECNUMTYP kk = dStartBlkMainTab; kk <= dStartBlkMainTab+dNumEntities; kk++)
+      {
+        iStat = oDxfDb.ReadMainTable( 0, kk, &eEntityType, &dEntRecNo);
+        assert(iStat >= 0);
+        switch (eEntityType) {
+        case RS2::EntityCircle:
+        {
+          DL_CircleData oCircleRec(0,0,0,1);    // Entity Circle from dxflib
+          DL_Attributes oAttribRec;
+          iStat = oDxfDb.ReadCircle(0,dEntRecNo,&oCircleRec,&oAttribRec);
+        }
+          break;
+        case RS2::EntityUnknown:
+          break;
+        default:
+          break;
+        }  // end switch
+        assert(iStat >= 0);
+      }
+    }
+
+    dREC04RECNUMTYP dBlkNo = oDxfDb.searchBlkNoWithName(0,"Sym1");
+    assert(dBlkNo == 1);
+    dBlkNo = oDxfDb.searchBlkNoWithName(0,"Sym2");
+    assert(dBlkNo == 2);
+    dBlkNo = oDxfDb.searchBlkNoWithName(0,"SymX");
+    assert(dBlkNo == 0);
+
     // Write Database to group for csv files
     oDxfDb.WritAll2Csv(0,"Test_Utm.dxf");
 

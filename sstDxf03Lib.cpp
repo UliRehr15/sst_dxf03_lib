@@ -328,3 +328,13 @@ int sstDxf03DbCls::openSectionEntities(int iKey)
   return this->poDxf03DbIntern->openSectionEntities(iKey);
 }
 //==============================================================================
+dREC04RECNUMTYP sstDxf03DbCls::getBlkStartMainTab(int iKey, dREC04RECNUMTYP dEntRecNo)
+{
+  return this->poDxf03DbIntern->getBlkStartMainTab(iKey,dEntRecNo);
+}
+//==============================================================================
+dREC04RECNUMTYP sstDxf03DbCls::searchBlkNoWithName(int iKey, const std::string oBlkNamStr)
+{
+  return this->poDxf03DbIntern->searchBlkNoWithName( iKey, oBlkNamStr);
+}
+//==============================================================================

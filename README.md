@@ -1,9 +1,11 @@
 # sst_dxf03_lib
 
-sst_dxf03_lib stores dxf data in sst tables (sst_rec04_lib).
-for every dxf entity type like ARC, MTEXT and so on there is a table.
-this sst dxf tables could be stored in csv, so editing with spreedsheets
-like excel is possible.
+sst_dxf03_lib extendes dxflib with storing functions.
+Eveny entity type is stored in sst table (github.com/UliRehr15/sst_rec04_lib).
+For every dxf entity type like ARC, MTEXT and so on there is a table.
+This sst dxf tables could be stored in memory or filesystem.
+Exporting to csv is possible, so editing with spreedsheets
+like excel could be done.
 
 fork from sst_dxf02_lib: change license
 
@@ -81,4 +83,5 @@ Structure of coding projects should be:
 21.12.18: Version 3.23: Database interface now supports creating blocks and insert entity.
                         Extend dxf generate data function with blocks and inserts for testing. <BR>
 25.01.19: Version 3.24: Extend dxf generate data function with handling more blocks. <BR>
+08.02.19: Version 3.25: Functions for reading, writing of block data.
 

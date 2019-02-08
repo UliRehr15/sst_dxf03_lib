@@ -748,8 +748,8 @@ class sstDxf03DbCls
   /**
   * @brief // Get Main Table record number
   *
-  * @param iKey          [in] Block number
-  * @param eEntityType   [in] Block number
+  * @param iKey          [in] For the moment 0
+  * @param eEntityType   [in] Entity Type
   * @param dEntRecNo     [in] Entity Table Record number
   *
   * @return Record number in main Table
@@ -762,8 +762,8 @@ class sstDxf03DbCls
   *
   * Is main table record number minus all block records
   *
-  * @param iKey          [in] Block number
-  * @param eEntityType   [in] Block number
+  * @param iKey          [in] For the moment 0
+  * @param eEntityType   [in] Entity Type
   * @param dEntRecNo     [in] Entity Table Record number
   *
   * @return Record number in section entities
@@ -805,6 +805,28 @@ class sstDxf03DbCls
   */
   // ----------------------------------------------------------------------------
   int openSectionEntities(int iKey);
+  //==============================================================================
+  /**
+  * @brief // return start of entities of actual block in Main table
+  *
+  * @param iKey       [in] For the moment 0
+  * @param dBlkNo     [in] Block number
+  *
+  * @return Start of block records in main Table
+  */
+  // ----------------------------------------------------------------------------
+  dREC04RECNUMTYP getBlkStartMainTab(int iKey, dREC04RECNUMTYP dBlkNo);
+  //==============================================================================
+  /**
+  * @brief // return Block number with block name
+  *
+  * @param iKey        [in] For the moment 0
+  * @param oBlkNamStr  [in] Block name string
+  *
+  * @return block number in block table
+  */
+  // ----------------------------------------------------------------------------
+  dREC04RECNUMTYP searchBlkNoWithName(int iKey, const std::string oBlkNamStr);
   //==============================================================================
   private:  // Private functions
     sstDxf03DatabaseCls *poDxf03DbIntern;   /**< Pointer to intern object */

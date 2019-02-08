@@ -6971,6 +6971,28 @@ class sstDxf03DatabaseCls
      // ----------------------------------------------------------------------------
      int openSectionEntities(int iKey);
      //==============================================================================
+     /**
+     * @brief // return start of entities of actual block in Main table
+     *
+     * @param iKey       [in] For the moment 0
+     * @param dBlkNo     [in] Block number
+     *
+     * @return Start of block records in main Table
+     */
+     // ----------------------------------------------------------------------------
+     dREC04RECNUMTYP getBlkStartMainTab(int iKey, dREC04RECNUMTYP dBlkNo);
+     //==============================================================================
+     /**
+     * @brief // return Block number with block name
+     *
+     * @param iKey        [in] For the moment 0
+     * @param oBlkNamStr  [in] Block name string
+     *
+     * @return block number in block table
+     */
+     // ----------------------------------------------------------------------------
+     dREC04RECNUMTYP searchBlkNoWithName(int iKey, const std::string oBlkNamStr);
+     //==============================================================================
 
 private:  // Private functions
 

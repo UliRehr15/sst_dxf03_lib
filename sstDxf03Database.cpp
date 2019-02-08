@@ -2187,3 +2187,34 @@ int sstDxf03DatabaseCls::openSectionEntities(int iKey)
   return iStat;
 }
 //==============================================================================
+dREC04RECNUMTYP sstDxf03DatabaseCls::getBlkStartMainTab(int iKey, dREC04RECNUMTYP dEntRecNo)
+{
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return 0;
+
+  sstDxf03TypMainCls oMainRec;
+  sstDxf03FncMainCls* poTabMain =  this->getSstFncMain();
+  dREC04RECNUMTYP dMainRecs = poTabMain->count();
+  for (dREC04RECNUMTYP ll=1; ll <= dMainRecs; ll++)
+  {
+    iStat = poTabMain->Read( 0, ll, &oMainRec);
+    if (oMainRec.getLayBlockID() == dEntRecNo) return ll;
+  }
+  return 0;
+}
+//==============================================================================
+dREC04RECNUMTYP sstDxf03DatabaseCls::searchBlkNoWithName(int iKey, const std::string oBlkNamStr)
+{
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+  std::string oLocSearchStr = oBlkNamStr;
+  dREC04RECNUMTYP dBlkNo = 0;
+
+  sstDxf03FncBlkCls* poTabBlk =  this->getSstFncBlk();
+  // Find record with exact search value
+  iStat = poTabBlk->TreSeaEQ( 0, poTabBlk->getNameSortKey(), (void*) oLocSearchStr.c_str(), &dBlkNo);
+  return dBlkNo;
+}
+//==============================================================================
