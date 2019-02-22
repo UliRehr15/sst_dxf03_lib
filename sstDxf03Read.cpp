@@ -180,6 +180,9 @@ void sstDxf03ReadCls::addPoint(const DL_PointData& data)
   {  // Block
     dNumBlocks = poBlkFnc->count();
     oDxfPoint.setBlockID(dNumBlocks);
+    // Set Minimum Bounding Rectangle in Block Table
+    poBlkFnc->updateMbrBlock( 0, dNumBlocks, oDxfPoint.getMbr());
+
   }
   else
   {  // Layer
@@ -188,6 +191,8 @@ void sstDxf03ReadCls::addPoint(const DL_PointData& data)
     iStat = poLayFnc->TreSeaEQ( 0, poLayFnc->getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
     assert(iStat == 1);
     oDxfPoint.setLayerID(dLayRecNo);
+    // Set Minimum Bounding Rectangle in Block Table
+    poBlkFnc->updateMbrModel(0,oDxfPoint.getMbr());
   }
   iStat = poPointFnc->WritNew(0,&oDxfPoint,&dRecNo);
 
@@ -198,6 +203,9 @@ void sstDxf03ReadCls::addPoint(const DL_PointData& data)
   oMainRec.setMainID(dMainRecNo+1);
   oMainRec.setEntityType(RS2::EntityPoint);
   oMainRec.setTypeID(dRecNo);
+
+  // Set Minimum Bounding Rectangle in Main Table
+  oMainRec.setMbr(oDxfPoint.getMbr());
 
   // is it layer or block??
   if (this->oActBlockNam.length() > 0)

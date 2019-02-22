@@ -69,6 +69,9 @@ int main()
     RS2::EntityType eEntityType = oDxfDb.CnvtTypeString2Enum("dddd");
     assert(eEntityType == RS2::EntityUnknown);
 
+    // Return empty mbr, because modelspace empty.
+    sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
+
     // Generate dxf data in utm area (Germany)  <BR>
     iStat = oDxfDb.GenerateData( 0);
     assert(iStat >= 0);
@@ -88,7 +91,8 @@ int main()
     // Count Blocks in database
     // return number of blocks in sstDxfDb
     dREC04RECNUMTYP dNumBlocks = oDxfDb.countBlocks();
-    assert(dNumBlocks == 2);
+    // Modelspace, Paperspace, Sym1, Sym2
+    assert(dNumBlocks == 4);
 
     for (dREC04RECNUMTYP ll=1; ll <= dNumBlocks; ll++)
     {
@@ -100,7 +104,9 @@ int main()
 
       // return number of entities in actual block in sstDxfDb
       dREC04RECNUMTYP dNumEntities = oDxfDb.countEntities (0, ll);
-      assert(dNumEntities > 0);
+      // assert(dNumEntities >= 0);
+      if (dNumEntities > 0)
+      {
 
       // return start of entities of actual block in Main table
       dREC04RECNUMTYP dStartBlkMainTab = oDxfDb.getBlkStartMainTab (0, ll);
@@ -125,12 +131,13 @@ int main()
         }  // end switch
         assert(iStat >= 0);
       }
+      } // if dNumEntities > 0
     }
 
     dREC04RECNUMTYP dBlkNo = oDxfDb.searchBlkNoWithName(0,"Sym1");
-    assert(dBlkNo == 1);
+    assert(dBlkNo == 3);
     dBlkNo = oDxfDb.searchBlkNoWithName(0,"Sym2");
-    assert(dBlkNo == 2);
+    assert(dBlkNo == 4);
     dBlkNo = oDxfDb.searchBlkNoWithName(0,"SymX");
     assert(dBlkNo == 0);
 
@@ -181,7 +188,7 @@ int main()
 
     // Test Minimum Bounding rectangle from testfile test.dxf, which is created by
     // testframe function -testwriting-
-    if (oMbrModel.getXI() != 25.0) assert(0);
+    if (oMbrModel.getXI() != 10.0) assert(0);
     if (oMbrModel.getYI() != 30.0) assert(0);
     if (oMbrModel.getXA() != 100.0) assert(0);
     if (oMbrModel.getYA() != 120.0) assert(0);

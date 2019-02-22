@@ -98,11 +98,21 @@ sstDxf03DatabaseCls::sstDxf03DatabaseCls(sstMisc01PrtFilCls *oTmpPrt)
   iStat = oLayTab->WritNew(0,&oLayRec,&dRecNo);
   assert(iStat == 0);
 
+  // Write standard blocks to dxf database
+  sstDxf03FncBlkCls *poBlkTab;
+  poBlkTab = this->getSstFncBlk();
+
+  DL_BlockData oBlock("*Model_Space",0,0.0,0.0,0.0);
+  DL_Attributes oAttributes;
+  iStat = this->openBlock(0,oBlock,oAttributes);
+  this->closeBlock(0);
+  poBlkTab->setBlockMdlRecNo(1);
+
+  oBlock.name = "*Paper_Space";
+  iStat = this->openBlock(0,oBlock,oAttributes);
+  this->closeBlock(0);
+
   this->setIsUpdated(true);
-
-  // default write Blocks in database modelspace / paperspace
-  // Are written with close of object
-
 }
 //=============================================================================
 int sstDxf03DatabaseCls::ReadAllCsvFiles(int iKey, std::string oDxfFilNam)
@@ -2153,16 +2163,19 @@ int sstDxf03DatabaseCls::openBlock(int iKey, const DL_BlockData& data, const DL_
 
   // Write new record into record memory and update all trees
   oBlk.setLinetypeID(dLTypeRecNo);
-  iStat = poBlkFnc->TreWriteNew( 0, &oBlk, &dRecNo);
-  assert(iStat == 0);
-  std::string oModelSpaceName = "*Model_Space";
-  iStat = oModelSpaceName.compare(data.name);
-  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
-  else iStat = 0;
-  oModelSpaceName = "*MODEL_SPACE";
-  iStat = oModelSpaceName.compare(data.name);
-  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
-  else iStat = 0;
+//  iStat = poBlkFnc->TreWriteNew( 0, &oBlk, &dRecNo);
+//  assert(iStat == 0);
+  iStat = poBlkFnc->WriteNewUnique( 0, oBlk, &dRecNo);
+  assert(iStat >= 0);
+
+  //  std::string oModelSpaceName = "*Model_Space";
+//  iStat = oModelSpaceName.compare(data.name);
+//  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
+//  else iStat = 0;
+//  oModelSpaceName = "*MODEL_SPACE";
+//  iStat = oModelSpaceName.compare(data.name);
+//  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
+//  else iStat = 0;
 
   return iStat;
 }

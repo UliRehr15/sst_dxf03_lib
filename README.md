@@ -83,5 +83,7 @@ Structure of coding projects should be:
 21.12.18: Version 3.23: Database interface now supports creating blocks and insert entity.
                         Extend dxf generate data function with blocks and inserts for testing. <BR>
 25.01.19: Version 3.24: Extend dxf generate data function with handling more blocks. <BR>
-08.02.19: Version 3.25: Functions for reading, writing of block data.
+08.02.19: Version 3.25: Functions for reading, writing of block data. <BR>
+22.02.19: Version 3.26: More general handling of ModelSpace/Paperspace Blocks. <BR>
+                        Are now created by default with opening of dxf database. <BR>
 

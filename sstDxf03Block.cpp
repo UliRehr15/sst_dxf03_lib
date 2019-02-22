@@ -359,7 +359,6 @@ int sstDxf03FncBlkCls::updateMbrBlock(int iKey,   dREC04RECNUMTYP dBlkNo, sstMat
     sstDxf03TypBlkCls oBlkRec;
     int iStat = this->Read( 0, dBlkNo, &oBlkRec);
     assert(iStat == 0);
-    // sstMath01Mbr2Cls oMdlMbr;
     oBlkRec.updateMbr(0,oMbr);
 
     iStat = this->Writ( 0, &oBlkRec, dBlkNo);
@@ -375,5 +374,26 @@ return dBlockMdlRecNo;
 void sstDxf03FncBlkCls::setBlockMdlRecNo(dREC04RECNUMTYP value)
 {
   dBlockMdlRecNo = value;
+}
+//=============================================================================
+int sstDxf03FncBlkCls::WriteNewUnique(int iKey, sstDxf03TypBlkCls oBlockRec, dREC04RECNUMTYP *pdBlockRecNo)
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+
+  // Find record with exact search value
+  iStat = this->TreSeaEQ( 0, this->getNameSortKey(), (char*) oBlockRec.getName(), pdBlockRecNo);
+
+  if (*pdBlockRecNo == 0)
+  {
+    *pdBlockRecNo = this->count();
+    oBlockRec.setBlockID(*pdBlockRecNo+1);
+    // Write new record into record memory and update all trees
+    iStat = this->TreWriteNew( 0, &oBlockRec, pdBlockRecNo);
+    assert(iStat == 0);
+  }
+
+  return iStat;
 }
 //=============================================================================

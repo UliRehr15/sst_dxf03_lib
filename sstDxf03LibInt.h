@@ -3770,13 +3770,30 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     dREC04RECNUMTYP getBlockMdlRecNo() const;
     //==============================================================================
     /**
-    * @brief // Set record number <BR>
+    * @brief // Set record number of block -Model_Space- <BR>
     * oDxfFncBlock.setBlockMdlRecNo(dValue);
     *
     * @param dValue [in] record number
     */
     // ----------------------------------------------------------------------------
     void setBlockMdlRecNo(dREC04RECNUMTYP dValue);
+    //==============================================================================
+    /**
+    * @brief // write new record to table if unique Block name <BR>
+    * iStat = oBlockTab.WriteNewUnique(iKey);
+    *
+    * @param iKey        [in] For the moment 0
+    * @param oBlockRec   [in] Block Record
+    * @param dBlockRecNo [out] new Block Record number
+    *
+    * @return Errorstate
+    *
+    * @retval   = 1: New record written
+    * @retval   = 0: name already in table, not written
+    * @retval   < 0: Unspecified Error
+    */
+    // ----------------------------------------------------------------------------
+    int WriteNewUnique(int iKey, sstDxf03TypBlkCls oBlockRec, dREC04RECNUMTYP *pdBlockRecNo);
     //==============================================================================
 
 private:
@@ -5611,6 +5628,14 @@ class sstDxf03TypPointCls : public sstDxf03TypBaseCls
     */
     // ----------------------------------------------------------------------------
     void setZ(double value);
+    //==============================================================================
+    /**
+    * @brief // Get Minimum bounding rectangle  <BR>
+    *
+    * @return Mbr
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
     //==============================================================================
     /**
     * @brief // getMemberNumber <BR>

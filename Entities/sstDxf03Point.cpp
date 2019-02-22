@@ -99,6 +99,13 @@ void sstDxf03TypPointCls::setZ(double value)
   z = value;
 }
 //=============================================================================
+sstMath01Mbr2Cls sstDxf03TypPointCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  oTmpMbr.Koor2(0,this->getX(),this->getY());
+  return oTmpMbr;
+}
+//=============================================================================
 // Get Number of Class member
 unsigned int sstDxf03TypPointCls::getMemberNumber()
 {
