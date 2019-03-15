@@ -97,6 +97,18 @@ int sstDxf03DbCls::OpenNewHatch(int                  iKey,
   return this->poDxf03DbIntern->OpenNewHatch(iKey,oDLHatch,oDLAttributes,oEntRecNo, oMainRecNo);
 }
 //==============================================================================
+int sstDxf03DbCls::OpenNewPolyline(int                  iKey,
+                                const DL_PolylineData   oDlPolyline,
+                                const DL_Attributes  oDLAttributes,
+                                dREC04RECNUMTYP     *oEntRecNo,
+                                dREC04RECNUMTYP     *oMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  return this->poDxf03DbIntern->OpenNewPolyline(iKey,oDlPolyline,oDLAttributes,oEntRecNo, oMainRecNo);
+}
+//==============================================================================
 int sstDxf03DbCls::WriteNewHatchEdge (int                    iKey,
                                       const DL_HatchEdgeData oDLHatchEdge,
                                       dREC04RECNUMTYP       *oEntRecNo,
@@ -106,6 +118,17 @@ int sstDxf03DbCls::WriteNewHatchEdge (int                    iKey,
   if ( iKey != 0) return -1;
 
   return this->poDxf03DbIntern->WriteNewHatchEdge(iKey,oDLHatchEdge,oEntRecNo, oMainRecNo);
+}
+//==============================================================================
+int sstDxf03DbCls::WriteNewVertex (int                   iKey,
+                                   const DL_VertexData   oDlVertex,
+                                   dREC04RECNUMTYP      *oEntRecNo,
+                                   dREC04RECNUMTYP      *oMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  return this->poDxf03DbIntern->WriteNewVertex( iKey, oDlVertex, oEntRecNo, oMainRecNo);
 }
 //=============================================================================
 int sstDxf03DbCls::WritAll2DxfFil(int iKey, const std::string oDxfFilNam)

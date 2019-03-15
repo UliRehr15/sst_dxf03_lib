@@ -38,12 +38,12 @@
 
 // Defines ---------------------------------------------------------------------
 
-// Structures and Classes ------------------------------------------------------
-
-
 #define dSSTDXF03LAYERNAMELEN   256  /**< Layer Name length @ingroup sstDxf03Lib */
 #define dSSTDXF03BLOCKNAMELEN   256  /**< Block Name length @ingroup sstDxf03Lib */
+#define dSSTDXF03INSERTNAMELEN  256  /**< Insert Name length @ingroup sstDxf03Lib */
 #define dSSTDXF03LTYPENAMELEN   256  /**< LineType Name length @ingroup sstDxf03Lib */
+
+// Structures and Classes ------------------------------------------------------
 
 //==============================================================================
 /**
@@ -343,6 +343,15 @@ class sstDxf03TypArcCls : public sstDxf03TypBaseCls
     sstDxf03TypArcCls();  // Constructor
     //==============================================================================
     /**
+    * @brief // Get Minimum Border Rectangle <BR>
+    * oMbr = oSstDxfArc.getMbr()
+    *
+    * @return Minimum Border Rectangle
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
+    //==============================================================================
+    /**
     * @brief // getMemberNumber <BR>
     */
     // -----------------------------------------------------------------------------
@@ -583,6 +592,15 @@ class sstDxf03TypInsertCls : public sstDxf03TypBaseCls
     sstDxf03TypInsertCls();  // Constructor
     //==============================================================================
     /**
+    * @brief // Get Minimum Border Rectangle <BR>
+    * oMbr = oSstDxfInsert.getMbr()
+    *
+    * @return Minimum Border Rectangle
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
+    //==============================================================================
+    /**
     * @brief // getMemberNumber <BR>
     */
     // -----------------------------------------------------------------------------
@@ -678,7 +696,26 @@ class sstDxf03TypInsertCls : public sstDxf03TypBaseCls
     */
     // ----------------------------------------------------------------------------
     void setIpz(double value);
-    // sstDxf03TypBaseCls getBaseAttributes();
+    //==============================================================================
+    /**
+    * @brief // Set Insert Name <BR>
+    * oSstDxfInsert.setName (cName);
+    *
+    * @param oName [in] set Insert Name
+    */
+    // ----------------------------------------------------------------------------
+    // void setName(const char* cName);
+    void setName(const std::string oName);
+    //==============================================================================
+    /**
+    * @brief // Get Insert Name <BR>
+    * cInsertNam = oSstDxfInsert.getName ();
+    *
+    * @return char Insert Name
+    */
+    // ----------------------------------------------------------------------------
+    std::string getName();
+    //==============================================================================
 
 private:
 
@@ -688,6 +725,7 @@ private:
 
     /*! Name of the referred block. */
     // std::string name;
+    char Nam[dSSTDXF03INSERTNAMELEN];  /**< Insert Name */
     /*! X Coordinate of insertion point. */
     double ipx;
     /*! Y Coordinate of insertion point. */
@@ -739,6 +777,15 @@ class sstDxf03TypHatchCls : public sstDxf03TypBaseCls
 {
   public:
     sstDxf03TypHatchCls();  // Constructor
+    //==============================================================================
+    /**
+    * @brief // Get Minimum Border Rectangle <BR>
+    * oMbr = oSstDxfHatch.getMbr()
+    *
+    * @return Minimum Border Rectangle
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
     //==============================================================================
     /**
     * @brief // getMemberNumber <BR>
@@ -1616,6 +1663,15 @@ class sstDxf03TypPolylineCls : public sstDxf03TypBaseCls
     sstDxf03TypPolylineCls();  // Constructor
     //==============================================================================
     /**
+    * @brief // Get Minimum Border Rectangle <BR>
+    * oMbr = oSstDxfPLine.getMbr()
+    *
+    * @return Minimum Border Rectangle
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
+    //==============================================================================
+    /**
     * @brief // getMemberNumber <BR>
     */
     // -----------------------------------------------------------------------------
@@ -1781,6 +1837,15 @@ class sstDxf03TypTraceCls : public sstDxf03TypBaseCls
     sstDxf03TypTraceCls();// Constructor
     //==============================================================================
     /**
+    * @brief // Get Minimum Border Rectangle <BR>
+    * oMbr = oSstDxfTrace.getMbr()
+    *
+    * @return Minimum Border Rectangle
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
+    //==============================================================================
+    /**
     * @brief // getMemberNumber <BR>
     */
     // -----------------------------------------------------------------------------
@@ -1874,6 +1939,15 @@ class sstDxf03TypVertexCls // : public sstDxf03TypBaseCls
 {
   public:
     sstDxf03TypVertexCls();  // Constructor
+    //==============================================================================
+    /**
+    * @brief // Get Minimum Border Rectangle <BR>
+    * oMbr = oSstDxfVertex.getMbr()
+    *
+    * @return Minimum Border Rectangle
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
     //==============================================================================
     /**
     * @brief // getMemberNumber <BR>
@@ -2192,19 +2266,19 @@ class sstDxf03TypBlkCls : public sstDxf03TypBaseCls
     //~sstTestBaseCls();  // Destructor
      //==============================================================================
      /**
-     * @brief // Shortstory <BR>
-     * oSstDxfBlk.Func_1(iKey)
+     * @brief // Set Block Name <BR>
+     * oSstDxfBlk.setName (cName);
      *
-     * @param cName [in] For the moment 0
+     * @param cName [in] set Block Name
      */
      // ----------------------------------------------------------------------------
      void setName(const char* cName);
      //==============================================================================
      /**
-     * @brief // Shortstory <BR>
-     * oSstDxfBlk.Func_1(iKey)
+     * @brief // Get Block Name <BR>
+     * cBlkNam = oSstDxfBlk.getName ();
      *
-     * @return char Name
+     * @return char Block Name
      */
      // ----------------------------------------------------------------------------
      char* getName();
@@ -3782,9 +3856,9 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     * @brief // write new record to table if unique Block name <BR>
     * iStat = oBlockTab.WriteNewUnique(iKey);
     *
-    * @param iKey        [in] For the moment 0
-    * @param oBlockRec   [in] Block Record
-    * @param dBlockRecNo [out] new Block Record number
+    * @param iKey         [in] For the moment 0
+    * @param oBlockRec    [in] Block Record
+    * @param pdBlockRecNo [out] new Block Record number
     *
     * @return Errorstate
     *
@@ -4986,6 +5060,15 @@ class sstDxf03TypMTextCls : public sstDxf03TypBaseCls
     void setAngle(double value);
     //==============================================================================
     /**
+    * @brief // Get Minimum Border Rectangle <BR>
+    * oMbr = oSstDxfBlk.getMbr()
+    *
+    * @return Minimum Border Rectangle
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
+    //==============================================================================
+    /**
     * @brief // getMemberNumber <BR>
     */
     // -----------------------------------------------------------------------------
@@ -5159,6 +5242,15 @@ class sstDxf03TypTextCls : public sstDxf03TypBaseCls
     */
     // -----------------------------------------------------------------------------
     sstDxf03TypTextCls(); // Constructor
+    //==============================================================================
+    /**
+    * @brief // Get Minimum Border Rectangle <BR>
+    * oMbr = oSstDxfBlk.getMbr()
+    *
+    * @return Minimum Border Rectangle
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
     //==============================================================================
     /**
     * @brief // getMemberNumber <BR>
@@ -6449,6 +6541,28 @@ class sstDxf03DatabaseCls
                       dREC04RECNUMTYP     *oMainRecNo);
      //==============================================================================
      /**
+     * @brief // open new dxflib polyline object in sstDxfDb <BR>
+     * iStat = oDxfDb.OpenNewPolyline (iKey, oDlPolyline, Attributes, &oEntRecNo, &oMainRecNo);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param oDlPolyline   [in] dxflib entity polyline
+     * @param oDLAttributes [in] dxflib attributes
+     * @param oEntRecNo     [out] return record number in entity table
+     * @param oMainRecNo    [out] Return Record number in main table
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int OpenNewPolyline(int                  iKey,
+                      const DL_PolylineData   oDlPolyline,
+                      const DL_Attributes  oDLAttributes,
+                      dREC04RECNUMTYP     *oEntRecNo,
+                      dREC04RECNUMTYP     *oMainRecNo);
+     //==============================================================================
+     /**
      * @brief // write new dxflib hatch edge into sstDxfDb  hatch object <BR>
      * iStat = oDxfDb.WriteNewHatchEdge (iKey, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
      *
@@ -6467,6 +6581,26 @@ class sstDxf03DatabaseCls
                             const DL_HatchEdgeData oDLHatchEdge,
                             dREC04RECNUMTYP       *oEntRecNo,
                             dREC04RECNUMTYP       *oMainRecNo);
+     //==============================================================================
+     /**
+     * @brief // write new dxflib vertex into sstDxfDb polyline object <BR>
+     * iStat = oDxfDb.WriteNewVertex (iKey, oDlVertex, &oEntRecNo, &oMainRecNo);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param oDlVertex     [in] dxflib vertex
+     * @param oEntRecNo     [out] return record number in entity table
+     * @param oMainRecNo    [out] Return Record number in main table
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteNewVertex (int                   iKey,
+                         const DL_VertexData   oDlVertex,
+                         dREC04RECNUMTYP      *oEntRecNo,
+                         dREC04RECNUMTYP      *oMainRecNo);
      //==============================================================================
      /**
      * @brief // Shortstory <BR>

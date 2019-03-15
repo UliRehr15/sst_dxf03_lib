@@ -150,6 +150,39 @@ int main()
     oPrt.SST_PrtWrt(1,(char*)"Creating Test_Utm.dxf");
   }
 
+  {
+    // Open new sstDxf Database
+    sstDxf03DbCls oDxfDB(&oPrt);
+
+    // Read contents of dxf file into sstDxf database
+    iStat = oDxfDB.ReadAllFromDxf(0,"Test_Utm.dxf");
+    assert(iStat >= 0);
+
+//    // Get Minimum Bounding rectangle from section entities /model space
+//    sstMath01Mbr2Cls oMbrModel = oDxfDB.getMbrModel();
+
+//    // Test Minimum Bounding rectangle from testfile test.dxf, which is created by
+//    // testframe function -testwriting-
+//    if (oMbrModel.getXI() != 10.0) assert(0);
+//    if (oMbrModel.getYI() != 30.0) assert(0);
+//    if (oMbrModel.getXA() != 100.0) assert(0);
+//    if (oMbrModel.getYA() != 120.0) assert(0);
+
+    // Write dxf database to dxf file
+    iStat = oDxfDB.WritAll2DxfFil(0,"Test_Utm2.dxf");
+    assert(iStat >= 0);
+
+    iStat = sstMisc01FileCompare( 1,"Test_Utm.dxf","Test_Utm2.dxf",&ulRowNo);
+    if (iStat != 0)
+    {
+        // assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
+        assert(ulRowNo == 1480);  // Problem with handle 340 in DIMSTYLE
+    }
+
+    oPrt.SST_PrtWrt(1,(char*)"Compare Test_Utm.dxf / Test_Utm2.dxf OK");
+    oPrt.SST_PrtWrt(1,(char*)"  ");
+
+  } // Close sstDxf Database
 
 
   // Call extended Test dxflib writing function
@@ -167,6 +200,8 @@ int main()
 
   {
     DL_PointData oDLPoint;               // Entity Point from dxflib
+    DL_PolylineData oDlPolyline(0,0,0,0);
+    DL_VertexData oDlVertex(0.0,0.0,0.0,0.0);
     DL_LineData  oDLLine(0,0,0,0,0,0);   // Entity Line from dxflib
     DL_CircleData oDLCircle(0,0,0,1);    // Entity Circle from dxflib
     DL_MTextData oDLMText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0.0,"","",0.0);
@@ -250,6 +285,7 @@ int main()
     iStat = oDxfDB.WriteNewCircle( 0, oDLCircle, oAttributes, &oEntRecNo, &oMainRecNo);
     assert(iStat >= 0);
 
+
     //=== Insert filled circle area
     {
       oAttributes.setColor(1);
@@ -264,26 +300,31 @@ int main()
       iStat = oDxfDB.WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
     }
 
+    // Testframe for writing functions <BR>
+    iStat = Test_WriteInterface ( 0, &oDxfDB);
+    assert(iStat >= 0);
+
     //=== Insert filled triangel area
-    {
-      oAttributes.setColor(2);
+//    {
+//      oAttributes.setColor(2);
 
-      DL_HatchData oDLHatch(1,1,1,0,"SOLID");
-      // open new dxflib hatch object in sstDxfDb
-      iStat = oDxfDB.OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+//      DL_HatchData oDLHatch(1,1,1,0,"SOLID");
 
-      DL_HatchEdgeData oDLHatchEdge(1,1,2,2);  // area border point
-      // write new dxflib hatch edge into sstDxfDb hatch object
-      iStat = oDxfDB.WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+//      // open new dxflib hatch object in sstDxfDb
+//      iStat = oDxfDB.OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
 
-      // write new dxflib hatch edge into sstDxfDb hatch object
-      oDLHatchEdge.x1 = 2.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 2.0;
-      iStat = oDxfDB.WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+//      DL_HatchEdgeData oDLHatchEdge(1,1,2,2);  // area border point
+//      // write new dxflib hatch edge into sstDxfDb hatch object
+//      iStat = oDxfDB.WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
 
-      // write new dxflib hatch edge into sstDxfDb hatch object
-      oDLHatchEdge.x1 = 1.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 1.0;
-      iStat = oDxfDB.WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
-    }
+//      // write new dxflib hatch edge into sstDxfDb hatch object
+//      oDLHatchEdge.x1 = 2.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 2.0;
+//      iStat = oDxfDB.WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+//      // write new dxflib hatch edge into sstDxfDb hatch object
+//      oDLHatchEdge.x1 = 1.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 1.0;
+//      iStat = oDxfDB.WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+//    }
 
     // Write dxf database to dxf file
     oDxfDB.WritAll2Csv(0,"Test4.dxf");
@@ -294,7 +335,7 @@ int main()
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDB(&oPrt);
 
-    // Read contents of dxf file into sstDxf database
+    // import content of dxf file into sstDxf database
     iStat = oDxfDB.ReadAllFromDxf(0,"Test4.dxf");
     assert(iStat >= 0);
 
@@ -302,7 +343,8 @@ int main()
     dREC04RECNUMTYP dMainRecs = 0;
 
     dMainRecs = oDxfDB.MainCount();
-    assert(dMainRecs == 9);
+    assert(dMainRecs == 13);
+
     dEntRecs = oDxfDB.EntityCount(RS2::EntityHatch);
     assert(dEntRecs == 2);
 
@@ -696,6 +738,10 @@ int testWriting2 (const std::string oDxfFilNam) {
                     0.0),
         DL_Attributes("mainlayer", 256, -1, "BYLAYER", dLinetypeScale));
 
+    // dxf->writePolyline();
+
+    // dxf->writePolylineEnd();
+
     dw->sectionEnd();
     dxf->writeObjects(*dw);
     dxf->writeObjectsEnd(*dw);
@@ -704,5 +750,98 @@ int testWriting2 (const std::string oDxfFilNam) {
     delete dw;
     delete dxf;
     return 0;
+}
+//=============================================================================
+int Test_WriteInterface (int iKey, sstDxf03DbCls *oDxfDB)
+//-----------------------------------------------------------------------------
+{
+  DL_Attributes oAttributes;
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+  int iRet = 0;
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  oAttributes.setLayer("0");
+  oAttributes.setLinetype("CONTINUOUS");
+
+  //=== Insert filled triangel area
+  {
+    oAttributes.setColor(2);
+
+    DL_HatchData oDLHatch(1,1,1,0,"SOLID");
+
+    // open new dxflib hatch object in sstDxfDb
+    iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+
+    DL_HatchEdgeData oDLHatchEdge(1,1,2,2);  // area border point
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = 2.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 2.0;
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = 1.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 1.0;
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+  }
+
+  //=== Insert polyline
+  {
+    oAttributes.setColor(2);
+
+    // DL_HatchData oDLHatch(1,1,1,0,"SOLID");
+    DL_PolylineData oDlPolyline(0,0,0,0);
+    DL_VertexData oDlVertex(0.0,0.0,0.0,0.0);
+
+    // open new dxflib hatch object in sstDxfDb
+    // iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+    iStat = oDxfDB->OpenNewPolyline( 0, oDlPolyline, oAttributes, &oEntRecNo, &oMainRecNo);
+
+    // DL_HatchEdgeData oDLHatchEdge(1,1,2,2);  // area border point
+    oDlVertex.x = 11.0; oDlVertex.y = 11.0; oDlVertex.z = 11.0;
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    // iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+    iStat = oDxfDB->WriteNewVertex ( 0, oDlVertex, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    // oDLHatchEdge.x1 = 2.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 2.0;
+    oDlVertex.x = 22.0; oDlVertex.y = 22.0; oDlVertex.z = 22.0;
+    // iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+    iStat = oDxfDB->WriteNewVertex ( 0, oDlVertex, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    // oDLHatchEdge.x1 = 1.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 1.0;
+    oDlVertex.x = 33.0; oDlVertex.y = 33.0; oDlVertex.z = 33.0;
+    // iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+    iStat = oDxfDB->WriteNewVertex ( 0, oDlVertex, &oEntRecNo, &oMainRecNo);
+  }
+
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
+}
+//=============================================================================
+int Test_ReadInterface (int iKey, sstDxf03DbCls *oDxfDB)
+//-----------------------------------------------------------------------------
+{
+  int iRet = 0;
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  // Fatal Errors goes to an assert
+  assert(iRet >= 0);
+
+  // Small Errors will given back
+  iRet = iStat;
+
+  return iRet;
 }
 //=============================================================================

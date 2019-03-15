@@ -56,6 +56,7 @@ sstDxf03TypInsertCls::sstDxf03TypInsertCls()
 //  this->ulLayerID = 0;
 //  this->ulBlockID = 0;
   // std::string name;
+  memset(this->Nam,0,dSSTDXF03INSERTNAMELEN);
   this->ipx = 0.0;
   this->ipy = 0.0;
   this->ipz = 0.0;
@@ -67,6 +68,16 @@ sstDxf03TypInsertCls::sstDxf03TypInsertCls()
   this->rows = 1;
   this->colSp = 1.0;
   this->rowSp = 1.0;
+}
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03TypInsertCls::getMbr() const
+{
+  // Calculate Mbr from insert
+  // In future better from connected block
+  sstMath01Mbr2Cls oTmpMbr;
+  oTmpMbr.Koor2(0,this->getIpx()+10.0,this->getIpy()+10.0);
+  oTmpMbr.Koor2(0,this->getIpx()-10.0,this->getIpy()-10.0);
+  return oTmpMbr;
 }
 //=============================================================================
 // Get Number of Class member
@@ -103,6 +114,7 @@ int sstDxf03TypInsertCls::SetTestData(int iKey)
 
 void sstDxf03TypInsertCls::ReadFromDL(const DL_InsertData oDLInsert)
 {
+  this->setName( oDLInsert.name);
   this->ipx = oDLInsert.ipx;
   this->ipy  = oDLInsert.ipy;
   this->ipz  = oDLInsert.ipz;
@@ -118,6 +130,7 @@ void sstDxf03TypInsertCls::ReadFromDL(const DL_InsertData oDLInsert)
 //=============================================================================
 void sstDxf03TypInsertCls::WritToDL(DL_InsertData *poDLInsert)
 {
+  poDLInsert->name = this->getName();
   poDLInsert->ipx = this->ipx;
   poDLInsert->ipy = this->ipy;
   poDLInsert->ipz = this->ipz;
@@ -130,36 +143,17 @@ void sstDxf03TypInsertCls::WritToDL(DL_InsertData *poDLInsert)
   poDLInsert->colSp = this->colSp;
   poDLInsert->rowSp = this->rowSp;
 }
-////=============================================================================
-//unsigned long sstDxf03TypInsertCls::getLayerID() const
-//{
-//return ulLayerID;
-//}
-////=============================================================================
-//void sstDxf03TypInsertCls::setLayerID(unsigned long value)
-//{
-//ulLayerID = value;
-//}
-////=============================================================================
-//unsigned long sstDxf03TypInsertCls::getBlockID() const
-//{
-//return ulBlockID;
-//}
-////=============================================================================
-//void sstDxf03TypInsertCls::setBlockID(unsigned long value)
-//{
-//ulBlockID = value;
-//}
-////=============================================================================
-//unsigned long sstDxf03TypInsertCls::getInsertID() const
-//{
-//return ulInsertID;
-//}
-////=============================================================================
-//void sstDxf03TypInsertCls::setInsertID(unsigned long value)
-//{
-//ulInsertID = value;
-//}
+//=============================================================================
+// char* sstDxf03TypInsertCls::getName()
+std::string sstDxf03TypInsertCls::getName()
+{
+  return this->Nam;
+}
+//=============================================================================
+void sstDxf03TypInsertCls::setName(const std::string oTmpName)
+{
+  strncpy(this->Nam,oTmpName.c_str(),dSSTDXF03INSERTNAMELEN);
+}
 //=============================================================================
 double sstDxf03TypInsertCls::getIpx() const
 {

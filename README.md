@@ -86,4 +86,7 @@ Structure of coding projects should be:
 08.02.19: Version 3.25: Functions for reading, writing of block data. <BR>
 22.02.19: Version 3.26: More general handling of ModelSpace/Paperspace Blocks. <BR>
                         Are now created by default with opening of dxf database. <BR>
+23.02.19: Version 3.27: Add Name to intern entity insert. <BR>
+15.03.19: Version 3.28: Better Support of GetMbr for all entities. <BR>
+                        Read/Write Interface for Entity Polyline.  <BR>
 

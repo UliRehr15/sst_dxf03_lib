@@ -55,6 +55,14 @@ sstDxf03TypTextCls::sstDxf03TypTextCls()
   memset( this->text, 0, 100);
 }
 //=============================================================================
+sstMath01Mbr2Cls sstDxf03TypTextCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  // oTmpMbr.Koor2(0,this->getX(),this->getY());
+  oTmpMbr.Koor2(0,this->getIpx(),this->getIpy());
+  return oTmpMbr;
+}
+//=============================================================================
 // Get Number of Class member
 unsigned int sstDxf03TypTextCls::getMemberNumber()
 {

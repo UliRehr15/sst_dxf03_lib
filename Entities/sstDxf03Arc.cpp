@@ -63,6 +63,13 @@ sstDxf03TypArcCls::sstDxf03TypArcCls()
   this->angle2 = 0.0;
 }
 //=============================================================================
+sstMath01Mbr2Cls sstDxf03TypArcCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  oTmpMbr.Koor2(0,this->getCx(),this->getCy());
+  return oTmpMbr;
+}
+//=============================================================================
 // Get Number of Class member
 unsigned int sstDxf03TypArcCls::getMemberNumber()
 {

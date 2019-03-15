@@ -70,14 +70,14 @@ char* sstDxf03TypBlkCls::getName()
 //=============================================================================
 void sstDxf03TypBlkCls::setName(const char* cTmpName)
 {
-  strncpy(this->Nam,cTmpName,dSSTDXF03LAYERNAMELEN);
+  strncpy(this->Nam,cTmpName,dSSTDXF03BLOCKNAMELEN);
 }
-
+//=============================================================================
 unsigned long sstDxf03TypBlkCls::getBlockID() const
 {
 return ulBlockID;
 }
-
+//=============================================================================
 void sstDxf03TypBlkCls::setBlockID(unsigned long value)
 {
 ulBlockID = value;

@@ -62,6 +62,13 @@ sstDxf03TypVertexCls::sstDxf03TypVertexCls()
   this->z = 0.0;
 }
 //=============================================================================
+sstMath01Mbr2Cls sstDxf03TypVertexCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  oTmpMbr.Koor2(0,this->getX(),this->getY());
+  return oTmpMbr;
+}
+//=============================================================================
 // Get Number of Class member
 unsigned int sstDxf03TypVertexCls::getMemberNumber()
 {

@@ -61,6 +61,14 @@ sstDxf03TypHatchCls::sstDxf03TypHatchCls()
   this->solid = false;
 }
 //=============================================================================
+sstMath01Mbr2Cls sstDxf03TypHatchCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  // oTmpMbr.Koor2(0,this->getX(),this->getY());
+  oTmpMbr.Koor2(0,this->getOriginX(),this->getOriginY());
+  return oTmpMbr;
+}
+//=============================================================================
 // Get Number of Class member
 unsigned int sstDxf03TypHatchCls::getMemberNumber()
 {

@@ -69,12 +69,20 @@
 
 #include "sstDxf03LibInt.h"
 
+//=============================================================================
 // Constructor
 sstDxf03TypTraceCls::sstDxf03TypTraceCls()
 {
 
 }
-
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03TypTraceCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  // oTmpMbr.Koor2(0,this->getX(),this->getY());
+  return oTmpMbr;
+}
+//=============================================================================
 // Get Number of Class member
 unsigned int sstDxf03TypTraceCls::getMemberNumber()
 {
@@ -82,7 +90,7 @@ unsigned int sstDxf03TypTraceCls::getMemberNumber()
   uiStat = 13;
   return uiStat;
 }
-
+//=============================================================================
 // Get Csv-String with all Class member names
 std::string sstDxf03TypTraceCls::getStringName()
 {
@@ -90,7 +98,7 @@ std::string sstDxf03TypTraceCls::getStringName()
   oStat = "sx1;sy1;sz1;sx2;sy2;sz2;sx3;sy3;sz3;sx4;sy4;sz4;thickness";
   return oStat;
 }
-
+//=============================================================================
 // Get Csv-String with all Class member definition types
 std::string sstDxf03TypTraceCls::getStringType()
 {
@@ -98,7 +106,7 @@ std::string sstDxf03TypTraceCls::getStringType()
   oStat = "DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4;DD12.4";
   return oStat;
 }
-
+//=============================================================================
 // Csv Read Function
 int sstDxf03TypTraceCls::Csv_Read(int iKey, std::string *sErrTxt, std::string *ssstDxf03_Str)
 {
@@ -152,7 +160,7 @@ int sstDxf03TypTraceCls::Csv_Read(int iKey, std::string *sErrTxt, std::string *s
 
   return iStat;
 }
-
+//=============================================================================
 // Csv Write Function
 int sstDxf03TypTraceCls::Csv_Write(int iKey , std::string *ssstDxf03_Str)
 {

@@ -245,6 +245,14 @@ void sstDxf03TypMTextCls::setAngle(double value)
 angle = value;
 }
 //=============================================================================
+sstMath01Mbr2Cls sstDxf03TypMTextCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  // oTmpMbr.Koor2(0,this->getX(),this->getY());
+  oTmpMbr.Koor2(0,this->getIpx(),this->getIpy());
+  return oTmpMbr;
+}
+//=============================================================================
 // Get Number of Class member
 unsigned int sstDxf03TypMTextCls::getMemberNumber()
 {

@@ -585,8 +585,13 @@ int sstDxf03DatabaseCls::WriteInsert (int                  iKey,
   if (*dEntRecNo > 0)
   {
     // Existing Insert
-    oDxfInsert.ReadFromDL(data);
-    oDxfInsert.BaseReadFromDL(attributes);
+    // Block should exist
+    // Find record with exact search value
+    iStat = this->oSstFncBlk.TreSeaEQ( 0, this->oSstFncBlk.getNameSortKey(), (void*) oBlockStr.c_str(), &dBlkRecNo);
+    oDxfInsert.setBlockID(dBlkRecNo);
+
+    // oDxfInsert.ReadFromDL(data);
+    // oDxfInsert.BaseReadFromDL(attributes);
     iStat = this->oSstFncInsert.Writ( 0, &oDxfInsert, *dEntRecNo);
     // oLine.BaseWritToDL(oDLAttributes);
     return iStat;
@@ -962,6 +967,102 @@ int sstDxf03DatabaseCls::OpenNewHatch(int                  iKey,
   return iStat;
 }
 //==============================================================================
+int sstDxf03DatabaseCls::OpenNewPolyline(int                  iKey,
+                                      const DL_PolylineData   oDlPolyline,
+                                      const DL_Attributes  oDLAttributes,
+                                      dREC04RECNUMTYP     *oEntRecNo,
+                                      dREC04RECNUMTYP     *oMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+  std::string oLayerStr;
+
+  sstDxf03TypPolylineCls oDxfPolyLine;
+  oDxfPolyLine.ReadFromDL(oDlPolyline);
+  oDxfPolyLine.BaseReadFromDL(oDLAttributes);
+
+  // dREC04RECNUMTYP dEntRecNo=0;
+  dREC04RECNUMTYP dLayRecNo=0;
+  dREC04RECNUMTYP dLTypeRecNo=0;
+
+//  sstDxf03FncHatchCls *poHatchFnc;
+//  poHatchFnc = this->getSstFncHatch();
+  sstDxf03FncPolylineCls *poPolylineFnc;
+  poPolylineFnc = this->getSstFncPolyline();
+  sstDxf03FncLayCls *poLayFnc;
+  poLayFnc = this->getSstFncLay();
+  sstDxf03FncBlkCls *poBlkFnc;
+  poBlkFnc = this->getSstFncBlk();
+  sstDxf03FncMainCls *poMainFnc;
+  poMainFnc = this->getSstFncMain();
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    dNumBlocks = poBlkFnc->count();
+    oDxfPolyLine.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = oDLAttributes.getLayer();
+    // Find record with exact search value
+    iStat = poLayFnc->TreSeaEQ( 0, poLayFnc->getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    assert(iStat == 1);
+    oDxfPolyLine.setLayerID(dLayRecNo);
+  }
+
+  sstDxf03FncLTypeCls *poLTypeFnc;
+  poLTypeFnc = this->getSstFncLType();
+
+  std::string oLTypeStr;
+  oLTypeStr = oDLAttributes.getLinetype();
+
+  std::transform(oLTypeStr.begin(), oLTypeStr.end(),oLTypeStr.begin(), ::toupper);
+
+  // Find record with exact search value
+  iStat = poLTypeFnc->TreSeaEQ( 0, poLTypeFnc->getNameSortKey(), (void*) oLTypeStr.c_str(), &dLTypeRecNo);
+  assert(iStat == 1);
+  oDxfPolyLine.setLinetypeID(dLTypeRecNo);
+
+  // iStat = poHatchFnc->WritNew(0,&oDxfHatch,&dEntRecNo);
+  iStat = poPolylineFnc->WritNew( 0, &oDxfPolyLine, oEntRecNo);
+  assert(iStat == 0);
+
+  sstDxf03TypMainCls oMainRec;
+
+  dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
+
+  oMainRec.setMainID(dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityPolyline);
+  oMainRec.setTypeID(*oEntRecNo);
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = poMainFnc->WritNew(0,&oMainRec, oMainRecNo);
+  assert(iStat == 0);
+
+  this->dGrpMainID = *oMainRecNo;           // Group Header in main table
+  this->eGrpEntType = RS2::EntityPolyline;  // Type of group
+  this->dGrpSubID = 0;                      // Sub Group ID like HatchLoop / Vertex
+  this->dGrpRecNum = 0;                     // Number of group elements
+
+  // this->setGrpMainID( *oEntRecNo);
+  return iStat;
+}
+//==============================================================================
 int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
                                             const DL_HatchEdgeData oDLHatchEdge,
                                             dREC04RECNUMTYP       *oEntRecNo,
@@ -1080,6 +1181,120 @@ int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
   // iStat = poMainFnc->WritNew(0,&oMainRec,&dRecNo);
   iStat = poMainFnc->WritNew(0,&oMainRec, oMainRecNo);
   assert(iStat == 0);
+  return iStat;
+}
+//==============================================================================
+int sstDxf03DatabaseCls::WriteNewVertex (int                  iKey,
+                                         const DL_VertexData  oDlVertex,
+                                         dREC04RECNUMTYP     *poEntRecNo,
+                                         dREC04RECNUMTYP     *poMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+
+  std::string oLayerStr;
+  dREC04RECNUMTYP dLayRecNo=0;
+  dREC04RECNUMTYP dNumBlocks = 0;
+  dREC04RECNUMTYP dTmpMainRecNo = 0;
+
+  sstDxf03TypPolylineCls oDxfPolyLine;
+  // oDxfPolyLine.ReadFromDL(oDlPolyline);
+  // oDxfPolyLine.BaseReadFromDL(oDLAttributes);
+
+  // dREC04RECNUMTYP dEntRecNo=0;
+  // dREC04RECNUMTYP dLayRecNo=0;
+
+  sstDxf03FncPolylineCls *poPolylineFnc;
+  poPolylineFnc = this->getSstFncPolyline();
+
+  sstDxf03FncMainCls *poMainFnc;
+  poMainFnc = this->getSstFncMain();
+
+  sstDxf03TypMainCls oMainRec;
+
+  //--- Write HatchEdge
+
+  // std::string oLayerStr;
+  oLayerStr.clear();
+
+  // sstDxf03TypHatchEdgeCls oDxfHatchEdge;
+  sstDxf03TypVertexCls oDxfVertex;
+  oDxfVertex.ReadFromDL(oDlVertex);
+  // oDxfArc.BaseReadFromDL(attributes);
+  // dRecNo = 0;
+  dLayRecNo = 0;
+
+  // sstDxf03FncHatchEdgeCls *poHatchEdgeFnc;
+  // poHatchEdgeFnc = this->getSstFncHatchEdge();
+  sstDxf03FncVertexCls *poVertexFnc;
+  poVertexFnc = this->getSstFncVertex();
+  // sstDxf03FncMainCls *poMainFnc;
+  // poMainFnc = this->getSstFncMain();
+
+  dNumBlocks = 0;
+
+  oDxfVertex.setParentID(this->getGrpMainID());
+
+  // iStat = poHatchEdgeFnc->WritNew(0,&oDxfHatchEdge,&dRecNo);
+  iStat = poVertexFnc->WritNew(0,&oDxfVertex, poEntRecNo);
+  assert(iStat == 0);
+
+  // sstDxf03TypMainCls oMainRec;
+
+  dTmpMainRecNo = poMainFnc->count();
+
+  oMainRec.setMainID(dTmpMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityVertex);
+  oMainRec.setTypeID(*poEntRecNo);
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  // iStat = poMainFnc->WritNew(0,&oMainRec,&dRecNo);
+  iStat = poMainFnc->WritNew(0,&oMainRec, poMainRecNo);
+  assert(iStat == 0);
+  //--- Write vertex
+
+  if (this->dGrpSubID == 0)
+  { // Start new sup group vertices
+
+    iStat = poMainFnc->Read(0,this->getGrpMainID(), &oMainRec);
+
+    iStat = poPolylineFnc->Read(0, oMainRec.getTypeID(), &oDxfPolyLine);
+
+    oDxfPolyLine.setNumber(1);
+
+    iStat = poPolylineFnc->Writ( 0, &oDxfPolyLine, oMainRec.getTypeID());
+
+    this->dGrpRecNum = 1;
+
+    this->dGrpSubID = *poEntRecNo;
+  }
+  else
+  {
+    iStat = poMainFnc->Read(0,this->getGrpMainID(), &oMainRec);
+
+    iStat = poPolylineFnc->Read(0, oMainRec.getTypeID(), &oDxfPolyLine);
+
+    oDxfPolyLine.setNumber(this->dGrpRecNum+1);
+
+    iStat = poPolylineFnc->Writ( 0, &oDxfPolyLine, oMainRec.getTypeID());
+
+    this->dGrpRecNum++;
+
+    this->dGrpSubID = *poEntRecNo;
+  }
+
   return iStat;
 }
 //==============================================================================

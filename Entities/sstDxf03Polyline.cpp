@@ -58,6 +58,13 @@ sstDxf03TypPolylineCls::sstDxf03TypPolylineCls()
   this->number = 0;
 }
 //=============================================================================
+sstMath01Mbr2Cls sstDxf03TypPolylineCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  // oTmpMbr.Koor2(0,this->getX(),this->getY());
+  return oTmpMbr;
+}
+//=============================================================================
 // Get Number of Class member
 unsigned int sstDxf03TypPolylineCls::getMemberNumber()
 {

@@ -79,6 +79,54 @@ int testWriting (const std::string oDxfFilNam);
 //------------------------------------------------------------------------------
 int testWriting2 (const std::string oDxfFilNam);
 //==============================================================================
+/**
+* @brief // Testframe for writing functions <BR>
+* iStat = Test_WriteInterface ( iKey);
+*
+* More Comment
+*
+* Changed: 13.03.19  Re.
+*
+* @ingroup examples
+*
+* @param iKey [in] For the moment 0
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 13.03.19
+*/
+//------------------------------------------------------------------------------
+int Test_WriteInterface (int iKey, sstDxf03DbCls *oDxfDB);
+//==============================================================================
+/**
+* @brief // Testframe for reading functions <BR>
+* iStat = Test_ReadInterface ( iKey);
+*
+* More Comment
+*
+* Changed: 13.03.19  Re.
+*
+* @ingroup examples
+*
+* @param iKey [in] For the moment 0
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 13.03.19
+*/
+//------------------------------------------------------------------------------
+int Test_ReadInterface (int iKey, sstDxf03DbCls *oDxfDB);
+//==============================================================================
 
 
 #endif // SSTDXF03LIBTEST_HEADER

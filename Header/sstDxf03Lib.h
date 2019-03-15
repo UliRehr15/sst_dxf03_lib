@@ -205,6 +205,28 @@ class sstDxf03DbCls
                    dREC04RECNUMTYP     *oMainRecNo);
   //==============================================================================
   /**
+  * @brief // open new dxflib polyline object in sstDxfDb <BR>
+  * iStat = oDxfDb.OpenNewPolyline (iKey, oDlPolyline, Attributes, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey          [in] For the moment 0
+  * @param oDlPolyline   [in] dxflib entity polyline
+  * @param oDLAttributes [in] dxflib attributes
+  * @param oEntRecNo     [out] return record number in entity table
+  * @param oMainRecNo    [out] Return Record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int OpenNewPolyline(int                  iKey,
+                   const DL_PolylineData   oDlPolyline,
+                   const DL_Attributes  oDLAttributes,
+                   dREC04RECNUMTYP     *oEntRecNo,
+                   dREC04RECNUMTYP     *oMainRecNo);
+  //==============================================================================
+  /**
   * @brief // write new dxflib hatch edge into sstDxfDb  hatch object <BR>
   * iStat = oDxfDb.WriteNewHatchEdge (iKey, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
   *
@@ -223,6 +245,26 @@ class sstDxf03DbCls
                          const DL_HatchEdgeData oDLHatchEdge,
                          dREC04RECNUMTYP       *oEntRecNo,
                          dREC04RECNUMTYP       *oMainRecNo);
+  //==============================================================================
+  /**
+  * @brief // write new dxflib vertex into sstDxfDb  polyline object <BR>
+  * iStat = oDxfDb.WriteNewVertex (iKey, oDlVertex, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey          [in] For the moment 0
+  * @param oDlVertex     [in] dxflib vertex
+  * @param oEntRecNo     [out] return record number in entity table
+  * @param oMainRecNo    [out] Return Record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int WriteNewVertex (int                   iKey,
+                      const DL_VertexData   oDlVertex,
+                      dREC04RECNUMTYP      *oEntRecNo,
+                      dREC04RECNUMTYP      *oMainRecNo);
   //==============================================================================
   /**
   * @brief // Write whole sst dxf database into dxf file. <BR>
