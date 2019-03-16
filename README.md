@@ -89,4 +89,5 @@ Structure of coding projects should be:
 23.02.19: Version 3.27: Add Name to intern entity insert. <BR>
 15.03.19: Version 3.28: Better Support of GetMbr for all entities. <BR>
                         Read/Write Interface for Entity Polyline.  <BR>
+16.03.19: Version 3.29: More Testing write hatch and polyline. <BR>
 

@@ -127,6 +127,56 @@ int Test_WriteInterface (int iKey, sstDxf03DbCls *oDxfDB);
 //------------------------------------------------------------------------------
 int Test_ReadInterface (int iKey, sstDxf03DbCls *oDxfDB);
 //==============================================================================
+/**
+* @brief // Test Write Hatch into sstDxf Database <BR>
+* iStat = Test_WriteHatch ( iKey, poDxfDb);
+*
+* More Comment
+*
+* Changed: 15.03.19  Re.
+*
+* @ingroup examples
+*
+* @param iKey    [in]     For the moment 0
+* @param poDxfDb [in out] open sstDxf Database
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 15.03.19
+*/
+//------------------------------------------------------------------------------
+int Test_WriteHatch (int iKey, sstDxf03DbCls *poDxfDb, const double dXX, const double dYY);
+//==============================================================================
+/**
+* @brief // Test Write Polyline into sstDxf Database <BR>
+* iStat = Test_WritePolyline ( iKey, poDxfDb);
+*
+* More Comment
+*
+* Changed: 15.03.19  Re.
+*
+* @ingroup examples
+*
+* @param iKey    [in]     For the moment 0
+* @param poDxfDb [in out] open sstDxf Database
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 15.03.19
+*/
+//------------------------------------------------------------------------------
+int Test_WritePolyline (int iKey, sstDxf03DbCls *poDxfDb, const double dXX, const double dYY);
+//==============================================================================
 
 
 #endif // SSTDXF03LIBTEST_HEADER
