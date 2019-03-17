@@ -350,6 +350,68 @@ void sstDxf03DatabaseCls::setActEntType(const RS2::EntityType &value)
 eActEntType = value;
 }
 //=============================================================================
+int sstDxf03DatabaseCls::WriteNewArc(int                     iKey,
+                                        const DL_ArcData     data,
+                                        const DL_Attributes  attributes,
+                                        dREC04RECNUMTYP     *dEntRecNo,
+                                        dREC04RECNUMTYP     *dMainRecNo)
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+  std::string oLayerStr;
+
+  sstDxf03TypArcCls oDxfArc;
+  oDxfArc.ReadFromDL(data);
+  oDxfArc.BaseReadFromDL(attributes);
+  dREC04RECNUMTYP dLayRecNo=0;
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    dNumBlocks = this->oSstFncBlk.count();
+    oDxfArc.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = attributes.getLayer();
+    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
+
+    // Find record with exact search value
+    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    // assert(iStat == 1);
+    if ( iStat != 1) return -3;  // Layername not found in layer table
+    oDxfArc.setLayerID(dLayRecNo);
+  }
+  sstDxf03TypMainCls oMainRec;
+  *dMainRecNo = this->oSstFncMain.count();
+
+  oDxfArc.setMainRecNo(*dMainRecNo+1);
+  iStat = this->oSstFncArc.WritNew(0,&oDxfArc, dEntRecNo);
+
+  oMainRec.setMainID( *dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityCircle);
+  oMainRec.setTypeID(*dEntRecNo);
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
+  this->setIsUpdated(false);
+//     this->poPrt->SST_PrtWrtChar( 1,(char*)"CIRCLE skiped",(char*)"Dxf Reading: ");
+  return 0;
+}
+//=============================================================================
 int sstDxf03DatabaseCls::WriteNewCircle(int                  iKey,
                                         const DL_CircleData  data,
                                         const DL_Attributes  attributes,
@@ -411,6 +473,83 @@ int sstDxf03DatabaseCls::WriteNewCircle(int                  iKey,
 //     this->poPrt->SST_PrtWrtChar( 1,(char*)"CIRCLE skiped",(char*)"Dxf Reading: ");
   return 0;
 }
+//=============================================================================
+int sstDxf03DatabaseCls::WriteArc (int                  iKey,
+                                   const DL_ArcData     data,
+                                   const DL_Attributes  attributes,
+                                   dREC04RECNUMTYP     *dEntRecNo,
+                                   dREC04RECNUMTYP     *dMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+  std::string oLayerStr;
+
+  sstDxf03TypArcCls oDxfArc;
+  oDxfArc.ReadFromDL(data);
+  oDxfArc.BaseReadFromDL(attributes);
+  dREC04RECNUMTYP dLayRecNo=0;
+
+  dREC04RECNUMTYP dNumBlocks = 0;
+
+  if (*dEntRecNo > 0)
+  {
+    // Existing circle
+    iStat = this->oSstFncArc.Read( 0, *dEntRecNo, &oDxfArc);
+    dREC04RECNUMTYP dMainRecNo = oDxfArc.getMainRecNo();
+    oDxfArc.ReadFromDL(data);
+    oDxfArc.BaseReadFromDL(attributes);
+    oDxfArc.setMainRecNo(dMainRecNo);
+    iStat = this->oSstFncArc.Writ( 0, &oDxfArc, *dEntRecNo);
+    // oLine.BaseWritToDL(oDLAttributes);
+    return iStat;
+  }
+
+  // New Arc
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    dNumBlocks = this->oSstFncBlk.count();
+    oDxfArc.setBlockID(dNumBlocks);
+  }
+  else
+  {  // Layer
+    oLayerStr = attributes.getLayer();
+    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
+
+    // Find record with exact search value
+    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    // assert(iStat == 1);
+    if ( iStat != 1) return -3;  // Layername not found in layer table
+    oDxfArc.setLayerID(dLayRecNo);
+  }
+  iStat = this->oSstFncArc.WritNew(0,&oDxfArc, dEntRecNo);
+
+  sstDxf03TypMainCls oMainRec;
+
+  *dMainRecNo = this->oSstFncMain.count();
+
+  oMainRec.setMainID( *dMainRecNo+1);
+  oMainRec.setEntityType(RS2::EntityLine);
+  oMainRec.setTypeID(*dEntRecNo);
+
+  // is it layer or block??
+  if (this->sActLayBlkNam.length() > 0)
+  {  // Block
+    oMainRec.setLayBlockID(dNumBlocks);
+    oMainRec.setSectString("B");
+  }
+  else
+  {  // Layer
+    oMainRec.setLayBlockID(dLayRecNo);
+    oMainRec.setSectString("L");
+  }
+  iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
+  return 0;
+}
+//=============================================================================
 //=============================================================================
 int sstDxf03DatabaseCls::WriteCircle (int                  iKey,
                                       const DL_CircleData  data,

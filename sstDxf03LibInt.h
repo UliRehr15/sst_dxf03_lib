@@ -6365,14 +6365,36 @@ class sstDxf03DatabaseCls
      void setActEntType(const RS2::EntityType &value);
      //==============================================================================
      /**
+     * @brief // Write new Arc into dxf database <BR>
+     * iStat = oDxfDbInt.WriteNewArc ( iKey, oDlArc, oDLAttributes, &oEntRecNo, &oMainRecNo);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param oDlArc        [in] Entity Arc
+     * @param oDlAttributes [in] Attributes
+     * @param oEntRecNo     [out] RowNo in Arc Table
+     * @param oMainRecNo    [out] RowNo in Main Table
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteNewArc (int                  iKey,
+                      const DL_ArcData     oDlArc,
+                      const DL_Attributes  oDlAttributes,
+                      dREC04RECNUMTYP     *oEntRecNo,
+                      dREC04RECNUMTYP     *oMainRecNo);
+     //==============================================================================
+     /**
      * @brief // Write new Circle into dxf database <BR>
      * iStat = oDxfDbInt.WriteNewCircle(iKey,oDLCircle,oDLAttributes, &oEntRecNo, &oMainRecNo);
      *
      * @param iKey          [in] For the moment 0
-     * @param oDLCircle     [in] For the moment 0
-     * @param oDLAttributes [in] For the moment 0
-     * @param oEntRecNo     [out] For the moment 0
-     * @param oMainRecNo    [out] For the moment 0
+     * @param oDLCircle     [in] Entity Circle
+     * @param oDLAttributes [in] Attributes
+     * @param oEntRecNo     [out] Row No in Arc Table
+     * @param oMainRecNo    [out] Row No in Main Table
      *
      * @return Errorstate
      *
@@ -6385,6 +6407,28 @@ class sstDxf03DatabaseCls
                         const DL_Attributes  oDLAttributes,
                         dREC04RECNUMTYP     *oEntRecNo,
                         dREC04RECNUMTYP     *oMainRecNo);
+     //==============================================================================
+     /**
+     * @brief // Rewrite existing or write new Arc entity into dxf database <BR>
+     * iStat = oDxfDbInt.WriteArc ( iKey, oDlArc, oDlAttributes, &oEntRecNo, &oMainRecNo);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param oDlArc        [in] Arc Entity
+     * @param oDlAttributes [in] Entity attributes
+     * @param oEntRecNo     [in out] =0: New, record number
+     * @param oMainRecNo    [out] record number in main table
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteArc (int                  iKey,
+                   const DL_ArcData     oDlArc,
+                   const DL_Attributes  oDlAttributes,
+                   dREC04RECNUMTYP     *oEntRecNo,
+                   dREC04RECNUMTYP     *oMainRecNo);
      //==============================================================================
      /**
      * @brief // Rewrite existing or write new Circle entity into dxf database <BR>

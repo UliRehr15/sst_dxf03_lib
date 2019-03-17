@@ -58,6 +58,15 @@ sstDxf03DbCls::~sstDxf03DbCls()
   delete(this->poDxf03DbIntern);
 }
 //=============================================================================
+int sstDxf03DbCls::WriteNewArc (int                   iKey,
+                                const DL_ArcData      oDLArc,
+                                const DL_Attributes   attributes,
+                                dREC04RECNUMTYP      *oEntRecNo,
+                                dREC04RECNUMTYP      *oMainRecNo)
+{
+  return this->poDxf03DbIntern->WriteNewArc ( iKey, oDLArc, attributes, oEntRecNo, oMainRecNo);
+}
+//=============================================================================
 int sstDxf03DbCls::WriteNewCircle(int iKey,
                    const DL_CircleData oDLCircle,
                    const DL_Attributes attributes,
@@ -65,6 +74,15 @@ int sstDxf03DbCls::WriteNewCircle(int iKey,
                    dREC04RECNUMTYP *oMainRecNo)
 {
   return this->poDxf03DbIntern->WriteNewCircle(iKey,oDLCircle,attributes,oEntRecNo, oMainRecNo);
+}
+//==============================================================================
+int sstDxf03DbCls::WriteArc (int                    iKey,
+                             const DL_ArcData       oDlArc,
+                             const DL_Attributes    oDLAttributes,
+                             dREC04RECNUMTYP       *oEntRecNo,
+                             dREC04RECNUMTYP       *oMainRecNo)
+{
+  return this->poDxf03DbIntern->WriteArc(iKey,oDlArc,oDLAttributes,oEntRecNo, oMainRecNo);
 }
 //==============================================================================
 int sstDxf03DbCls::WriteCircle (int iKey,

@@ -80,7 +80,7 @@ Structure of coding projects should be:
                         Small corrections in looping over section entity objects .<BR>
 14.12.18: Version 3.22: Back Pointer Functions inserted from Entity Table to Main Table. <BR>
                         Update Functions added after changing data. <BR>
-21.12.18: Version 3.23: Database interface now supports creating blocks and insert entity.
+21.12.18: Version 3.23: Database interface now supports creating blocks and insert entity. <BR>
                         Extend dxf generate data function with blocks and inserts for testing. <BR>
 25.01.19: Version 3.24: Extend dxf generate data function with handling more blocks. <BR>
 08.02.19: Version 3.25: Functions for reading, writing of block data. <BR>
@@ -90,4 +90,5 @@ Structure of coding projects should be:
 15.03.19: Version 3.28: Better Support of GetMbr for all entities. <BR>
                         Read/Write Interface for Entity Polyline.  <BR>
 16.03.19: Version 3.29: More Testing write hatch and polyline. <BR>
+17.03.19: Version 3.30: Read/Write Interface for Entity Arc. <BR>
 

@@ -117,11 +117,11 @@ class sstDxf03DbCls
  ~sstDxf03DbCls();  // Destructor
   //==============================================================================
   /**
-  * @brief // write new dxflib circle into sstDxfDb <BR>
-  * iStat = oDxfDb.WriteNewCicle (iKey, oDLCircle, Attributes, &oEntRecNo, &oMainRecNo);
+  * @brief // write new dxflib Arc into sstDxfDb <BR>
+  * iStat = oDxfDb.WriteNewArc (iKey, oDlArc, Attributes, &oEntRecNo, &oMainRecNo);
   *
   * @param iKey       [in] For the moment 0
-  * @param oDLCircle  [in] dxflib circle
+  * @param oDlArc     [in] dxflib Arc
   * @param attributes [in] dxflib attributes
   * @param oEntRecNo  [out] return record number in entity table
   * @param oMainRecNo [out] Return Record number in main table
@@ -132,11 +132,55 @@ class sstDxf03DbCls
   * @retval   < 0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
-  int WriteNewCircle(int iKey,
-                     const DL_CircleData oDLCircle,
-                     const DL_Attributes attributes,
-                     dREC04RECNUMTYP *oEntRecNo,
-                     dREC04RECNUMTYP *oMainRecNo);
+  int WriteNewArc(int                  iKey,
+                  const DL_ArcData     oDlArc,
+                  const DL_Attributes  attributes,
+                  dREC04RECNUMTYP     *oEntRecNo,
+                  dREC04RECNUMTYP     *oMainRecNo);
+  //==============================================================================
+  /**
+  * @brief // write new dxflib circle into sstDxfDb <BR>
+  * iStat = oDxfDb.WriteNewCicle (iKey, oDlCircle, Attributes, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey       [in] For the moment 0
+  * @param oDlCircle  [in] dxflib circle
+  * @param attributes [in] dxflib attributes
+  * @param oEntRecNo  [out] return record number in entity table
+  * @param oMainRecNo [out] Return Record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int WriteNewCircle(int                  iKey,
+                     const DL_CircleData  oDlCircle,
+                     const DL_Attributes  attributes,
+                     dREC04RECNUMTYP     *oEntRecNo,
+                     dREC04RECNUMTYP     *oMainRecNo);
+  //==============================================================================
+  /**
+  * @brief // write new dxflib arc into sstDxfDb or rewrite existing <BR>
+  * iStat = oDxfDb.WriteArc (iKey, oDlArc, oDlAttributes, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey          [in] For the moment 0
+  * @param oDlArc        [in] dxflib arc
+  * @param oDlAttributes [in] dxflib attributes
+  * @param oEntRecNo     [out] return record number in entity table
+  * @param oMainRecNo    [out] Return Record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int WriteArc    (int                   iKey,
+                   const DL_ArcData      oDlArc,
+                   const DL_Attributes   oDlAttributes,
+                   dREC04RECNUMTYP      *oEntRecNo,
+                   dREC04RECNUMTYP      *oMainRecNo);
   //==============================================================================
   /**
   * @brief // write new dxflib circle  into sstDxfDb or rewrite existing <BR>
