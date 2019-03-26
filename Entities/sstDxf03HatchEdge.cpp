@@ -122,45 +122,59 @@ int sstDxf03TypHatchEdgeCls::SetTestData(int iKey)
 //=============================================================================
 void sstDxf03TypHatchEdgeCls::ReadFromDL(const DL_HatchEdgeData oDLHatchEdge)
 {
+  switch (oDLHatchEdge.type) {
+      case (1):  // Line
+      {
+        this->type = oDLHatchEdge.type;
+        this->defined = oDLHatchEdge.defined;
+        this->x1 = oDLHatchEdge.x1;
+        this->y1 = oDLHatchEdge.y1;
+        this->x2 = oDLHatchEdge.x2;
+        this->y2 = oDLHatchEdge.y2;
+      }
+      break;
+      case (2):  // Circle/Ellipse
+      {
+        this->defined = oDLHatchEdge.defined;
+        this->type = oDLHatchEdge.type;
+        this->cx = oDLHatchEdge.cx;
+        this->cy = oDLHatchEdge.cy;
+        this->radius = oDLHatchEdge.radius;
+        this->angle1 = oDLHatchEdge.angle1;
+        this->angle2 = oDLHatchEdge.angle2;
+        this->ccw = oDLHatchEdge.ccw;
+      }
+      break;
+  default:
+  {
   this->angle1 = oDLHatchEdge.angle1;
   this->angle2 = oDLHatchEdge.angle2;
   this->ccw = oDLHatchEdge.ccw;
-  // this->angle1 = oDLHatchEdge.controlPoints;
   this->cx = oDLHatchEdge.cx;
   this->cy = oDLHatchEdge.cy;
   this->defined = oDLHatchEdge.defined;
-  // this->degree = oDLHatchEdge.degree;
   this->setDegree(oDLHatchEdge.degree);
   this->endTangentX = oDLHatchEdge.endTangentX;
   this->endTangentY = oDLHatchEdge.endTangentY;
-  // this->angle1 = oDLHatchEdge.fitPoints;
-  // this->angle1 = oDLHatchEdge.knots;
   this->mx = oDLHatchEdge.mx;
   this->my = oDLHatchEdge.my;
-//  this->nControl = oDLHatchEdge.nControl;
-//  this->nFit = oDLHatchEdge.nFit;
-//  this->nKnots = oDLHatchEdge.nKnots;
   this->setNControl(oDLHatchEdge.nControl);
   this->setNFit(oDLHatchEdge.nFit);
   this->setNKnots( oDLHatchEdge.nKnots);
   this->periodic = oDLHatchEdge.periodic;
   this->radius = oDLHatchEdge.radius;
-//  bool bResult = isnan(oDLHatchEdge.ratio);
-//  this->ratio = dSSTSTR01_UNDEF_DOUBLE;
-//  if (oDLHatchEdge.ratio <= dSSTSTR01_UNDEF_DOUBLE) this->ratio = dSSTSTR01_UNDEF_DOUBLE;
-//  else if (oDLHatchEdge.ratio >= -dSSTSTR01_UNDEF_DOUBLE) this->ratio = dSSTSTR01_UNDEF_DOUBLE;
-  //  else this->ratio = oDLHatchEdge.ratio;
   this->ratio = oDLHatchEdge.ratio;
   this->rational = oDLHatchEdge.rational;
   this->startTangentX = oDLHatchEdge.startTangentX;
   this->startTangentY = oDLHatchEdge.startTangentY;
   this->type = oDLHatchEdge.type;
-  // this->angle1 = oDLHatchEdge.vertices;
-  // this->angle1 = oDLHatchEdge.weights;
   this->x1 = oDLHatchEdge.x1;
   this->y1 = oDLHatchEdge.y1;
   this->x2 = oDLHatchEdge.x2;
   this->y2 = oDLHatchEdge.y2;
+  }
+    break;
+  }
 }
 //=============================================================================
 void sstDxf03TypHatchEdgeCls::WritToDL(DL_HatchEdgeData *poDLHatchEdge)

@@ -1,6 +1,6 @@
 # sst_dxf03_lib
 
-sst_dxf03_lib extendes dxflib with storing functions.
+sst_dxf03_lib extendes dxflib Entities with storing/database functions.
 Eveny entity type is stored in sst table (github.com/UliRehr15/sst_rec04_lib).
 For every dxf entity type like ARC, MTEXT and so on there is a table.
 This sst dxf tables could be stored in memory or filesystem.
@@ -91,4 +91,6 @@ Structure of coding projects should be:
                         Read/Write Interface for Entity Polyline.  <BR>
 16.03.19: Version 3.29: More Testing write hatch and polyline. <BR>
 17.03.19: Version 3.30: Read/Write Interface for Entity Arc. <BR>
+26.03.19: Version 3.31: More Testing write Arc and Text. <BR>
+                        Fixed some Errors in writing dxf. <BR>
 

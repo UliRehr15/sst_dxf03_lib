@@ -392,7 +392,7 @@ int sstDxf03DatabaseCls::WriteNewArc(int                     iKey,
   iStat = this->oSstFncArc.WritNew(0,&oDxfArc, dEntRecNo);
 
   oMainRec.setMainID( *dMainRecNo+1);
-  oMainRec.setEntityType(RS2::EntityCircle);
+  oMainRec.setEntityType(RS2::EntityArc);
   oMainRec.setTypeID(*dEntRecNo);
 
   // is it layer or block??
@@ -470,7 +470,6 @@ int sstDxf03DatabaseCls::WriteNewCircle(int                  iKey,
   }
   iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
   this->setIsUpdated(false);
-//     this->poPrt->SST_PrtWrtChar( 1,(char*)"CIRCLE skiped",(char*)"Dxf Reading: ");
   return 0;
 }
 //=============================================================================
@@ -484,14 +483,11 @@ int sstDxf03DatabaseCls::WriteArc (int                  iKey,
   if ( iKey != 0) return -1;
 
   int iStat = 0;
-  std::string oLayerStr;
+  // std::string oLayerStr;
 
   sstDxf03TypArcCls oDxfArc;
   oDxfArc.ReadFromDL(data);
   oDxfArc.BaseReadFromDL(attributes);
-  dREC04RECNUMTYP dLayRecNo=0;
-
-  dREC04RECNUMTYP dNumBlocks = 0;
 
   if (*dEntRecNo > 0)
   {
@@ -502,54 +498,14 @@ int sstDxf03DatabaseCls::WriteArc (int                  iKey,
     oDxfArc.BaseReadFromDL(attributes);
     oDxfArc.setMainRecNo(dMainRecNo);
     iStat = this->oSstFncArc.Writ( 0, &oDxfArc, *dEntRecNo);
-    // oLine.BaseWritToDL(oDLAttributes);
     return iStat;
   }
 
-  // New Arc
+  //  Write new Arc into dxf database <BR>
+  iStat = this->WriteNewArc ( iKey, data, attributes, dEntRecNo, dMainRecNo);
 
-  // is it layer or block??
-  if (this->sActLayBlkNam.length() > 0)
-  {  // Block
-    dNumBlocks = this->oSstFncBlk.count();
-    oDxfArc.setBlockID(dNumBlocks);
-  }
-  else
-  {  // Layer
-    oLayerStr = attributes.getLayer();
-    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
-
-    // Find record with exact search value
-    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
-    // assert(iStat == 1);
-    if ( iStat != 1) return -3;  // Layername not found in layer table
-    oDxfArc.setLayerID(dLayRecNo);
-  }
-  iStat = this->oSstFncArc.WritNew(0,&oDxfArc, dEntRecNo);
-
-  sstDxf03TypMainCls oMainRec;
-
-  *dMainRecNo = this->oSstFncMain.count();
-
-  oMainRec.setMainID( *dMainRecNo+1);
-  oMainRec.setEntityType(RS2::EntityLine);
-  oMainRec.setTypeID(*dEntRecNo);
-
-  // is it layer or block??
-  if (this->sActLayBlkNam.length() > 0)
-  {  // Block
-    oMainRec.setLayBlockID(dNumBlocks);
-    oMainRec.setSectString("B");
-  }
-  else
-  {  // Layer
-    oMainRec.setLayBlockID(dLayRecNo);
-    oMainRec.setSectString("L");
-  }
-  iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
-  return 0;
+  return iStat;
 }
-//=============================================================================
 //=============================================================================
 int sstDxf03DatabaseCls::WriteCircle (int                  iKey,
                                       const DL_CircleData  data,
@@ -561,14 +517,10 @@ int sstDxf03DatabaseCls::WriteCircle (int                  iKey,
   if ( iKey != 0) return -1;
 
   int iStat = 0;
-  std::string oLayerStr;
 
   sstDxf03TypCircleCls oDxfCircle;
   oDxfCircle.ReadFromDL(data);
   oDxfCircle.BaseReadFromDL(attributes);
-  dREC04RECNUMTYP dLayRecNo=0;
-
-  dREC04RECNUMTYP dNumBlocks = 0;
 
   if (*dEntRecNo > 0)
   {
@@ -579,52 +531,13 @@ int sstDxf03DatabaseCls::WriteCircle (int                  iKey,
     oDxfCircle.BaseReadFromDL(attributes);
     oDxfCircle.setMainRecNo(dMainRecNo);
     iStat = this->oSstFncCircle.Writ( 0, &oDxfCircle, *dEntRecNo);
-    // oLine.BaseWritToDL(oDLAttributes);
     return iStat;
   }
 
-  // New Line
+  // Write new Circle into dxf database
+  iStat = this->WriteNewCircle( iKey, data, attributes, dEntRecNo, dMainRecNo);
 
-  // is it layer or block??
-  if (this->sActLayBlkNam.length() > 0)
-  {  // Block
-    dNumBlocks = this->oSstFncBlk.count();
-    oDxfCircle.setBlockID(dNumBlocks);
-  }
-  else
-  {  // Layer
-    oLayerStr = attributes.getLayer();
-    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
-
-    // Find record with exact search value
-    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
-    // assert(iStat == 1);
-    if ( iStat != 1) return -3;  // Layername not found in layer table
-    oDxfCircle.setLayerID(dLayRecNo);
-  }
-  iStat = this->oSstFncCircle.WritNew(0,&oDxfCircle, dEntRecNo);
-
-  sstDxf03TypMainCls oMainRec;
-
-  *dMainRecNo = this->oSstFncMain.count();
-
-  oMainRec.setMainID( *dMainRecNo+1);
-  oMainRec.setEntityType(RS2::EntityLine);
-  oMainRec.setTypeID(*dEntRecNo);
-
-  // is it layer or block??
-  if (this->sActLayBlkNam.length() > 0)
-  {  // Block
-    oMainRec.setLayBlockID(dNumBlocks);
-    oMainRec.setSectString("B");
-  }
-  else
-  {  // Layer
-    oMainRec.setLayBlockID(dLayRecNo);
-    oMainRec.setSectString("L");
-  }
-  iStat = this->oSstFncMain.WritNew(0,&oMainRec, dMainRecNo);
-  return 0;
+  return iStat;
 }
 //=============================================================================
 int sstDxf03DatabaseCls::WritePoint (int                  iKey,
@@ -652,7 +565,6 @@ int sstDxf03DatabaseCls::WritePoint (int                  iKey,
     oDxfPoint.ReadFromDL(data);
     oDxfPoint.BaseReadFromDL(attributes);
     iStat = this->oSstFncPoint.Writ( 0, &oDxfPoint, *dEntRecNo);
-    // oLine.BaseWritToDL(oDLAttributes);
     return iStat;
   }
 
@@ -729,10 +641,7 @@ int sstDxf03DatabaseCls::WriteInsert (int                  iKey,
     iStat = this->oSstFncBlk.TreSeaEQ( 0, this->oSstFncBlk.getNameSortKey(), (void*) oBlockStr.c_str(), &dBlkRecNo);
     oDxfInsert.setBlockID(dBlkRecNo);
 
-    // oDxfInsert.ReadFromDL(data);
-    // oDxfInsert.BaseReadFromDL(attributes);
     iStat = this->oSstFncInsert.Writ( 0, &oDxfInsert, *dEntRecNo);
-    // oLine.BaseWritToDL(oDLAttributes);
     return iStat;
   }
 
@@ -816,7 +725,6 @@ int sstDxf03DatabaseCls::WriteLine (int                  iKey,
     oDxfLine.BaseReadFromDL(attributes);
     oDxfLine.setMainRecNo(dMainRecNo);
     iStat = this->oSstFncLine.Writ( 0, &oDxfLine, *dEntRecNo);
-    // oLine.BaseWritToDL(oDLAttributes);
     return iStat;
   }
 
@@ -891,11 +799,10 @@ int sstDxf03DatabaseCls::WriteMText (int                  iKey,
     oDxfMText.ReadFromDL(data);
     oDxfMText.BaseReadFromDL(attributes);
     iStat = this->oSstFncMText.Writ( 0, &oDxfMText, *dEntRecNo);
-    // oLine.BaseWritToDL(oDLAttributes);
     return iStat;
   }
 
-  // New Line
+  // New MText
 
   // is it layer or block??
   if (this->sActLayBlkNam.length() > 0)
@@ -964,11 +871,10 @@ int sstDxf03DatabaseCls::WriteText (int                  iKey,
     oDxfText.ReadFromDL(data);
     oDxfText.BaseReadFromDL(attributes);
     iStat = this->oSstFncText.Writ( 0, &oDxfText, *dEntRecNo);
-    // oLine.BaseWritToDL(oDLAttributes);
     return iStat;
   }
 
-  // New Line
+  // New Text
 
   // is it layer or block??
   if (this->sActLayBlkNam.length() > 0)
@@ -994,7 +900,7 @@ int sstDxf03DatabaseCls::WriteText (int                  iKey,
   *dMainRecNo = this->oSstFncMain.count();
 
   oMainRec.setMainID( *dMainRecNo+1);
-  oMainRec.setEntityType(RS2::EntityLine);
+  oMainRec.setEntityType(RS2::EntityText);
   oMainRec.setTypeID(*dEntRecNo);
 
   // is it layer or block??
@@ -1071,7 +977,6 @@ int sstDxf03DatabaseCls::OpenNewHatch(int                  iKey,
   assert(iStat == 1);
   oDxfHatch.setLinetypeID(dLTypeRecNo);
 
-  // iStat = poHatchFnc->WritNew(0,&oDxfHatch,&dEntRecNo);
   iStat = poHatchFnc->WritNew( 0, &oDxfHatch, oEntRecNo);
   assert(iStat == 0);
 
@@ -1122,12 +1027,9 @@ int sstDxf03DatabaseCls::OpenNewPolyline(int                  iKey,
   oDxfPolyLine.ReadFromDL(oDlPolyline);
   oDxfPolyLine.BaseReadFromDL(oDLAttributes);
 
-  // dREC04RECNUMTYP dEntRecNo=0;
   dREC04RECNUMTYP dLayRecNo=0;
   dREC04RECNUMTYP dLTypeRecNo=0;
 
-//  sstDxf03FncHatchCls *poHatchFnc;
-//  poHatchFnc = this->getSstFncHatch();
   sstDxf03FncPolylineCls *poPolylineFnc;
   poPolylineFnc = this->getSstFncPolyline();
   sstDxf03FncLayCls *poLayFnc;
@@ -1167,7 +1069,6 @@ int sstDxf03DatabaseCls::OpenNewPolyline(int                  iKey,
   assert(iStat == 1);
   oDxfPolyLine.setLinetypeID(dLTypeRecNo);
 
-  // iStat = poHatchFnc->WritNew(0,&oDxfHatch,&dEntRecNo);
   iStat = poPolylineFnc->WritNew( 0, &oDxfPolyLine, oEntRecNo);
   assert(iStat == 0);
 
@@ -1198,7 +1099,6 @@ int sstDxf03DatabaseCls::OpenNewPolyline(int                  iKey,
   this->dGrpSubID = 0;                      // Sub Group ID like HatchLoop / Vertex
   this->dGrpRecNum = 0;                     // Number of group elements
 
-  // this->setGrpMainID( *oEntRecNo);
   return iStat;
 }
 //==============================================================================
@@ -1234,13 +1134,9 @@ int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
     oDLHatchLoop.numEdges = 1;
 
     oDxfHatchLoop.ReadFromDL(oDLHatchLoop);
-    // dREC04RECNUMTYP dRecNo=0;
-
-
 
     iStat = poHatchLoopFnc->WritNew(0,&oDxfHatchLoop,oEntRecNo);
     assert (iStat == 0);
-
 
     dTmpMainRecNo = poMainFnc->count();
 
@@ -1251,6 +1147,7 @@ int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
     // is it layer or block??
     if (this->sActLayBlkNam.length() > 0)
     {  // Block
+      dNumBlocks = this->countBlocks();
       oMainRec.setLayBlockID(dNumBlocks);
       oMainRec.setSectString("B");
     }
@@ -1276,29 +1173,21 @@ int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
 
   //--- Write HatchEdge
 
-  // std::string oLayerStr;
   oLayerStr.clear();
 
   sstDxf03TypHatchEdgeCls oDxfHatchEdge;
   oDxfHatchEdge.ReadFromDL(oDLHatchEdge);
-  // oDxfArc.BaseReadFromDL(attributes);
-  // dRecNo = 0;
   dLayRecNo = 0;
 
   sstDxf03FncHatchEdgeCls *poHatchEdgeFnc;
   poHatchEdgeFnc = this->getSstFncHatchEdge();
-  // sstDxf03FncMainCls *poMainFnc;
-  // poMainFnc = this->getSstFncMain();
 
   dNumBlocks = 0;
 
   oDxfHatchEdge.setParentID(this->getGrpMainID());
 
-  // iStat = poHatchEdgeFnc->WritNew(0,&oDxfHatchEdge,&dRecNo);
   iStat = poHatchEdgeFnc->WritNew(0,&oDxfHatchEdge, oEntRecNo);
   assert(iStat == 0);
-
-  // sstDxf03TypMainCls oMainRec;
 
   dTmpMainRecNo = poMainFnc->count();
 
@@ -1317,7 +1206,6 @@ int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
     oMainRec.setLayBlockID(dLayRecNo);
     oMainRec.setSectString("L");
   }
-  // iStat = poMainFnc->WritNew(0,&oMainRec,&dRecNo);
   iStat = poMainFnc->WritNew(0,&oMainRec, oMainRecNo);
   assert(iStat == 0);
   return iStat;
@@ -1339,11 +1227,6 @@ int sstDxf03DatabaseCls::WriteNewVertex (int                  iKey,
   dREC04RECNUMTYP dTmpMainRecNo = 0;
 
   sstDxf03TypPolylineCls oDxfPolyLine;
-  // oDxfPolyLine.ReadFromDL(oDlPolyline);
-  // oDxfPolyLine.BaseReadFromDL(oDLAttributes);
-
-  // dREC04RECNUMTYP dEntRecNo=0;
-  // dREC04RECNUMTYP dLayRecNo=0;
 
   sstDxf03FncPolylineCls *poPolylineFnc;
   poPolylineFnc = this->getSstFncPolyline();
@@ -1355,32 +1238,21 @@ int sstDxf03DatabaseCls::WriteNewVertex (int                  iKey,
 
   //--- Write HatchEdge
 
-  // std::string oLayerStr;
   oLayerStr.clear();
 
-  // sstDxf03TypHatchEdgeCls oDxfHatchEdge;
   sstDxf03TypVertexCls oDxfVertex;
   oDxfVertex.ReadFromDL(oDlVertex);
-  // oDxfArc.BaseReadFromDL(attributes);
-  // dRecNo = 0;
   dLayRecNo = 0;
 
-  // sstDxf03FncHatchEdgeCls *poHatchEdgeFnc;
-  // poHatchEdgeFnc = this->getSstFncHatchEdge();
   sstDxf03FncVertexCls *poVertexFnc;
   poVertexFnc = this->getSstFncVertex();
-  // sstDxf03FncMainCls *poMainFnc;
-  // poMainFnc = this->getSstFncMain();
 
   dNumBlocks = 0;
 
   oDxfVertex.setParentID(this->getGrpMainID());
 
-  // iStat = poHatchEdgeFnc->WritNew(0,&oDxfHatchEdge,&dRecNo);
   iStat = poVertexFnc->WritNew(0,&oDxfVertex, poEntRecNo);
   assert(iStat == 0);
-
-  // sstDxf03TypMainCls oMainRec;
 
   dTmpMainRecNo = poMainFnc->count();
 
@@ -1391,6 +1263,7 @@ int sstDxf03DatabaseCls::WriteNewVertex (int                  iKey,
   // is it layer or block??
   if (this->sActLayBlkNam.length() > 0)
   {  // Block
+    dNumBlocks = this->countBlocks();
     oMainRec.setLayBlockID(dNumBlocks);
     oMainRec.setSectString("B");
   }
@@ -1865,10 +1738,6 @@ int sstDxf03DatabaseCls::ReadVertex ( int iKey, dREC04RECNUMTYP dRecNo, DL_Verte
   sstDxf03TypVertexCls oVertex;
 
   iStat = this->oSstFncVertex.Read(0,dRecNo,&oVertex);
-  // oVertex.BaseWritToDL(oDLAttributes);
-
-  // Update DL Attributes with Layer/LType Identifier
-  // iStat = this->UpdateAttribWithId( 0, oVertex.getLayerID(), oVertex.getLinetypeID(), oDLAttributes);
 
   oVertex.WritToDL(oDLVertex);
   return iStat;
@@ -2101,11 +1970,7 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::countEntities(int iKey, dREC04RECNUMTYP dBl
     dREC04RECNUMTYP dMainTabRecNo1 = this->getMainTabSectEntStart();
     dREC04RECNUMTYP dMainTabRecNo2 = this->MainCount();
     return (dMainTabRecNo2-dMainTabRecNo1+1);
-    // iStat = this->ReadMainTable(0,dActMainTabRecNo, eEntType, dEntNo);
-    // assert(iStat >= 0);
-    // return iStat;
   }
-
 
   sstDxf03FncBlkCls *oBlkTab =  this->getSstFncBlk();
   sstDxf03TypBlkCls oBlkRec;
@@ -2517,19 +2382,8 @@ int sstDxf03DatabaseCls::openBlock(int iKey, const DL_BlockData& data, const DL_
 
   // Write new record into record memory and update all trees
   oBlk.setLinetypeID(dLTypeRecNo);
-//  iStat = poBlkFnc->TreWriteNew( 0, &oBlk, &dRecNo);
-//  assert(iStat == 0);
   iStat = poBlkFnc->WriteNewUnique( 0, oBlk, &dRecNo);
   assert(iStat >= 0);
-
-  //  std::string oModelSpaceName = "*Model_Space";
-//  iStat = oModelSpaceName.compare(data.name);
-//  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
-//  else iStat = 0;
-//  oModelSpaceName = "*MODEL_SPACE";
-//  iStat = oModelSpaceName.compare(data.name);
-//  if(iStat == 0) poBlkFnc->setBlockMdlRecNo(dRecNo);
-//  else iStat = 0;
 
   return iStat;
 }

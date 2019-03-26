@@ -53,6 +53,19 @@ int main()
   int iStat = 0;
   unsigned long ulRowNo = 0;
 
+  {
+    DL_PointData oDLPoint;               // Entity Point from dxflib
+    DL_PolylineData oDlPolyline(0,0,0,0);
+    DL_VertexData oDlVertex(0.0,0.0,0.0,0.0);
+    DL_LineData  oDLLine(0,0,0,0,0,0);   // Entity Line from dxflib
+    DL_CircleData oDLCircle(0,0,0,1);    // Entity Circle from dxflib
+    DL_MTextData oDLMText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0.0,"","",0.0);
+    DL_TextData oDLText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,"","",0.0);
+    DL_InsertData("test",0,0,0,0,0,0,0,0,0,0,0);
+    DL_HatchData oDlHatch(0,0,0.0,0.0,"pattern",0.0,0.0);
+    DL_ArcData oDlArc(0.0,0.0,0.0,0.0,0.0,0.0);
+  }
+
   sstMisc01PrtFilCls oPrt;
   iStat = oPrt.SST_PrtAuf(1,(char*)"sstDxf03LibTest.log");
   if(iStat < 0)
@@ -176,7 +189,7 @@ int main()
     if (iStat != 0)
     {
         // assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
-        assert(ulRowNo == 1480);  // Problem with handle 340 in DIMSTYLE
+        assert(ulRowNo == 1492);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test_Utm.dxf / Test_Utm2.dxf OK");
@@ -197,18 +210,6 @@ int main()
   assert(iStat >= 0);
 
   oPrt.SST_PrtWrt(1,(char*)"Creating Test.dxf with dxflib Testwriting function");
-
-  {
-    DL_PointData oDLPoint;               // Entity Point from dxflib
-    DL_PolylineData oDlPolyline(0,0,0,0);
-    DL_VertexData oDlVertex(0.0,0.0,0.0,0.0);
-    DL_LineData  oDLLine(0,0,0,0,0,0);   // Entity Line from dxflib
-    DL_CircleData oDLCircle(0,0,0,1);    // Entity Circle from dxflib
-    DL_MTextData oDLMText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0.0,"","",0.0);
-    DL_TextData oDLText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,"","",0.0);
-    DL_InsertData("test",0,0,0,0,0,0,0,0,0,0,0);
-    DL_HatchData oDlHatch(0,0,0.0,0.0,"pattern",0.0,0.0);
-  }
 
   {
     // Open new sstDxf Database
@@ -343,7 +344,7 @@ int main()
     dREC04RECNUMTYP dMainRecs = 0;
 
     dMainRecs = oDxfDB.MainCount();
-    assert(dMainRecs == 22);
+    assert(dMainRecs == 25);
 
     dEntRecs = oDxfDB.EntityCount(RS2::EntityHatch);
     assert(dEntRecs == 3);
@@ -379,7 +380,7 @@ int main()
     iStat = sstMisc01FileCompare( 1,"Test5.dxf","Test6.dxf",&ulRowNo);
     if (iStat != 0)
     {
-      assert(ulRowNo == 886);  // Problem with handle 340 in DIMSTYLE
+      assert(ulRowNo == 898);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test5.dxf / Test6.dxf OK");
@@ -475,7 +476,12 @@ int testWriting(const std::string oDxfFilNam) {
                        "CONTINUOUS", dLineTypeScale));
 
     dw->tableEnd();
-    dxf->writeStyle(*dw, DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "standard", ""));
+
+    dw->tableStyle(1);
+    dxf->writeStyle(*dw, DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "txt", ""));
+    dw->tableEnd();
+
+    // dxf->writeStyle(*dw, DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "standard", ""));
     dxf->writeView(*dw);
     dxf->writeUcs(*dw);
 
@@ -639,7 +645,11 @@ int testWriting2 (const std::string oDxfFilNam) {
                        "CONTINUOUS", dLinetypeScale));
 
     dw->tableEnd();
-    dxf->writeStyle(*dw, DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "standard", ""));
+    dw->tableStyle(1);
+    dxf->writeStyle(*dw, DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "txt", ""));
+    dw->tableEnd();
+
+    // dxf->writeStyle(*dw, DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "standard", ""));
     dxf->writeView(*dw);
     dxf->writeUcs(*dw);
 
@@ -771,6 +781,15 @@ int Test_WriteInterface (int iKey, sstDxf03DbCls *poDxfDb)
   // Test Write Polyline into sstDxf Database
   iStat = Test_WritePolyline ( iKey, poDxfDb, 11.0, 5.0);
 
+  //  Test Write Circle into sstDxf Database <BR>
+  iStat = Test_WriteCircle ( iKey, poDxfDb, 13.0, 5.0);
+
+  // Test Write Arc into sstDxf Database <BR>
+  iStat = Test_WriteArc ( iKey, poDxfDb, 15.0, 5.0);
+
+  // Test Write Text into sstDxf Database <BR>
+  iStat = Test_WriteText ( iKey, poDxfDb, 17.0, 5.0);
+
   return iStat;
 }
 //=============================================================================
@@ -896,5 +915,87 @@ int Test_WritePolyline (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const
   iRet = iStat;
 
   return iRet;
+}
+//=============================================================================
+int Test_WriteCircle (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY)
+//-----------------------------------------------------------------------------
+{
+  DL_Attributes oAttributes;
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+  double dDist = 0.5;
+
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  oAttributes.setLayer("0");
+  oAttributes.setLinetype("CONTINUOUS");
+
+  oAttributes.setColor(2);
+
+  //=== Insert Circle
+  DL_CircleData oDLCircle( dXX, dYY, 0, dDist);  // Radius = 1
+
+  // Write new DL Circle object to sst dxf database
+  iStat = oDxfDB->WriteNewCircle( 0, oDLCircle, oAttributes, &oEntRecNo, &oMainRecNo);
+  assert(iStat >= 0);
+
+  return iStat;
+}
+//=============================================================================
+int Test_WriteArc (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY)
+//-----------------------------------------------------------------------------
+{
+  DL_Attributes oAttributes;
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+  double dDist = 0.5;
+
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  oAttributes.setLayer("0");
+  oAttributes.setLinetype("CONTINUOUS");
+
+  oAttributes.setColor(2);
+
+  //=== Insert Arc
+  DL_ArcData oDlArc (dXX,dYY,0.0,dDist,0.0,100.0);  // Radius = 1
+
+  // Write new DL Arc object to sst dxf database
+  iStat = oDxfDB->WriteNewArc( 0, oDlArc, oAttributes, &oEntRecNo, &oMainRecNo);
+  assert(iStat >= 0);
+
+  return iStat;
+}
+//=============================================================================
+int Test_WriteText (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY)
+//-----------------------------------------------------------------------------
+{
+  DL_Attributes oAttributes;
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+  double dHeight = 1.0;
+  double dAngle = 0.0;
+
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  oAttributes.setLayer("0");
+  oAttributes.setLinetype("CONTINUOUS");
+
+  oAttributes.setColor(2);
+
+  //=== Insert Text
+  DL_TextData oDlText(dXX,dYY,0.0,0.0,0.0,0.0,dHeight,0.0,0,0,0,"Test","", dAngle);
+
+  // Write new DL Circle object to sst dxf database
+  iStat = oDxfDB->WriteText( 0, oDlText, oAttributes, &oEntRecNo, &oMainRecNo);
+  assert(iStat >= 0);
+
+  return iStat;
 }
 //=============================================================================

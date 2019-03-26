@@ -652,8 +652,10 @@ int sstDxf03WriteCls::WrtSecStyles (int          iKey)
 
 
   //--- Section Styles
-
-  this->dxf->writeStyle(*this->dw,DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "standard", ""));
+  dw->tableStyle(1);
+  dxf->writeStyle(*dw, DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "txt", ""));
+  dw->tableEnd();
+  // this->dxf->writeStyle(*this->dw,DL_StyleData("standard", 0, 2.5, 1.0, 0.0, 0, 2.5, "standard", ""));
   this->dxf->writeView(*this->dw);
   this->dxf->writeUcs(*this->dw);
 

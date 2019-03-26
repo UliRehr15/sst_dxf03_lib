@@ -129,7 +129,7 @@ int Test_ReadInterface (int iKey, sstDxf03DbCls *oDxfDB);
 //==============================================================================
 /**
 * @brief // Test Write Hatch into sstDxf Database <BR>
-* iStat = Test_WriteHatch ( iKey, poDxfDb);
+* iStat = Test_WriteHatch ( iKey, poDxfDb, dXX, dYY);
 *
 * More Comment
 *
@@ -139,6 +139,8 @@ int Test_ReadInterface (int iKey, sstDxf03DbCls *oDxfDB);
 *
 * @param iKey    [in]     For the moment 0
 * @param poDxfDb [in out] open sstDxf Database
+* @param dXX     [in]     Center X
+* @param dYY     [in]     Center Y
 *
 * @return Errorstate
 *
@@ -154,7 +156,7 @@ int Test_WriteHatch (int iKey, sstDxf03DbCls *poDxfDb, const double dXX, const d
 //==============================================================================
 /**
 * @brief // Test Write Polyline into sstDxf Database <BR>
-* iStat = Test_WritePolyline ( iKey, poDxfDb);
+* iStat = Test_WritePolyline ( iKey, poDxfDb, dXX, dYY);
 *
 * More Comment
 *
@@ -164,6 +166,8 @@ int Test_WriteHatch (int iKey, sstDxf03DbCls *poDxfDb, const double dXX, const d
 *
 * @param iKey    [in]     For the moment 0
 * @param poDxfDb [in out] open sstDxf Database
+* @param dXX     [in]     Center X
+* @param dYY     [in]     Center Y
 *
 * @return Errorstate
 *
@@ -176,6 +180,87 @@ int Test_WriteHatch (int iKey, sstDxf03DbCls *poDxfDb, const double dXX, const d
 */
 //------------------------------------------------------------------------------
 int Test_WritePolyline (int iKey, sstDxf03DbCls *poDxfDb, const double dXX, const double dYY);
+//==============================================================================
+/**
+* @brief // Test Write Circle into sstDxf Database <BR>
+* iStat = Test_WriteCircle ( iKey, poDxfDb, dXX, dYY);
+*
+* More Comment
+*
+* Changed: 15.03.19  Re.
+*
+* @ingroup examples
+*
+* @param iKey    [in]     For the moment 0
+* @param poDxfDb [in out] open sstDxf Database
+* @param dXX     [in]     Center X
+* @param dYY     [in]     Center Y
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 15.03.19
+*/
+//------------------------------------------------------------------------------
+int Test_WriteCircle (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY);
+//==============================================================================
+/**
+* @brief // Test Write Arc into sstDxf Database <BR>
+* iStat = Test_WriteArc ( iKey, poDxfDb, dXX, dYY);
+*
+* More Comment
+*
+* Changed: 15.03.19  Re.
+*
+* @ingroup examples
+*
+* @param iKey    [in]     For the moment 0
+* @param poDxfDb [in out] open sstDxf Database
+* @param dXX     [in]     Center X
+* @param dYY     [in]     Center Y
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 15.03.19
+*/
+//------------------------------------------------------------------------------
+int Test_WriteArc (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY);
+//==============================================================================
+/**
+* @brief // Test Write Text into sstDxf Database <BR>
+* iStat = Test_WriteText ( iKey, poDxfDb, dXX, dYY);
+*
+* More Comment
+*
+* Changed: 15.03.19  Re.
+*
+* @ingroup examples
+*
+* @param iKey    [in]     For the moment 0
+* @param poDxfDb [in out] open sstDxf Database
+* @param dXX     [in]     Center X
+* @param dYY     [in]     Center Y
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 15.03.19
+*/
+//------------------------------------------------------------------------------
+int Test_WriteText (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY);
 //==============================================================================
 
 
