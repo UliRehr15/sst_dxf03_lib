@@ -250,6 +250,10 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
                    DL_BlockData("*Paper_Space", 0, 0.0, 0.0, 0.0));
     this->dxf->writeEndBlock(*this->dw, "*Paper_Space");
 
+    this->dxf->writeBlock(*this->dw,
+                   DL_BlockData("*Paper_Space0", 0, 0.0, 0.0, 0.0));
+    this->dxf->writeEndBlock(*this->dw, "*Paper_Space0");
+
     this->dw->sectionEnd();
     return 0;
   }
@@ -650,6 +654,13 @@ int sstDxf03WriteCls::WrtSecStyles (int          iKey)
 //-----------------------------------------------------------------------------
   if ( iKey != 0) return -1;
 
+  sstDxf03FncMainCls *oLocSstFncMain = NULL;              /**< main recmem object */
+  sstDxf03TypMainCls oMainRec;
+  oLocSstFncMain = this->poDxfDb->getSstFncMain();
+
+  sstDxf03FncBlkCls *oLocSstFncBlk = NULL;              /**< Block recmem object */
+  sstDxf03TypBlkCls oBlkRec;
+  oLocSstFncBlk = this->poDxfDb->getSstFncBlk();
 
   //--- Section Styles
   dw->tableStyle(1);
@@ -670,9 +681,20 @@ int sstDxf03WriteCls::WrtSecStyles (int          iKey)
                     1,
                     1,
                     1);
+
   this->dxf->writeBlockRecord(*this->dw);
-  this->dxf->writeBlockRecord(*this->dw, "myblock1");
-  this->dxf->writeBlockRecord(*this->dw, "myblock2");
+  // loop over all defined blocks, but not paperspace, modelspace and modelspace1
+  dREC04RECNUMTYP dNumBlocks = oLocSstFncBlk->count();
+  for (dREC04RECNUMTYP ii=4; ii <= dNumBlocks; ii++)
+  {
+    iStat = oLocSstFncBlk->Read( 0, ii, &oBlkRec);
+//    dxf->writeBlock(*dw,
+//                   DL_BlockData(oBlkRec.getName(), 0, 0.0, 0.0, 0.0));
+    this->dxf->writeBlockRecord(*this->dw, oBlkRec.getName());
+  }
+
+  // this->dxf->writeBlockRecord(*this->dw, "myblock1");
+  // this->dxf->writeBlockRecord(*this->dw, "myblock2");
   this->dw->tableEnd();
   this->dw->sectionEnd();
 
@@ -716,6 +738,11 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
   sstDxf03FncLTypeCls *oLocSstFncLType = NULL;              /**< LType Table object */
   sstDxf03TypLTypeCls oLTypeRec;
   oLocSstFncLType = this->poDxfDb->getSstFncLType();
+
+  this->poDxfDb->setGrpEntType(RS2::EntityUnknown);
+  this->poDxfDb->setGrpMainID(0);
+  this->poDxfDb->setGrpRecNum(0);
+  dREC04RECNUMTYP dNumGrpMem = 0;
 
 //  sstDxf03FncInsertCls *oLocSstFncInsert = NULL;        /**< insert recmem object */
 //  oLocSstFncInsert = this->oDxfDb.getSstFncInsert();
@@ -947,7 +974,11 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       this->dxf->writePolyline(  *this->dw, oDL_Polyline, oAttributes);
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
-      this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
+      // this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
+      this->poDxfDb->setGrpMainID( ii);
+      this->poDxfDb->setGrpEntType(RS2::EntityPolyline);
+      this->poDxfDb->setGrpRecNum(0);
+      dNumGrpMem = 0;
 
       break;
     }
@@ -968,6 +999,9 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       // write next insert into dxf file
       this->dxf->writeVertex(  *this->dw,
                                 oDL_Vertex);
+      dNumGrpMem++;
+      this->poDxfDb->setGrpRecNum(dNumGrpMem);
+
 
       break;
     }
@@ -1066,6 +1100,10 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
     }
     case RS2::EntityHatch:
     {
+
+      // if new entity-type, then write open polyline or hatch and close
+      iStat = this->WriteOpenEntities(0);
+
       sstDxf03FncHatchCls *oLocSstFncHatch = NULL;
       oLocSstFncHatch = this->poDxfDb->getSstFncHatch();
 
@@ -1085,7 +1123,6 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       oDL_Attributes.setHandle( oHatchRec.getHandle());
       oDL_Attributes.setLinetype( oLTypeRec.getName());
 
-
       // write record data to dxflib object
       oHatchRec.WritToDL(&oDL_Hatch);
       oDL_Hatch.pattern = "SOLID";
@@ -1093,6 +1130,14 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       // write next Hatch into dxf file
       this->dxf->writeHatch1( *this->dw,
                                 oDL_Hatch, oDL_Attributes);
+
+      this->poDxfDb->setActEntType(oMainRec.getEntityType());
+      // this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
+      this->poDxfDb->setGrpMainID( ii);
+      this->poDxfDb->setGrpEntType(RS2::EntityHatch);
+      this->poDxfDb->setGrpRecNum(0);
+      dNumGrpMem = 0;
+
       break;
     }
     case RS2::EntityHatchLoop:
@@ -1112,6 +1157,9 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       // write next Hatch loop into dxf file
       this->dxf->writeHatchLoop1( *this->dw,
                                 oDL_HatchLoop);
+      this->poDxfDb->setGrpRecNum(0);
+      dNumGrpMem = 0;
+
       break;
     }
     case RS2::EntityHatchEdge:
@@ -1131,6 +1179,9 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       // write next Hatch edge into dxf file
       this->dxf->writeHatchEdge( *this->dw,
                                 oDL_HatchEdge);
+      dNumGrpMem++;
+      this->poDxfDb->setGrpRecNum(dNumGrpMem);
+
       break;
     }
       default:
@@ -1232,16 +1283,51 @@ int sstDxf03WriteCls::ReadAllCsvFiles(int iKey)
 int sstDxf03WriteCls::WriteOpenEntities(int iKey)
 {
   if ( iKey != 0) return -1;
+  int iStat = 0;
 
-  RS2::EntityType eType = this->poDxfDb->getActEntType();
+  // RS2::EntityType eType = this->poDxfDb->getActEntType();
+  RS2::EntityType eType = this->poDxfDb->getGrpEntType();
 
-  if(eType == RS2::EntityPolyline)
-  {
-    this->dxf->writePolylineEnd(*this->dw);
-    this->poDxfDb->setActEntType(RS2::EntityUnknown);
+  // if(eType == RS2::EntityPolyline)
+  switch (eType) {
+  case(RS2::EntityPolyline):
+{
+  this->dxf->writePolylineEnd(*this->dw);
+  this->poDxfDb->setGrpEntType(RS2::EntityUnknown);
+}
+  break;
+  case(RS2::EntityHatch):
+{
+    // end loop:
+    int iNumGrpMem = (int)  this->poDxfDb->getGrpRecNum();
+    DL_HatchLoopData lData(iNumGrpMem);
+    this->dxf->writeHatchLoop2(*dw, lData);
+
+    sstDxf03FncMainCls *oLocSstFncMain = NULL;              /**< main Table object */
+    sstDxf03TypMainCls oMainRec;
+    oLocSstFncMain = this->poDxfDb->getSstFncMain();
+    iStat = oLocSstFncMain->Read( 0, this->poDxfDb->getGrpMainID(), &oMainRec);
+
+    sstDxf03TypHatchCls oHatchRec;
+    sstDxf03FncHatchCls *oLocSstFncHatch = NULL;
+    oLocSstFncHatch = this->poDxfDb->getSstFncHatch();
+    iStat = oLocSstFncHatch->Read(0,oMainRec.getTypeID(),&oHatchRec);
+    assert(iStat == 0);
+
+    // end hatch:
+    DL_Attributes attributes("0", 2, 0, -1, "BYLAYER");
+    DL_HatchData data(1, false, 100.0, 0.0, "ESCHER", 0.0, 0.0);
+
+    oHatchRec.WritToDL(&data);
+    oHatchRec.BaseWritToDL(&attributes);
+
+    this->dxf->writeHatch2(*dw, data, attributes);
+    this->poDxfDb->setGrpEntType(RS2::EntityUnknown);
+}
+  break;
+  default: break;
   }
 
   return 0;
 }
 //=============================================================================
-

@@ -112,6 +112,10 @@ sstDxf03DatabaseCls::sstDxf03DatabaseCls(sstMisc01PrtFilCls *oTmpPrt)
   iStat = this->openBlock(0,oBlock,oAttributes);
   this->closeBlock(0);
 
+  oBlock.name = "*Paper_Space0";
+  iStat = this->openBlock(0,oBlock,oAttributes);
+  this->closeBlock(0);
+
   this->setIsUpdated(true);
 }
 //=============================================================================
@@ -594,7 +598,7 @@ int sstDxf03DatabaseCls::WritePoint (int                  iKey,
   *dMainRecNo = this->oSstFncMain.count();
 
   oMainRec.setMainID( *dMainRecNo+1);
-  oMainRec.setEntityType(RS2::EntityLine);
+  oMainRec.setEntityType(RS2::EntityPoint);
   oMainRec.setTypeID(*dEntRecNo);
 
   // is it layer or block??
@@ -828,7 +832,7 @@ int sstDxf03DatabaseCls::WriteMText (int                  iKey,
   *dMainRecNo = this->oSstFncMain.count();
 
   oMainRec.setMainID( *dMainRecNo+1);
-  oMainRec.setEntityType(RS2::EntityLine);
+  oMainRec.setEntityType(RS2::EntityMText);
   oMainRec.setTypeID(*dEntRecNo);
 
   // is it layer or block??
@@ -1167,7 +1171,7 @@ int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
     // next edge for actual loop
     iStat = poHatchLoopFnc->Read(0, this->dGrpSubID, &oDxfHatchLoop);
     oDxfHatchLoop.setNumEdges(oDxfHatchLoop.getNumEdges()+1);  // update number of edges
-    iStat = poHatchLoopFnc->WritNew(0,&oDxfHatchLoop,oEntRecNo);
+    iStat = poHatchLoopFnc->Writ( 0, &oDxfHatchLoop, this->dGrpSubID);
     assert (iStat == 0);
   }
 
@@ -2437,5 +2441,25 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::searchBlkNoWithName(int iKey, const std::st
   // Find record with exact search value
   iStat = poTabBlk->TreSeaEQ( 0, poTabBlk->getNameSortKey(), (void*) oLocSearchStr.c_str(), &dBlkNo);
   return dBlkNo;
+}
+//==============================================================================
+RS2::EntityType sstDxf03DatabaseCls::getGrpEntType() const
+{
+  return eGrpEntType;
+}
+//==============================================================================
+void sstDxf03DatabaseCls::setGrpEntType(const RS2::EntityType &value)
+{
+  eGrpEntType = value;
+}
+//==============================================================================
+dREC04RECNUMTYP sstDxf03DatabaseCls::getGrpRecNum() const
+{
+  return dGrpRecNum;
+}
+//==============================================================================
+void sstDxf03DatabaseCls::setGrpRecNum(const dREC04RECNUMTYP &value)
+{
+  dGrpRecNum = value;
 }
 //==============================================================================

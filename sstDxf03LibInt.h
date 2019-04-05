@@ -7196,10 +7196,41 @@ class sstDxf03DatabaseCls
      // ----------------------------------------------------------------------------
      dREC04RECNUMTYP searchBlkNoWithName(int iKey, const std::string oBlkNamStr);
      //==============================================================================
+     /**
+     * @brief // return Group Entity Type <BR>
+     *
+     * @return return Group Entity Type
+     */
+     // ----------------------------------------------------------------------------
+     RS2::EntityType getGrpEntType() const;
+     //==============================================================================
+     /**
+     * @brief // Set Group Entity Type <BR>
+     *
+     * @param value [in] update Group Entity Type
+     */
+     // ----------------------------------------------------------------------------
+     void setGrpEntType(const RS2::EntityType &value);
+     //==============================================================================
+     /**
+     * @brief // return Number of Group Member <BR>
+     *
+     * @return return Number of Group Member
+     */
+     // ----------------------------------------------------------------------------
+     dREC04RECNUMTYP getGrpRecNum() const;
+     //==============================================================================
+     /**
+     * @brief // Set Number of Group Member <BR>
+     *
+     * @param value [in] update Number of Group Member
+     */
+     // ----------------------------------------------------------------------------
+     void setGrpRecNum(const dREC04RECNUMTYP &value);
 
 private:  // Private functions
 
-  sstDxf03FncMainCls oSstFncMain;      /**< Main table object */
+     sstDxf03FncMainCls oSstFncMain;      /**< Main table object */
   sstDxf03FncLayCls oSstFncLay;        /**< layer table object */
   sstDxf03FncBlkCls oSstFncBlk;        /**< Block table object */
   sstDxf03FncLTypeCls oSstFncLType;        /**< LineType table object */
@@ -7665,6 +7696,9 @@ private:  // Private functions
 #endif
 
 // --------------------------------------------------------------- File End ----
+
+
+
 
 
 

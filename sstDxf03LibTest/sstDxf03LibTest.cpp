@@ -105,7 +105,7 @@ int main()
     // return number of blocks in sstDxfDb
     dREC04RECNUMTYP dNumBlocks = oDxfDb.countBlocks();
     // Modelspace, Paperspace, Sym1, Sym2
-    assert(dNumBlocks == 4);
+    assert(dNumBlocks == 5);
 
     for (dREC04RECNUMTYP ll=1; ll <= dNumBlocks; ll++)
     {
@@ -148,9 +148,9 @@ int main()
     }
 
     dREC04RECNUMTYP dBlkNo = oDxfDb.searchBlkNoWithName(0,"Sym1");
-    assert(dBlkNo == 3);
-    dBlkNo = oDxfDb.searchBlkNoWithName(0,"Sym2");
     assert(dBlkNo == 4);
+    dBlkNo = oDxfDb.searchBlkNoWithName(0,"Sym2");
+    assert(dBlkNo == 5);
     dBlkNo = oDxfDb.searchBlkNoWithName(0,"SymX");
     assert(dBlkNo == 0);
 
@@ -189,7 +189,7 @@ int main()
     if (iStat != 0)
     {
         // assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
-        assert(ulRowNo == 1492);  // Problem with handle 340 in DIMSTYLE
+        assert(ulRowNo == 963);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test_Utm.dxf / Test_Utm2.dxf OK");
@@ -237,7 +237,7 @@ int main()
     if (iStat != 0)
     {
         // assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
-        assert(ulRowNo == 886);  // Problem with handle 340 in DIMSTYLE
+        assert(ulRowNo == 898);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test.dxf / Test2.dxf OK");
@@ -305,28 +305,6 @@ int main()
     iStat = Test_WriteInterface ( 0, &oDxfDB);
     assert(iStat >= 0);
 
-    //=== Insert filled triangel area
-//    {
-//      oAttributes.setColor(2);
-
-//      DL_HatchData oDLHatch(1,1,1,0,"SOLID");
-
-//      // open new dxflib hatch object in sstDxfDb
-//      iStat = oDxfDB.OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
-
-//      DL_HatchEdgeData oDLHatchEdge(1,1,2,2);  // area border point
-//      // write new dxflib hatch edge into sstDxfDb hatch object
-//      iStat = oDxfDB.WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
-
-//      // write new dxflib hatch edge into sstDxfDb hatch object
-//      oDLHatchEdge.x1 = 2.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 2.0;
-//      iStat = oDxfDB.WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
-
-//      // write new dxflib hatch edge into sstDxfDb hatch object
-//      oDLHatchEdge.x1 = 1.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 1.0;
-//      iStat = oDxfDB.WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
-//    }
-
     // Write dxf database to dxf file
     oDxfDB.WritAll2Csv(0,"Test4.dxf");
     oDxfDB.WritAll2DxfFil(0,"Test4.dxf");
@@ -344,7 +322,7 @@ int main()
     dREC04RECNUMTYP dMainRecs = 0;
 
     dMainRecs = oDxfDB.MainCount();
-    assert(dMainRecs == 25);
+    assert(dMainRecs == 27);
 
     dEntRecs = oDxfDB.EntityCount(RS2::EntityHatch);
     assert(dEntRecs == 3);
@@ -380,7 +358,7 @@ int main()
     iStat = sstMisc01FileCompare( 1,"Test5.dxf","Test6.dxf",&ulRowNo);
     if (iStat != 0)
     {
-      assert(ulRowNo == 898);  // Problem with handle 340 in DIMSTYLE
+      assert(ulRowNo == 948);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test5.dxf / Test6.dxf OK");
@@ -790,6 +768,12 @@ int Test_WriteInterface (int iKey, sstDxf03DbCls *poDxfDb)
   // Test Write Text into sstDxf Database <BR>
   iStat = Test_WriteText ( iKey, poDxfDb, 17.0, 5.0);
 
+  // Test Write MText into sstDxf Database <BR>
+  iStat = Test_WriteMText ( iKey, poDxfDb, 19.0, 5.0);
+
+  // Test Write Point into sstDxf Database <BR>
+  iStat = Test_WritePoint ( iKey, poDxfDb, 19.0, 5.0);
+
   return iStat;
 }
 //=============================================================================
@@ -994,6 +978,66 @@ int Test_WriteText (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const dou
 
   // Write new DL Circle object to sst dxf database
   iStat = oDxfDB->WriteText( 0, oDlText, oAttributes, &oEntRecNo, &oMainRecNo);
+  assert(iStat >= 0);
+
+  return iStat;
+}
+//=============================================================================
+int Test_WriteMText (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY)
+//-----------------------------------------------------------------------------
+{
+  DL_Attributes oAttributes;
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+  double dHeight = 1.0;
+  double dAngle = 0.0;
+
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  oAttributes.setLayer("0");
+  oAttributes.setLinetype("CONTINUOUS");
+
+  oAttributes.setColor(2);
+
+  //=== Insert Text
+  // DL_TextData oDlText(dXX,dYY,0.0,0.0,0.0,0.0,dHeight,0.0,0,0,0,"Test","", dAngle);
+  DL_MTextData oDlMText(dXX,dYY,0.0,0.0,0.0,0.0,dHeight, 0.0, 0, 0, 0,0.0,"Test","", dAngle);
+  // DL_MTextData oDLMText(0.0,0.0,0.0,0.0,0.0,0.0,    0.0, 0.0, 0, 0, 0, 0.0,"","",0.0);
+
+
+  // Write new DL Circle object to sst dxf database
+  iStat = oDxfDB->WriteMText( 0, oDlMText, oAttributes, &oEntRecNo, &oMainRecNo);
+  assert(iStat >= 0);
+
+  return iStat;
+}
+//=============================================================================
+int Test_WritePoint (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY)
+//-----------------------------------------------------------------------------
+{
+  DL_Attributes oAttributes;
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+  double dHeight = 1.0;
+  double dAngle = 0.0;
+
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  oAttributes.setLayer("0");
+  oAttributes.setLinetype("CONTINUOUS");
+
+  oAttributes.setColor(2);
+
+  //=== Insert Point
+  DL_PointData oDlPoint;               // Entity Point from dxflib
+
+
+  // Write new DL Circle object to sst dxf database
+  iStat = oDxfDB->WritePoint( 0, oDlPoint, oAttributes, &oEntRecNo, &oMainRecNo);
   assert(iStat >= 0);
 
   return iStat;

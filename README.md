@@ -90,7 +90,9 @@ Structure of coding projects should be:
 15.03.19: Version 3.28: Better Support of GetMbr for all entities. <BR>
                         Read/Write Interface for Entity Polyline.  <BR>
 16.03.19: Version 3.29: More Testing write hatch and polyline. <BR>
-17.03.19: Version 3.30: Read/Write Interface for Entity Arc. <BR>
+17.03.19: Version 3.30: Read/Write Interface for Entity Arc and Text. <BR>
 26.03.19: Version 3.31: More Testing write Arc and Text. <BR>
                         Fixed some Errors in writing dxf. <BR>
+28.03.19: Version 3.30: Read/Write Interface for Entity Point and MText. <BR>
+05.04.19: Version 3.31: Fixed more Problems in writing group entities like LWPOLYLINE / HATCH. <BR>
 

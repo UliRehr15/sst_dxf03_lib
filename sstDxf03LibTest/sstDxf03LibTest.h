@@ -262,6 +262,60 @@ int Test_WriteArc (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const doub
 //------------------------------------------------------------------------------
 int Test_WriteText (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY);
 //==============================================================================
+/**
+* @brief // Test Write MText into sstDxf Database <BR>
+* iStat = Test_WriteMText ( iKey, poDxfDb, dXX, dYY);
+*
+* More Comment
+*
+* Changed: 27.03.19  Re.
+*
+* @ingroup examples
+*
+* @param iKey    [in]     For the moment 0
+* @param poDxfDb [in out] open sstDxf Database
+* @param dXX     [in]     Center X
+* @param dYY     [in]     Center Y
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 27.03.19
+*/
+//------------------------------------------------------------------------------
+int Test_WriteMText (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY);
+//==============================================================================
+/**
+* @brief // Test Write Point entity into sstDxf Database <BR>
+* iStat = Test_WritePoint ( iKey, poDxfDb, dXX, dYY);
+*
+* More Comment
+*
+* Changed: 27.03.19  Re.
+*
+* @ingroup examples
+*
+* @param iKey    [in]     For the moment 0
+* @param poDxfDb [in out] open sstDxf Database
+* @param dXX     [in]     Center X
+* @param dYY     [in]     Center Y
+*
+* @return Errorstate
+*
+* @retval   = 0: OK
+* @retval   < 0: Unspecified Error
+*
+* @author Re.
+*
+* @date 27.03.19
+*/
+//------------------------------------------------------------------------------
+int Test_WritePoint (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY);
+//==============================================================================
 
 
 #endif // SSTDXF03LIBTEST_HEADER
