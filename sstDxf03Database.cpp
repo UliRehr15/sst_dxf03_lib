@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-//  sstDxf03Database.cpp   14.12.18  Re.   06.07.16  Re.
+//  sstDxf03Database.cpp   22.04.19  Re.   06.07.16  Re.
 //
 //  Functions for Class "sstDxf03DatabaseCls"
 //
@@ -129,7 +129,7 @@ int sstDxf03DatabaseCls::ReadAllCsvFiles(int iKey, std::string oDxfFilNam)
   if ( iKey != 0) return -1;
 
   // remove given ending from filename
-  iStat = oFilNamConv.RemoveExtension(0, "dxf", oDxfFilNam, &oJobNam);
+  iStat = oFilNamConv.RemoveExtension(0, ".dxf", oDxfFilNam, &oJobNam);
 
   std::string oFilNamLayer;
   std::string oFilNamBlock;
@@ -1362,7 +1362,8 @@ int sstDxf03DatabaseCls::WritAll2Csv(int iKey, const std::string oTmpFilNam)
 
   std::string oDxfFilNam;
   sstMisc01FilNamCls oFilNamHelper;
-  oFilNamHelper.RemoveExtension(0,"dxf",oTmpFilNam,&oDxfFilNam);
+  iStat = oFilNamHelper.RemoveExtension(0,".dxf",oTmpFilNam,&oDxfFilNam);
+  assert(iStat == 0);
 
   std::string oCsvStr;
 

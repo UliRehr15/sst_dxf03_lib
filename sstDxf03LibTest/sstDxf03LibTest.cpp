@@ -61,7 +61,7 @@ int main()
     DL_CircleData oDLCircle(0,0,0,1);    // Entity Circle from dxflib
     DL_MTextData oDLMText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0.0,"","",0.0);
     DL_TextData oDLText(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,"","",0.0);
-    DL_InsertData("test",0,0,0,0,0,0,0,0,0,0,0);
+    DL_InsertData oDlInsert("test",0,0,0,0,0,0,0,0,0,0,0);
     DL_HatchData oDlHatch(0,0,0.0,0.0,"pattern",0.0,0.0);
     DL_ArcData oDlArc(0.0,0.0,0.0,0.0,0.0,0.0);
   }
@@ -74,6 +74,15 @@ int main()
     oPrt.SST_PrtZu(1);
     return 0;
     // assert(iStat >= 0);
+  }
+  {
+    // Open new sstDxf Database
+    sstDxf03DbCls oDxfDb( &oPrt);
+
+    Test_WriteHatch(0,&oDxfDb,100,100);
+
+    // Write dxf database to dxf file
+    oDxfDb.WritAll2DxfFil(0,"TestHatch.dxf");
   }
   {
     // Open new sstDxf Database
@@ -155,10 +164,12 @@ int main()
     assert(dBlkNo == 0);
 
     // Write Database to group for csv files
-    oDxfDb.WritAll2Csv(0,"Test_Utm.dxf");
+    // iStat = oDxfDb.WritAll2Csv(0,"Test_Utm.dxf");
+    // assert(iStat >= 0);
 
     // Write dxf database to dxf file
-    oDxfDb.WritAll2DxfFil(0,"Test_Utm.dxf");
+    iStat = oDxfDb.WritAll2DxfFil(0,"Test_Utm.dxf");
+    assert(iStat >= 0);
 
     oPrt.SST_PrtWrt(1,(char*)"Creating Test_Utm.dxf");
   }
@@ -201,12 +212,12 @@ int main()
   // Call extended Test dxflib writing function
   // See dxflib writing example
   // Write full block objects and use with inserts
-  iStat = testWriting2("Test5.dxf");
+  iStat = testWriting2("Test_Write_Dxflib_Ex.dxf");
   assert(iStat >= 0);
 
   // Call Test dxflib writing function
   // See dxflib writing example
-  iStat = testWriting("Test.dxf");
+  iStat = testWriting("Test_Write_Dxflib.dxf");
   assert(iStat >= 0);
 
   oPrt.SST_PrtWrt(1,(char*)"Creating Test.dxf with dxflib Testwriting function");
@@ -216,7 +227,7 @@ int main()
     sstDxf03DbCls oDxfDB(&oPrt);
 
     // Read contents of dxf file into sstDxf database
-    iStat = oDxfDB.ReadAllFromDxf(0,"Test.dxf");
+    iStat = oDxfDB.ReadAllFromDxf(0,"Test_Write_Dxflib.dxf");
     assert(iStat >= 0);
 
     // Get Minimum Bounding rectangle from section entities /model space
@@ -230,21 +241,21 @@ int main()
     if (oMbrModel.getYA() != 120.0) assert(0);
 
     // Write dxf database to dxf file
-    iStat = oDxfDB.WritAll2DxfFil(0,"Test2.dxf");
+    iStat = oDxfDB.WritAll2DxfFil(0,"Test_Write_Dxflib_Copy.dxf");
     assert(iStat >= 0);
 
-    iStat = sstMisc01FileCompare( 1,"Test.dxf","Test2.dxf",&ulRowNo);
+    iStat = sstMisc01FileCompare( 1,"Test_Write_Dxflib.dxf","Test_Write_Dxflib_Copy.dxf",&ulRowNo);
     if (iStat != 0)
     {
         // assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
         assert(ulRowNo == 898);  // Problem with handle 340 in DIMSTYLE
     }
 
-    oPrt.SST_PrtWrt(1,(char*)"Compare Test.dxf / Test2.dxf OK");
+    oPrt.SST_PrtWrt(1,(char*)"Compare Test_Write_Dxflib.dxf / Test_Write_Dxflib_Copy.dxf OK");
     oPrt.SST_PrtWrt(1,(char*)"  ");
 
     // Write dxf database to csv files
-    iStat = oDxfDB.WritAll2Csv(0,"Test3.dxf");
+    iStat = oDxfDB.WritAll2Csv(0,"Test_Write_Dxflib.dxf");
     assert(iStat >= 0);
 
   } // Close sstDxf Database
@@ -252,20 +263,20 @@ int main()
   {
     // Open new sstDxf Database and read data from test3 csv files
     sstDxf03DbCls oDxfDB2(&oPrt);
-    iStat = oDxfDB2.ReadAllCsvFiles(0,"Test3.dxf");
+    iStat = oDxfDB2.ReadAllCsvFiles(0,"Test_Write_Dxflib.dxf");
     assert(iStat >= 0);
 
     // write dxf database to dxf file
-    iStat = oDxfDB2.WritAll2DxfFil(0,"Test3.dxf");
+    iStat = oDxfDB2.WritAll2DxfFil(0,"Test_Write_Dxflib2.dxf");
     assert(iStat >= 0);
 
-    iStat = sstMisc01FileCompare( 1,"Test.dxf","Test3.dxf",&ulRowNo);
+    iStat = sstMisc01FileCompare( 1,"Test_Write_Dxflib.dxf","Test_Write_Dxflib2.dxf",&ulRowNo);
     if (iStat != 0)
     {
       // assert(ulRowNo == 886);  // Problem with handle 340 in DIMSTYLE
     }
 
-    oPrt.SST_PrtWrt(1,(char*)"Compare Test.dxf / Test3.dxf OK");
+    oPrt.SST_PrtWrt(1,(char*)"Compare Test_Write_Dxflib.dxf / Test_Write_Dxflib2.dxf OK");
     oPrt.SST_PrtWrt(1,(char*)"  ");
 
   }
@@ -306,8 +317,8 @@ int main()
     assert(iStat >= 0);
 
     // Write dxf database to dxf file
-    oDxfDB.WritAll2Csv(0,"Test4.dxf");
-    oDxfDB.WritAll2DxfFil(0,"Test4.dxf");
+    // oDxfDB.WritAll2Csv(0,"Test4.dxf");
+    oDxfDB.WritAll2DxfFil(0,"TestEntities.dxf");
   }
 
   {
@@ -315,7 +326,7 @@ int main()
     sstDxf03DbCls oDxfDB(&oPrt);
 
     // import content of dxf file into sstDxf database
-    iStat = oDxfDB.ReadAllFromDxf(0,"Test4.dxf");
+    iStat = oDxfDB.ReadAllFromDxf(0,"TestEntities.dxf");
     assert(iStat >= 0);
 
     dREC04RECNUMTYP dEntRecs = 0;
@@ -348,20 +359,20 @@ int main()
   {
     // Open new sstDxf Database and read data from test5 csv files
     sstDxf03DbCls oDxfDB2(&oPrt);
-    iStat = oDxfDB2.ReadAllFromDxf(0,"Test5.dxf");
+    iStat = oDxfDB2.ReadAllFromDxf(0,"Test_Write_Dxflib_Ex.dxf");
     assert(iStat >= 0);
 
     // write dxf database to dxf file
-    iStat = oDxfDB2.WritAll2DxfFil(0,"Test6.dxf");
+    iStat = oDxfDB2.WritAll2DxfFil(0,"Test_Write_Dxflib_Ex_Copy.dxf");
     assert(iStat >= 0);
 
-    iStat = sstMisc01FileCompare( 1,"Test5.dxf","Test6.dxf",&ulRowNo);
+    iStat = sstMisc01FileCompare( 1,"Test_Write_Dxflib_Ex.dxf","Test_Write_Dxflib_Ex_Copy.dxf",&ulRowNo);
     if (iStat != 0)
     {
-      assert(ulRowNo == 948);  // Problem with handle 340 in DIMSTYLE
+      assert(ulRowNo == 898);  // Problem with handle 340 in DIMSTYLE
     }
 
-    oPrt.SST_PrtWrt(1,(char*)"Compare Test5.dxf / Test6.dxf OK");
+    oPrt.SST_PrtWrt(1,(char*)"Compare Test_Write_Dxflib_Ex.dxf / Test_Write_Dxflib_Ex_Copy.dxf OK");
     oPrt.SST_PrtWrt(1,(char*)"  ");
 
   }

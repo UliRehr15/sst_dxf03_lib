@@ -95,4 +95,5 @@ Structure of coding projects should be:
                         Fixed some Errors in writing dxf. <BR>
 28.03.19: Version 3.30: Read/Write Interface for Entity Point and MText. <BR>
 05.04.19: Version 3.31: Fixed more Problems in writing group entities like LWPOLYLINE / HATCH. <BR>
+22.04.19: Version 3.32: Some improvements in test writing and reading dxf files. <BR>
 
