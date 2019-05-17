@@ -877,6 +877,20 @@ class sstDxf03DbCls
   int openBlock(int iKey,  const DL_BlockData& oBlock, const DL_Attributes oAttributes);
   //==============================================================================
   /**
+  * @brief // close Block <BR>
+  * iStat = oDxfDB.closeBlock ( iKey);
+  *
+  * @param iKey        [in] For the moment 0
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int closeBlock(int iKey);
+  //==============================================================================
+  /**
   * @brief // Close section blocks and open section entities <BR>
   * iStat = oDxfDB.openSectionEntities( iKey);
   *

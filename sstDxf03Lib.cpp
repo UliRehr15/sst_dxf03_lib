@@ -364,6 +364,11 @@ int sstDxf03DbCls::openBlock(int iKey,  const DL_BlockData& data, const DL_Attri
   return this->poDxf03DbIntern->openBlock(iKey, data, attributes);
 }
 //==============================================================================
+int sstDxf03DbCls::closeBlock(int iKey)
+{
+  return this->poDxf03DbIntern->closeBlock(iKey);
+}
+//==============================================================================
 int sstDxf03DbCls::openSectionEntities(int iKey)
 {
   return this->poDxf03DbIntern->openSectionEntities(iKey);

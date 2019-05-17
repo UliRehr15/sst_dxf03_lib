@@ -271,13 +271,20 @@ void sstDxf03ReadCls::addInsert(const DL_InsertData& data)
       iStat = poLayFnc->TreWriteNew( 0, &oLayRec, &dLayRecNo);
 
     }
-    oDxfInsert.setLayerID(dLayRecNo);
-
     // Find block record with block name
     oBlockStr = data.name;
     iStat = poBlkFnc->TreSeaEQ( 0, poBlkFnc->getNameSortKey(), (void*) oBlockStr.c_str(), &dBlkRecNo);
     assert(iStat == 1);  // exit, if block not found in block table
     oDxfInsert.setBlockID(dBlkRecNo);
+
+    // Handle Layer infos
+    oDxfInsert.setLayerID(dLayRecNo);
+
+    // Set Minimum Bounding Rectangle in Block Table
+    // poBlkFnc->updateMbrModel(0,oDxfInsert.getMbr());
+    sstMath01Mbr2Cls oBlkMbr = this->poDxfDb->getMbrBlock(dBlkRecNo);
+    poBlkFnc->updateMbrModel(0,oDxfInsert.getMbr(oBlkMbr));
+
   }
   // write new insert record in insert table
   iStat = poInsertFnc->WritNew(0,&oDxfInsert,&dRecNo);
@@ -299,7 +306,7 @@ void sstDxf03ReadCls::addInsert(const DL_InsertData& data)
   }
   else
   {  // Layer
-    oMainRec.setLayBlockID(dLayRecNo);
+   oMainRec.setLayBlockID(dLayRecNo);
     oMainRec.setSectString("L");
   }
   iStat = poMainFnc->WritNew(0,&oMainRec,&dRecNo);
@@ -316,7 +323,6 @@ void sstDxf03ReadCls::addLine(const DL_LineData& data) {
   oDxfLine.BaseReadFromDL(attributes);
   dREC04RECNUMTYP dRecNo=0;
   dREC04RECNUMTYP dLayRecNo=0;
-  // dREC04RECNUMTYP dMainRecNo=0;
 
   sstDxf03FncLineCls *poLineFnc;
   poLineFnc = this->poDxfDb->getSstFncLine();
@@ -439,10 +445,6 @@ void sstDxf03ReadCls::addArc(const DL_ArcData& data)
 //=============================================================================
 void sstDxf03ReadCls::addCircle(const DL_CircleData& data)
 {
-//    printf("CIRCLE   (%6.3f, %6.3f, %6.3f) %6.3f\n",
-//           data.cx, data.cy, data.cz,
-//           data.radius);
-//    printAttributes();
   int iStat = 0;
   std::string oLayerStr;
 
@@ -479,6 +481,8 @@ void sstDxf03ReadCls::addCircle(const DL_CircleData& data)
     iStat = poLayFnc->TreSeaEQ( 0, poLayFnc->getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
     assert(iStat == 1);
     oDxfCircle.setLayerID(dLayRecNo);
+    // Set Minimum Bounding Rectangle in Block Table -model_space-
+    poBlkFnc->updateMbrModel(0,oDxfCircle.getMbr());
   }
 
   sstDxf03TypMainCls oMainRec;
@@ -504,7 +508,6 @@ void sstDxf03ReadCls::addCircle(const DL_CircleData& data)
     oMainRec.setSectString("L");
   }
   iStat = poMainFnc->WritNew(0,&oMainRec,&dRecNo);
-//     this->poPrt->SST_PrtWrtChar( 1,(char*)"CIRCLE skiped",(char*)"Dxf Reading: ");
 }
 //=============================================================================
 void sstDxf03ReadCls::addMText(const DL_MTextData& data) {

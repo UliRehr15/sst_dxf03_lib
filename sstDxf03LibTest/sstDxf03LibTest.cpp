@@ -75,15 +75,95 @@ int main()
     return 0;
     // assert(iStat >= 0);
   }
+  //=============================================================================
   {
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDb( &oPrt);
 
+    // Write Hatch Object
     Test_WriteHatch(0,&oDxfDb,100,100);
 
     // Write dxf database to dxf file
     oDxfDb.WritAll2DxfFil(0,"TestHatch.dxf");
   }
+  //=============================================================================
+  {
+    // Open new sstDxf Database
+    sstDxf03DbCls oDxfDb( &oPrt);
+
+    // Write Polyline Object
+    Test_WritePolyline(0,&oDxfDb,100,100);
+
+    // Write dxf database to dxf file
+    oDxfDb.WritAll2DxfFil(0,"TestPolyline.dxf");
+  }
+  //=============================================================================
+  {
+    // Open new sstDxf Database
+    sstDxf03DbCls oDxfDb( &oPrt);
+
+    // Write two Line Objects
+    Test_WriteLine(0,&oDxfDb,100,100);
+    Test_WriteLine(0,&oDxfDb,150,100);
+
+    // Return mbr of line entity.
+    sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
+    assert(oMbr.getXI() == 100.0);
+
+    // Write dxf database to dxf file
+    oDxfDb.WritAll2DxfFil(0,"TestLine.dxf");
+  }
+  //=============================================================================
+  {
+    // Open new sstDxf Database
+    sstDxf03DbCls oDxfDb( &oPrt);
+
+    // Write two Circle Objects with Radius = 0.5 into Database
+    Test_WriteCircle ( 0, &oDxfDb, 100, 100);
+    Test_WriteCircle ( 0, &oDxfDb, 102, 100);
+
+    // Return mbr of Circle entities.
+    sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
+    assert(oMbr.getXI() == 99.5);
+
+    // Write dxf database to dxf file
+    oDxfDb.WritAll2DxfFil(0,"TestCircle.dxf");
+  }
+  //=============================================================================
+  {
+    // Open new sstDxf Database
+    sstDxf03DbCls oDxfDb( &oPrt);
+
+    // Write Point Object
+    Test_WritePoint(0,&oDxfDb,100,100);
+    Test_WritePoint(0,&oDxfDb,102,100);
+    Test_WritePoint(0,&oDxfDb,104,100);
+
+    // Return mbr of Circle entities.
+    sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
+    assert(oMbr.getXI() == 100.0);
+
+    // Write dxf database to dxf file
+    oDxfDb.WritAll2DxfFil(0,"TestPoint.dxf");
+  }
+  //=============================================================================
+  {
+    // Open new sstDxf Database
+    sstDxf03DbCls oDxfDb( &oPrt);
+
+    // Write 3 Insert Objects with symbol
+    Test_WriteInsert(0,&oDxfDb,100,100);
+    Test_WriteInsert(0,&oDxfDb,102,102);
+    Test_WriteInsert(0,&oDxfDb,104,104);
+
+    // Return mbr of Circle entities.
+    sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
+    // assert(oMbr.getXA() == 104.5);
+
+    // Write dxf database to dxf file
+    oDxfDb.WritAll2DxfFil(0,"TestInsert.dxf");
+  }
+  //=============================================================================
   {
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDb( &oPrt);
@@ -93,6 +173,7 @@ int main()
 
     // Return empty mbr, because modelspace empty.
     sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
+    assert(oMbr.getXA() == - dSSTSTR01_UNDEF_R8);
 
     // Generate dxf data in utm area (Germany)  <BR>
     iStat = oDxfDb.GenerateData( 0);
@@ -199,8 +280,7 @@ int main()
     iStat = sstMisc01FileCompare( 1,"Test_Utm.dxf","Test_Utm2.dxf",&ulRowNo);
     if (iStat != 0)
     {
-        // assert(ulRowNo == 1230);  // Problem with handle 340 in DIMSTYLE
-        assert(ulRowNo == 963);  // Problem with handle 340 in DIMSTYLE
+        assert(ulRowNo == 858);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test_Utm.dxf / Test_Utm2.dxf OK");
@@ -770,7 +850,7 @@ int Test_WriteInterface (int iKey, sstDxf03DbCls *poDxfDb)
   // Test Write Polyline into sstDxf Database
   iStat = Test_WritePolyline ( iKey, poDxfDb, 11.0, 5.0);
 
-  //  Test Write Circle into sstDxf Database <BR>
+  //  Test Write Circle with Radius = 0.5 into sstDxf Database <BR>
   iStat = Test_WriteCircle ( iKey, poDxfDb, 13.0, 5.0);
 
   // Test Write Arc into sstDxf Database <BR>
@@ -786,23 +866,6 @@ int Test_WriteInterface (int iKey, sstDxf03DbCls *poDxfDb)
   iStat = Test_WritePoint ( iKey, poDxfDb, 19.0, 5.0);
 
   return iStat;
-}
-//=============================================================================
-int Test_ReadInterface (int iKey, sstDxf03DbCls *oDxfDB)
-//-----------------------------------------------------------------------------
-{
-  int iRet = 0;
-  int iStat = 0;
-//-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
-
-  // Fatal Errors goes to an assert
-  assert(iRet >= 0);
-
-  // Small Errors will given back
-  iRet = iStat;
-
-  return iRet;
 }
 //=============================================================================
 int Test_WriteHatch (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY)
@@ -918,7 +981,7 @@ int Test_WriteCircle (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const d
   DL_Attributes oAttributes;
   dREC04RECNUMTYP oEntRecNo = 0;
   dREC04RECNUMTYP oMainRecNo = 0;
-  double dDist = 0.5;
+  double dRad = 0.5;
 
   int iStat = 0;
 //-----------------------------------------------------------------------------
@@ -930,10 +993,37 @@ int Test_WriteCircle (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const d
   oAttributes.setColor(2);
 
   //=== Insert Circle
-  DL_CircleData oDLCircle( dXX, dYY, 0, dDist);  // Radius = 1
+  DL_CircleData oDLCircle( dXX, dYY, 0, dRad);  // Radius = 0.5
 
   // Write new DL Circle object to sst dxf database
   iStat = oDxfDB->WriteNewCircle( 0, oDLCircle, oAttributes, &oEntRecNo, &oMainRecNo);
+  assert(iStat >= 0);
+
+  return iStat;
+}
+//=============================================================================
+int Test_WriteLine (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY)
+//-----------------------------------------------------------------------------
+{
+  DL_Attributes oAttributes;
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+  // double dDist = 0.5;
+
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  oAttributes.setLayer("0");
+  oAttributes.setLinetype("CONTINUOUS");
+
+  oAttributes.setColor(2);
+
+  //=== Insert Line
+  DL_LineData oDlLine( dXX, dYY, 0, dXX+2, dYY+2, 0);   // Entity Line from dxflib
+
+  // Write new DL Line object to sst dxf database
+  iStat = oDxfDB->WriteLine( 0, oDlLine, oAttributes, &oEntRecNo, &oMainRecNo);
   assert(iStat >= 0);
 
   return iStat;
@@ -1031,8 +1121,8 @@ int Test_WritePoint (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const do
   DL_Attributes oAttributes;
   dREC04RECNUMTYP oEntRecNo = 0;
   dREC04RECNUMTYP oMainRecNo = 0;
-  double dHeight = 1.0;
-  double dAngle = 0.0;
+  // double dHeight = 1.0;
+  // double dAngle = 0.0;
 
   int iStat = 0;
 //-----------------------------------------------------------------------------
@@ -1044,11 +1134,67 @@ int Test_WritePoint (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const do
   oAttributes.setColor(2);
 
   //=== Insert Point
-  DL_PointData oDlPoint;               // Entity Point from dxflib
+  DL_PointData oDlPoint ( dXX, dYY, 0.0);             // Entity Point from dxflib
 
 
   // Write new DL Circle object to sst dxf database
   iStat = oDxfDB->WritePoint( 0, oDlPoint, oAttributes, &oEntRecNo, &oMainRecNo);
+  assert(iStat >= 0);
+
+  return iStat;
+}
+//=============================================================================
+int Test_WriteInsert (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY)
+//-----------------------------------------------------------------------------
+{
+  DL_Attributes oAttributes;
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+  // double dHeight = 1.0;
+  // double dAngle = 0.0;
+
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  // Define Block
+
+  // Create first symbol block
+  DL_BlockData oBlock("Sym1",0,0.0,0.0,0.0);
+  // DL_Attributes oAttributes;
+  iStat = oDxfDB->openBlock(0,oBlock,oAttributes);
+
+  if (iStat == 0)
+  {
+    // Write new DL Circle object to block section of sst dxf database
+    // write new circle (border)
+    sstMath01dPnt2Cls oPnt;
+
+    oPnt.Set(0.0,0.0);
+    // Insert two Lines
+    oEntRecNo = 0;
+    oPnt.Set(0.0,0.0);
+    DL_LineData oDlLine(oPnt.getX()-1.0,oPnt.getY()-1.0,0,oPnt.getX()+1.0,oPnt.getY()+1.0,0);
+    iStat = oDxfDB->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+    oDlLine.x1 = oPnt.getX()+1.0; oDlLine.y1 = oPnt.getY() -1.0;
+    oDlLine.x2 = oPnt.getX()-1.0; oDlLine.y2 = oPnt.getY() +1.0;
+    oEntRecNo = 0;
+    iStat = oDxfDB->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+  }
+
+  oDxfDB->closeBlock(0);
+
+  //=== Insert Entity Insert
+  oAttributes.setLayer("0");
+  oAttributes.setLinetype("CONTINUOUS");
+
+  oAttributes.setColor(2);
+
+  DL_InsertData oDlInsert("Sym1", dXX, dYY, 0, 1, 1, 1, 0, 1, 1, 0, 0);
+
+  // Write new DL Circle object to sst dxf database
+  oEntRecNo = 0;
+  iStat = oDxfDB->WriteInsert( 0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
   assert(iStat >= 0);
 
   return iStat;

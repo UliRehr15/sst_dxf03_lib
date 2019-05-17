@@ -439,6 +439,9 @@ int sstDxf03DatabaseCls::WriteNewCircle(int                  iKey,
   {  // Block
     dNumBlocks = this->oSstFncBlk.count();
     oDxfCircle.setBlockID(dNumBlocks);
+    // Set Minimum Bounding Rectangle in Block Table
+    oSstFncBlk.updateMbrBlock( 0, dNumBlocks, oDxfCircle.getMbr());
+
   }
   else
   {  // Layer
@@ -450,6 +453,9 @@ int sstDxf03DatabaseCls::WriteNewCircle(int                  iKey,
     // assert(iStat == 1);
     if ( iStat != 1) return -3;  // Layername not found in layer table
     oDxfCircle.setLayerID(dLayRecNo);
+    // Set Minimum Bounding Rectangle in Block Table -model_space-
+    oSstFncBlk.updateMbrModel(0,oDxfCircle.getMbr());
+
   }
   sstDxf03TypMainCls oMainRec;
   *dMainRecNo = this->oSstFncMain.count();
@@ -572,13 +578,15 @@ int sstDxf03DatabaseCls::WritePoint (int                  iKey,
     return iStat;
   }
 
-  // New Line
+  // New Point
 
   // is it layer or block??
   if (this->sActLayBlkNam.length() > 0)
   {  // Block
     dNumBlocks = this->oSstFncBlk.count();
     oDxfPoint.setBlockID(dNumBlocks);
+    // Set Minimum Bounding Rectangle in Block Table
+    oSstFncBlk.updateMbrBlock( 0, dNumBlocks, oDxfPoint.getMbr());
   }
   else
   {  // Layer
@@ -590,6 +598,9 @@ int sstDxf03DatabaseCls::WritePoint (int                  iKey,
     // assert(iStat == 1);
     if ( iStat != 1) return -3;  // Layername not found in layer table
     oDxfPoint.setLayerID(dLayRecNo);
+    // Set Minimum Bounding Rectangle in Block Table -model_space-
+    oSstFncBlk.updateMbrModel(0,oDxfPoint.getMbr());
+
   }
   iStat = this->oSstFncPoint.WritNew(0,&oDxfPoint, dEntRecNo);
 
@@ -642,8 +653,20 @@ int sstDxf03DatabaseCls::WriteInsert (int                  iKey,
     // Existing Insert
     // Block should exist
     // Find record with exact search value
+    oLayerStr = attributes.getLayer();
+    if (oLayerStr.length() <= 0) return -2;  // Empty Layername not allowed
+    oBlockStr = data.name;
+    if (oBlockStr.length() <= 0) return -2;  // Empty Layername not allowed
+
     iStat = this->oSstFncBlk.TreSeaEQ( 0, this->oSstFncBlk.getNameSortKey(), (void*) oBlockStr.c_str(), &dBlkRecNo);
+    assert(dBlkRecNo > 0);
     oDxfInsert.setBlockID(dBlkRecNo);
+
+    // Find record with exact search value
+    iStat = this->oSstFncLay.TreSeaEQ( 0, this->oSstFncLay.getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
+    // assert(iStat == 1);
+    if ( iStat != 1) return -3;  // Layername not found in layer table
+    oDxfInsert.setLayerID(dLayRecNo);
 
     iStat = this->oSstFncInsert.Writ( 0, &oDxfInsert, *dEntRecNo);
     return iStat;
@@ -673,8 +696,15 @@ int sstDxf03DatabaseCls::WriteInsert (int                  iKey,
     // Find record with exact search value
     iStat = this->oSstFncBlk.TreSeaEQ( 0, this->oSstFncBlk.getNameSortKey(), (void*) oBlockStr.c_str(), &dBlkRecNo);
     // assert(iStat == 1);
-    if ( iStat != 1) return -3;  // Layername not found in layer table
+    if ( iStat != 1) return -4;  // Blockname not found in Block table
     oDxfInsert.setBlockID(dBlkRecNo);
+
+    // Calculate Minimum Border Rectangle for insert with Block Mbr
+    sstMath01Mbr2Cls oBlkMbr = this->getMbrBlock(dBlkRecNo);
+
+    // Set Minimum Bounding Rectangle in Block Table -Model Space-
+    oSstFncBlk.updateMbrModel(0,oDxfInsert.getMbr(oBlkMbr));
+
   }
   iStat = this->oSstFncInsert.WritNew(0,&oDxfInsert, dEntRecNo);
 
@@ -739,6 +769,8 @@ int sstDxf03DatabaseCls::WriteLine (int                  iKey,
   {  // Block
     dNumBlocks = this->oSstFncBlk.count();
     oDxfLine.setBlockID(dNumBlocks);
+    // Set Minimum Bounding Rectangle in Block Table
+    oSstFncBlk.updateMbrBlock( 0, dNumBlocks, oDxfLine.getMbr());
   }
   else
   {  // Layer
@@ -750,6 +782,8 @@ int sstDxf03DatabaseCls::WriteLine (int                  iKey,
     // assert(iStat == 1);
     if ( iStat != 1) return -3;  // Layername not found in layer table
     oDxfLine.setLayerID(dLayRecNo);
+    // Set Minimum Bounding Rectangle in Block Table
+    oSstFncBlk.updateMbrModel(0,oDxfLine.getMbr());
   }
   sstDxf03TypMainCls oMainRec;
   *dMainRecNo = this->oSstFncMain.count();
@@ -871,7 +905,7 @@ int sstDxf03DatabaseCls::WriteText (int                  iKey,
 
   if (*dEntRecNo > 0)
   {
-    // Existing Line
+    // Existing Entity
     oDxfText.ReadFromDL(data);
     oDxfText.BaseReadFromDL(attributes);
     iStat = this->oSstFncText.Writ( 0, &oDxfText, *dEntRecNo);

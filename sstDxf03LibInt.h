@@ -592,13 +592,25 @@ class sstDxf03TypInsertCls : public sstDxf03TypBaseCls
     sstDxf03TypInsertCls();  // Constructor
     //==============================================================================
     /**
-    * @brief // Get Minimum Border Rectangle <BR>
+    * @brief // Calculate default Minimum Border Rectangle for insert<BR>
     * oMbr = oSstDxfInsert.getMbr()
     *
     * @return Minimum Border Rectangle
     */
     // ----------------------------------------------------------------------------
     sstMath01Mbr2Cls getMbr() const;
+    //==============================================================================
+    /**
+    * @brief // Calculate Minimum Border Rectangle for insert with Block Mbr <BR>
+    * oMbr = oSstDxfInsert.getMbr(oBlkMbr);
+    *
+    * @param oBlkMbr [in] Mbr of Symbol block
+    *
+    * @return Minimum Border Rectangle
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr( sstMath01Mbr2Cls oBlkMbr) const;
+
     //==============================================================================
     /**
     * @brief // getMemberNumber <BR>
@@ -6486,8 +6498,12 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: Layer / Block Name empty
+     * @retval   = -3: Layer Name not found in Layer Table
+     * @retval   = -4: Block Name not found in Block Table
+     * @retval   <  0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteInsert (int                  iKey,

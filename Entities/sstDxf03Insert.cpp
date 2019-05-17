@@ -72,12 +72,20 @@ sstDxf03TypInsertCls::sstDxf03TypInsertCls()
 //=============================================================================
 sstMath01Mbr2Cls sstDxf03TypInsertCls::getMbr() const
 {
-  // Calculate Mbr from insert
-  // In future better from connected block
+  // Calculate Mbr from default
   sstMath01Mbr2Cls oTmpMbr;
   oTmpMbr.Koor2(0,this->getIpx()+10.0,this->getIpy()+10.0);
   oTmpMbr.Koor2(0,this->getIpx()-10.0,this->getIpy()-10.0);
   return oTmpMbr;
+}
+//=============================================================================
+sstMath01Mbr2Cls sstDxf03TypInsertCls::getMbr( sstMath01Mbr2Cls oSymMbr) const
+{
+  // Calculate Mbr from symbol
+  // sstMath01Mbr2Cls oTmpMbr;
+  oSymMbr.Scal2( 0, this->sx);
+  oSymMbr.Move_XY2(0,this->getIpx(),this->getIpy());
+  return oSymMbr;
 }
 //=============================================================================
 // Get Number of Class member
