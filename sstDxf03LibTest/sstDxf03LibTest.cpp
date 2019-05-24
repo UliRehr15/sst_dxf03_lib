@@ -134,6 +134,22 @@ int main()
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDb( &oPrt);
 
+    // Write two Arc Objects with Radius = 0.5 into Database
+    Test_WriteArc ( 0, &oDxfDb, 100, 100);
+    Test_WriteArc ( 0, &oDxfDb, 102, 100);
+
+    // Return mbr of Circle entities.
+    sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
+    assert(oMbr.getXA() == 102.0);
+
+    // Write dxf database to dxf file
+    oDxfDb.WritAll2DxfFil(0,"TestArc.dxf");
+  }
+  //=============================================================================
+  {
+    // Open new sstDxf Database
+    sstDxf03DbCls oDxfDb( &oPrt);
+
     // Write Point Object
     Test_WritePoint(0,&oDxfDb,100,100);
     Test_WritePoint(0,&oDxfDb,102,100);
@@ -151,10 +167,14 @@ int main()
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDb( &oPrt);
 
+    Test_WriteBlock(0,&oDxfDb);  // Cross-Symbol
+    Test_WriteBlock(1,&oDxfDb);  // Circle Symbol
+    Test_WriteBlock(2,&oDxfDb);  // Filled triangle solid hatch
+
     // Write 3 Insert Objects with symbol
-    Test_WriteInsert(0,&oDxfDb,100,100);
-    Test_WriteInsert(0,&oDxfDb,102,102);
-    Test_WriteInsert(0,&oDxfDb,104,104);
+    Test_WriteInsert(0,&oDxfDb,100,100);  // Cross-Symbol
+    Test_WriteInsert(1,&oDxfDb,102,102);  // Circle Symbol
+    Test_WriteInsert(2,&oDxfDb,104,104);  // Filled triangle solid hatch
 
     // Return mbr of Circle entities.
     sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
@@ -280,7 +300,7 @@ int main()
     iStat = sstMisc01FileCompare( 1,"Test_Utm.dxf","Test_Utm2.dxf",&ulRowNo);
     if (iStat != 0)
     {
-        assert(ulRowNo == 858);  // Problem with handle 340 in DIMSTYLE
+        assert(ulRowNo == 963);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test_Utm.dxf / Test_Utm2.dxf OK");
@@ -1035,7 +1055,9 @@ int Test_WriteArc (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const doub
   DL_Attributes oAttributes;
   dREC04RECNUMTYP oEntRecNo = 0;
   dREC04RECNUMTYP oMainRecNo = 0;
-  double dDist = 0.5;
+  double dRad = 0.5;
+  double dAng1 = 0.0;   // Start Angle
+  double dAng2 = 90.0;  // End Angle Direction counter clockwise
 
   int iStat = 0;
 //-----------------------------------------------------------------------------
@@ -1047,7 +1069,7 @@ int Test_WriteArc (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const doub
   oAttributes.setColor(2);
 
   //=== Insert Arc
-  DL_ArcData oDlArc (dXX,dYY,0.0,dDist,0.0,100.0);  // Radius = 1
+  DL_ArcData oDlArc ( dXX, dYY, 0.0, dRad, dAng1, dAng2);
 
   // Write new DL Arc object to sst dxf database
   iStat = oDxfDB->WriteNewArc( 0, oDlArc, oAttributes, &oEntRecNo, &oMainRecNo);
@@ -1150,24 +1172,89 @@ int Test_WriteInsert (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const d
   DL_Attributes oAttributes;
   dREC04RECNUMTYP oEntRecNo = 0;
   dREC04RECNUMTYP oMainRecNo = 0;
-  // double dHeight = 1.0;
-  // double dAngle = 0.0;
 
   int iStat = 0;
 //-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
+  switch (iKey) {
+  case 0:
+    {
 
-  // Define Block
+    //=== Insert Entity Insert
+    oAttributes.setLayer("0");
+    oAttributes.setLinetype("CONTINUOUS");
 
-  // Create first symbol block
-  DL_BlockData oBlock("Sym1",0,0.0,0.0,0.0);
-  // DL_Attributes oAttributes;
-  iStat = oDxfDB->openBlock(0,oBlock,oAttributes);
+    oAttributes.setColor(2);
 
-  if (iStat == 0)
-  {
-    // Write new DL Circle object to block section of sst dxf database
-    // write new circle (border)
+    DL_InsertData oDlInsert("Sym1", dXX, dYY, 0, 1, 1, 1, 0, 1, 1, 0, 0);
+
+    // Write new DL Circle object to sst dxf database
+    oEntRecNo = 0;
+    iStat = oDxfDB->WriteInsert( 0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
+    assert(iStat >= 0);
+    }
+    break;
+  case 1:  // Write Circle as Block 2 Sym2
+    {
+
+    //=== Insert Entity Insert
+    oAttributes.setLayer("0");
+    oAttributes.setLinetype("CONTINUOUS");
+
+    oAttributes.setColor(2);
+
+    DL_InsertData oDlInsert("Sym2", dXX, dYY, 0, 1, 1, 1, 0, 1, 1, 0, 0);
+
+    // Write new DL Circle object to sst dxf database
+    oEntRecNo = 0;
+    iStat = oDxfDB->WriteInsert( 0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
+    assert(iStat >= 0);
+    }
+    break;
+  case 2:
+    {
+
+    //=== Insert Entity Insert
+    oAttributes.setLayer("0");
+    oAttributes.setLinetype("CONTINUOUS");
+
+    oAttributes.setColor(2);
+
+    DL_InsertData oDlInsert("Sym3", dXX, dYY, 0, 1, 1, 1, 0, 1, 1, 0, 0);
+
+    // Write new DL Circle object to sst dxf database
+    oEntRecNo = 0;
+    iStat = oDxfDB->WriteInsert( 0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
+    assert(iStat >= 0);
+    }
+    break;
+  default:
+    return -1;
+    break;
+  }
+
+
+  return iStat;
+}
+//=============================================================================
+int Test_WriteBlock (int iKey, sstDxf03DbCls *oDxfDB)
+//-----------------------------------------------------------------------------
+{
+  DL_Attributes oAttributes;
+  dREC04RECNUMTYP oEntRecNo = 0;
+  dREC04RECNUMTYP oMainRecNo = 0;
+
+  int iStat = 0;
+//-----------------------------------------------------------------------------
+  switch (iKey) {
+  case 0:
+    {
+    // Create first symbol block
+    DL_BlockData oBlock("Sym1",0,0.0,0.0,0.0);
+    // DL_Attributes oAttributes;
+    iStat = oDxfDB->openBlock(0,oBlock,oAttributes);
+    if (iStat < 0) return -2;  // Error opening block
+
+    // Write two line cross to block
     sstMath01dPnt2Cls oPnt;
 
     oPnt.Set(0.0,0.0);
@@ -1180,22 +1267,84 @@ int Test_WriteInsert (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const d
     oDlLine.x2 = oPnt.getX()-1.0; oDlLine.y2 = oPnt.getY() +1.0;
     oEntRecNo = 0;
     iStat = oDxfDB->WriteLine(0,oDlLine,oAttributes,&oEntRecNo,&oMainRecNo);
+
+    oDxfDB->closeBlock(0);
+
+    }
+    break;
+  case 1:  // Write Circle as Block 2 Sym2
+    {
+    // Create first symbol block
+    DL_BlockData oBlock("Sym2",0,0.0,0.0,0.0);
+    // DL_Attributes oAttributes;
+    iStat = oDxfDB->openBlock(0,oBlock,oAttributes);
+    if (iStat < 0) return -2;  // Error opening block
+
+    double dRad = 0.5;
+
+    oAttributes.setLayer("0");
+    oAttributes.setLinetype("CONTINUOUS");
+
+    oAttributes.setColor(2);
+
+    //=== Insert Circle
+    DL_CircleData oDLCircle( 0, 0, 0, dRad);  // Radius = 0.5
+
+    // Write new DL Circle object to sst dxf database
+    iStat = oDxfDB->WriteNewCircle( 0, oDLCircle, oAttributes, &oEntRecNo, &oMainRecNo);
+    assert(iStat >= 0);
+
+    oDxfDB->closeBlock(0);
+
+    }
+    break;
+  case 2:
+    {
+    // Create first symbol block
+    DL_BlockData oBlock("Sym3",0,0.0,0.0,0.0);
+    // DL_Attributes oAttributes;
+    iStat = oDxfDB->openBlock(0,oBlock,oAttributes);
+    if (iStat < 0) return -2;  // Error opening block
+
+    oAttributes.setLayer("0");
+    oAttributes.setLinetype("CONTINUOUS");
+
+    //=== Insert filled triangel area
+      oAttributes.setColor(2);
+
+      DL_HatchData oDLHatch(1,1,1,0,"SOLID");
+      double dHatchXX = 0.0;
+      double dHatchYY = 0.0;
+      double dDist = 1.0;
+
+      // open new dxflib hatch object in sstDxfDb
+      iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+
+      DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
+      // write new dxflib hatch edge into sstDxfDb hatch object
+      oDLHatchEdge.x1 = dHatchXX;         oDLHatchEdge.y1 = dHatchYY;
+      oDLHatchEdge.x2 = dHatchXX + dDist; oDLHatchEdge.y2 = dHatchYY + dDist;
+      iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+      // write new dxflib hatch edge into sstDxfDb hatch object
+      oDLHatchEdge.x1 = dHatchXX + dDist; oDLHatchEdge.y1 = dHatchYY + dDist;
+      oDLHatchEdge.x2 = dHatchXX + dDist; oDLHatchEdge.y2 = dHatchYY;
+      iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+      // write new dxflib hatch edge into sstDxfDb hatch object
+      oDLHatchEdge.x1 = dHatchXX + dDist; oDLHatchEdge.y1 = dHatchYY;
+      oDLHatchEdge.x2 = dHatchXX;         oDLHatchEdge.y2 = dHatchYY;
+      iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    oDxfDB->closeBlock(0);
+
+    }
+    break;
+  default:
+    return -1;
+    break;
   }
 
-  oDxfDB->closeBlock(0);
-
-  //=== Insert Entity Insert
-  oAttributes.setLayer("0");
-  oAttributes.setLinetype("CONTINUOUS");
-
-  oAttributes.setColor(2);
-
-  DL_InsertData oDlInsert("Sym1", dXX, dYY, 0, 1, 1, 1, 0, 1, 1, 0, 0);
-
-  // Write new DL Circle object to sst dxf database
-  oEntRecNo = 0;
-  iStat = oDxfDB->WriteInsert( 0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
-  assert(iStat >= 0);
 
   return iStat;
 }

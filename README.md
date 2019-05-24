@@ -97,4 +97,6 @@ Structure of coding projects should be:
 05.04.19: Version 3.31: Fixed more Problems in writing group entities like LWPOLYLINE / HATCH. <BR>
 22.04.19: Version 3.32: Some improvements in test writing and reading dxf files. <BR>
 17.05.19: Version 3.33: Some improvements with handling Entitiy Mbr Data. <BR>
+20.05.19: Version 3.34: Testframe for Entity Arc. <BR>
+24.05.19: Version 3.35: Testframe for Entity Insert and Block. Fix problem in writing HatchEdge. <BR>
 

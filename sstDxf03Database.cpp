@@ -377,6 +377,8 @@ int sstDxf03DatabaseCls::WriteNewArc(int                     iKey,
   {  // Block
     dNumBlocks = this->oSstFncBlk.count();
     oDxfArc.setBlockID(dNumBlocks);
+    // Set Minimum Bounding Rectangle in Block Table
+    oSstFncBlk.updateMbrBlock( 0, dNumBlocks, oDxfArc.getMbr());
   }
   else
   {  // Layer
@@ -388,6 +390,8 @@ int sstDxf03DatabaseCls::WriteNewArc(int                     iKey,
     // assert(iStat == 1);
     if ( iStat != 1) return -3;  // Layername not found in layer table
     oDxfArc.setLayerID(dLayRecNo);
+    // Set Minimum Bounding Rectangle in Block Table -model_space-
+    oSstFncBlk.updateMbrModel( 0, oDxfArc.getMbr());
   }
   sstDxf03TypMainCls oMainRec;
   *dMainRecNo = this->oSstFncMain.count();
@@ -1236,6 +1240,7 @@ int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
   // is it layer or block??
   if (this->sActLayBlkNam.length() > 0)
   {  // Block
+    dNumBlocks = this->countBlocks();
     oMainRec.setLayBlockID(dNumBlocks);
     oMainRec.setSectString("B");
   }

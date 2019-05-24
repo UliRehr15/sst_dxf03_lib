@@ -323,13 +323,15 @@ int Test_WritePoint (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const do
 * @brief // Test Write Insert entity into sstDxf Database <BR>
 * iStat = Test_WriteInsert ( iKey, poDxfDb, dXX, dYY);
 *
-* More Comment
+* Key = 0: Write 2-Line-Cross as Block Sym1 and insert at given position.
+* Key = 1: Write Circle as Block Sym2 and insert at given position.
+* Key = 2: Write Hatch as Block Sym3 and insert at given position.
 *
 * Changed: 27.03.19  Re.
 *
 * @ingroup examples
 *
-* @param iKey    [in]     For the moment 0
+* @param iKey    [in]     0,1,2
 * @param poDxfDb [in out] open sstDxf Database
 * @param dXX     [in]     Center X
 * @param dYY     [in]     Center Y
@@ -345,6 +347,8 @@ int Test_WritePoint (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const do
 */
 //------------------------------------------------------------------------------
 int Test_WriteInsert (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const double dYY);
+//==============================================================================
+int Test_WriteBlock (int iKey, sstDxf03DbCls *oDxfDB);
 //==============================================================================
 
 

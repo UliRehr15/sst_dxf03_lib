@@ -7246,28 +7246,27 @@ class sstDxf03DatabaseCls
 
 private:  // Private functions
 
-     sstDxf03FncMainCls oSstFncMain;      /**< Main table object */
-  sstDxf03FncLayCls oSstFncLay;        /**< layer table object */
-  sstDxf03FncBlkCls oSstFncBlk;        /**< Block table object */
-  sstDxf03FncLTypeCls oSstFncLType;        /**< LineType table object */
-  sstDxf03FncArcCls oSstFncArc;        /**< Arc table object */
-  sstDxf03FncTraceCls oSstFncTrace;        /**< Trace table object */
+  sstDxf03FncMainCls oSstFncMain;            /**< Main table object */
+  sstDxf03FncLayCls oSstFncLay;              /**< layer table object */
+  sstDxf03FncBlkCls oSstFncBlk;              /**< Block table object */
+  sstDxf03FncLTypeCls oSstFncLType;          /**< LineType table object */
+  sstDxf03FncArcCls oSstFncArc;              /**< Arc table object */
+  sstDxf03FncTraceCls oSstFncTrace;          /**< Trace table object */
   sstDxf03FncCircleCls oSstFncCircle;        /**< Circle table object */
-  sstDxf03FncMTextCls oSstFncMText;        /**< MText table object */
-  sstDxf03FncTextCls oSstFncText;        /**< Text table object */
-  sstDxf03FncPointCls oSstFncPoint;        /**< Point table object */
-  sstDxf03FncLineCls oSstFncLine;        /**< Line table object */
-  sstDxf03FncInsertCls oSstFncInsert;  /**< Insert table object */
-  sstDxf03FncPolylineCls oSstFncPolyline;  /**< polyline table object */
-  sstDxf03FncVertexCls oSstFncVertex;  /**< vertex table object */
-  sstDxf03FncHatchCls oSstFncHatch;    /**< hatch table object */
+  sstDxf03FncMTextCls oSstFncMText;          /**< MText table object */
+  sstDxf03FncTextCls oSstFncText;            /**< Text table object */
+  sstDxf03FncPointCls oSstFncPoint;          /**< Point table object */
+  sstDxf03FncLineCls oSstFncLine;            /**< Line table object */
+  sstDxf03FncInsertCls oSstFncInsert;        /**< Insert table object */
+  sstDxf03FncPolylineCls oSstFncPolyline;    /**< polyline table object */
+  sstDxf03FncVertexCls oSstFncVertex;        /**< vertex table object */
+  sstDxf03FncHatchCls oSstFncHatch;          /**< hatch table object */
   sstDxf03FncHatchEdgeCls oSstFncHatchEdge;  /**< hatch edge table object */
   sstDxf03FncHatchLoopCls oSstFncHatchLoop;  /**< hatch loop table object */
   sstMisc01PrtFilCls *oPrt;                  /**< Protocol object */
-  dREC04RECNUMTYP dMainTabSectEntStart;          // Start of entity section in main table
+  dREC04RECNUMTYP dMainTabSectEntStart;   // Start of entity section in main table
   RS2::EntityType eActEntType;            // Actual Entity Type
   std::string sActLayBlkNam;              // Actual Layer/Block Name
-  // std::string oActBlockNam;               /**< actual block name */
   RS2::EntityType eGrpEntType;            // Group Entity Type
   dREC04RECNUMTYP dGrpMainID;             // Group Main ID
   dREC04RECNUMTYP dGrpSubID;              // Sub Group ID like HatchLoop
