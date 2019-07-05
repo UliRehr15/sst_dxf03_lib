@@ -92,6 +92,9 @@ int main()
     sstDxf03DbCls oDxfDb( &oPrt);
 
     // Write Polyline Object
+    Test_WriteLine(0,&oDxfDb,102,100);
+
+    // Write Polyline Object
     Test_WritePolyline(0,&oDxfDb,100,100);
 
     // Write dxf database to dxf file
@@ -959,30 +962,19 @@ int Test_WritePolyline (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const
   {
     oAttributes.setColor(2);
 
-    // DL_HatchData oDLHatch(1,1,1,0,"SOLID");
     DL_PolylineData oDlPolyline(0,0,0,0);
     DL_VertexData oDlVertex(0.0,0.0,0.0,0.0);
 
-    // open new dxflib hatch object in sstDxfDb
-    // iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+    // open new dxflib Polyline object in sstDxfDb
     iStat = oDxfDB->OpenNewPolyline( 0, oDlPolyline, oAttributes, &oEntRecNo, &oMainRecNo);
 
-    // DL_HatchEdgeData oDLHatchEdge(1,1,2,2);  // area border point
     oDlVertex.x = dXX; oDlVertex.y = dYY; oDlVertex.z = 0.0;
-    // write new dxflib hatch edge into sstDxfDb hatch object
-    // iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
     iStat = oDxfDB->WriteNewVertex ( 0, oDlVertex, &oEntRecNo, &oMainRecNo);
 
-    // write new dxflib hatch edge into sstDxfDb hatch object
-    // oDLHatchEdge.x1 = 2.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 2.0;
     oDlVertex.x = dXX + dDist; oDlVertex.y = dYY; oDlVertex.z = 0.0;
-    // iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
     iStat = oDxfDB->WriteNewVertex ( 0, oDlVertex, &oEntRecNo, &oMainRecNo);
 
-    // write new dxflib hatch edge into sstDxfDb hatch object
-    // oDLHatchEdge.x1 = 1.0;oDLHatchEdge.y1 = 2.0;oDLHatchEdge.x2 = 1.0;oDLHatchEdge.y2 = 1.0;
     oDlVertex.x = dXX + dDist; oDlVertex.y = dYY + dDist; oDlVertex.z = 0.0;
-    // iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
     iStat = oDxfDB->WriteNewVertex ( 0, oDlVertex, &oEntRecNo, &oMainRecNo);
   }
 

@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-// sstDxf03Read.cpp   01.11.16  Re.   26.02.16  Re.
+// sstDxf03Read.cpp   05.07.19  Re.   26.02.16  Re.
 
 #include <iostream>
 #include <stdio.h>
@@ -491,7 +491,6 @@ void sstDxf03ReadCls::addCircle(const DL_CircleData& data)
   oDxfCircle.setMainRecNo(dMainRecNo+1);
   iStat = poCircleFnc->WritNew(0,&oDxfCircle,&dRecNo);
 
-
   oMainRec.setMainID(dMainRecNo+1);
   oMainRec.setEntityType(RS2::EntityCircle);
   oMainRec.setTypeID(dRecNo);
@@ -693,11 +692,11 @@ void sstDxf03ReadCls::addPolyline(const DL_PolylineData& data)
   assert(iStat == 1);
   oDxfPolyline.setLinetypeID(dLTypeRecNo);
 
+  dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
+  oDxfPolyline.setMainRecNo(dMainRecNo+1);
   iStat = poPolylineFnc->WritNew(0,&oDxfPolyline,&dEntRecNo);
 
   sstDxf03TypMainCls oMainRec;
-
-  dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
 
   oMainRec.setMainID(dMainRecNo+1);
   oMainRec.setEntityType(RS2::EntityPolyline);

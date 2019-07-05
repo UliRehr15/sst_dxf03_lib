@@ -311,6 +311,26 @@ class sstDxf03DbCls
                       dREC04RECNUMTYP      *oMainRecNo);
   //==============================================================================
   /**
+  * @brief // rewrite dxflib vertex in sstDxfDb <BR>
+  * iStat = oDxfDb.WriteVertex (iKey, oDlVertex, &oEntRecNo, &oMainRecNo);
+  *
+  * @param iKey          [in] For the moment 0
+  * @param oDlVertex     [in] dxflib vertex
+  * @param oEntRecNo     [out] return record number in entity table
+  * @param oMainRecNo    [out] Return Record number in main table
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int WriteVertex (int                   iKey,
+                   const DL_VertexData   oDlVertex,
+                   dREC04RECNUMTYP      *oEntRecNo,
+                   dREC04RECNUMTYP      *oMainRecNo);
+  //==============================================================================
+  /**
   * @brief // Write whole sst dxf database into dxf file. <BR>
   * iStat = oDxfDb.WritAll2DxfFil ( iKey, oDxfFilNam);
   *

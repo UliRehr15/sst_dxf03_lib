@@ -22,7 +22,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  *
 **********************************************************************/
-//  sstDxf03Database.cpp   22.04.19  Re.   06.07.16  Re.
+//  sstDxf03Database.cpp   05.07.19  Re.   06.07.16  Re.
 //
 //  Functions for Class "sstDxf03DatabaseCls"
 //
@@ -575,7 +575,7 @@ int sstDxf03DatabaseCls::WritePoint (int                  iKey,
 
   if (*dEntRecNo > 0)
   {
-    // Existing Line
+    // Existing Point
     oDxfPoint.ReadFromDL(data);
     oDxfPoint.BaseReadFromDL(attributes);
     iStat = this->oSstFncPoint.Writ( 0, &oDxfPoint, *dEntRecNo);
@@ -1349,6 +1349,32 @@ int sstDxf03DatabaseCls::WriteNewVertex (int                  iKey,
 
     this->dGrpSubID = *poEntRecNo;
   }
+
+  return iStat;
+}
+//==============================================================================
+int sstDxf03DatabaseCls::WriteVertex (int                  iKey,
+                                      const DL_VertexData  oDlVertex,
+                                      dREC04RECNUMTYP     *poEntRecNo,
+                                      dREC04RECNUMTYP     *poMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+
+  sstDxf03TypVertexCls oDxfVertex;
+  oDxfVertex.ReadFromDL(oDlVertex);
+
+  if (*poEntRecNo > 0)
+  {
+    // rewrite Existing vertex
+    iStat = this->oSstFncVertex.Writ( 0, &oDxfVertex, *poEntRecNo);
+    return iStat;
+  }
+
+  //--- Write new vertex
+  iStat = this->WriteNewVertex( 0, oDlVertex, poEntRecNo, poMainRecNo);
 
   return iStat;
 }
@@ -2271,9 +2297,25 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::getMainTabRecNo(int iKey, RS2::EntityType e
     case RS2::EntityContainer: oLocString = "Container"; break;
     case RS2::EntityBlock: oLocString = "Block"; break;
     case RS2::EntityFontChar: oLocString = "FontChar"; break;
-    case RS2::EntityInsert: oLocString = "Insert"; break;
+    case RS2::EntityInsert:
+  {
+    sstDxf03FncInsertCls *poInsertTab = this->getSstFncInsert();
+    sstDxf03TypInsertCls oInsertRec;
+    int iStat = poInsertTab->Read( 0, dEntRecNo, &oInsertRec);
+    assert(iStat >= 0);
+    dMainRecNo = oInsertRec.getMainRecNo();
+    break;
+  }
     case RS2::EntityGraphic: oLocString = "Graphic"; break;
-    case RS2::EntityPoint: oLocString = "Point"; break;
+    case RS2::EntityPoint:
+  {
+    sstDxf03FncPointCls *poPointTab = this->getSstFncPoint();
+    sstDxf03TypPointCls oPointRec;
+    int iStat = poPointTab->Read( 0, dEntRecNo, &oPointRec);
+    assert(iStat >= 0);
+    dMainRecNo = oPointRec.getMainRecNo();
+    break;
+  }
     case RS2::EntityLine:
   {
     sstDxf03FncLineCls *poLineTab = this->getSstFncLine();
@@ -2283,9 +2325,33 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::getMainTabRecNo(int iKey, RS2::EntityType e
     dMainRecNo = oLineRec.getMainRecNo();
     break;
   }
-    case RS2::EntityPolyline: oLocString = "Polyline"; break;
-    case RS2::EntityVertex: oLocString = "Vertex"; break;
-    case RS2::EntityArc: oLocString = "Arc"; break;
+    case RS2::EntityPolyline:
+  {
+    sstDxf03FncPolylineCls *poPolylineTab = this->getSstFncPolyline();
+    sstDxf03TypPolylineCls oPolylineRec;
+    int iStat = poPolylineTab->Read( 0, dEntRecNo, &oPolylineRec);
+    assert(iStat >= 0);
+    dMainRecNo = oPolylineRec.getMainRecNo();
+    break;
+  }
+    case RS2::EntityVertex:
+  {
+    sstDxf03FncVertexCls *poVertexTab = this->getSstFncVertex();
+    sstDxf03TypVertexCls oVertexRec;
+    int iStat = poVertexTab->Read( 0, dEntRecNo, &oVertexRec);
+    assert(iStat >= 0);
+    dMainRecNo = 0;  // oVertexRec.getMainRecNo();
+    break;
+  }
+    case RS2::EntityArc:
+  {
+    sstDxf03FncArcCls *poArcTab = this->getSstFncArc();
+    sstDxf03TypArcCls oArcRec;
+    int iStat = poArcTab->Read( 0, dEntRecNo, &oArcRec);
+    assert(iStat >= 0);
+    dMainRecNo = oArcRec.getMainRecNo();
+    break;
+  }
     case RS2::EntityCircle:
   {
     sstDxf03FncCircleCls *poCircleTab = this->getSstFncCircle();
@@ -2298,15 +2364,39 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::getMainTabRecNo(int iKey, RS2::EntityType e
     case RS2::EntityHyperbola: oLocString = "Hyperbola"; break;
     case RS2::EntitySolid: oLocString = "Solid"; break;
     case RS2::EntityConstructionLine: oLocString = "ConstructionLine"; break;
-    case RS2::EntityMText: oLocString = "MText"; break;
-    case RS2::EntityText: oLocString = "Text"; break;
+    case RS2::EntityMText:
+  {
+    sstDxf03FncMTextCls *poMTextTab = this->getSstFncMText();
+    sstDxf03TypMTextCls oMTextRec;
+    int iStat = poMTextTab->Read( 0, dEntRecNo, &oMTextRec);
+    assert(iStat >= 0);
+    dMainRecNo = oMTextRec.getMainRecNo();
+    break;
+  }
+    case RS2::EntityText:
+  {
+    sstDxf03FncTextCls *poTextTab = this->getSstFncText();
+    sstDxf03TypTextCls oTextRec;
+    int iStat = poTextTab->Read( 0, dEntRecNo, &oTextRec);
+    assert(iStat >= 0);
+    dMainRecNo = oTextRec.getMainRecNo();
+    break;
+  }
     case RS2::EntityDimAligned: oLocString = "DimAligned"; break;
     case RS2::EntityDimLinear: oLocString = "DimLinear"; break;
     case RS2::EntityDimRadial: oLocString = "DimRadial"; break;
     case RS2::EntityDimDiametric: oLocString = "DimDiametric"; break;
     case RS2::EntityDimAngular: oLocString = "DimAngular"; break;
     case RS2::EntityDimLeader: oLocString = "DimLeader"; break;
-    case RS2::EntityHatch: oLocString = "Hatch"; break;
+    case RS2::EntityHatch:
+  {
+    sstDxf03FncLineCls *poLineTab = this->getSstFncLine();
+    sstDxf03TypLineCls oLineRec;
+    int iStat = poLineTab->Read( 0, dEntRecNo, &oLineRec);
+    assert(iStat >= 0);
+    dMainRecNo = oLineRec.getMainRecNo();
+    break;
+  }
     case RS2::EntityHatchEdge: oLocString = "HatchEdge"; break;
     case RS2::EntityHatchLoop: oLocString = "HatchLoop"; break;
     case RS2::EntityImage: oLocString = "Image"; break;

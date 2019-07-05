@@ -148,6 +148,17 @@ int sstDxf03DbCls::WriteNewVertex (int                   iKey,
 
   return this->poDxf03DbIntern->WriteNewVertex( iKey, oDlVertex, oEntRecNo, oMainRecNo);
 }
+//==============================================================================
+int sstDxf03DbCls::WriteVertex (int                   iKey,
+                                const DL_VertexData   oDlVertex,
+                                dREC04RECNUMTYP      *oEntRecNo,
+                                dREC04RECNUMTYP      *oMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  return this->poDxf03DbIntern->WriteVertex( iKey, oDlVertex, oEntRecNo, oMainRecNo);
+}
 //=============================================================================
 int sstDxf03DbCls::WritAll2DxfFil(int iKey, const std::string oDxfFilNam)
 {
