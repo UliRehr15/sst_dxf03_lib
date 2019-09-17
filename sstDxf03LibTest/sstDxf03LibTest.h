@@ -107,13 +107,16 @@ int Test_WriteInterface (int iKey, sstDxf03DbCls *oDxfDB);
 * @brief // Test Write Hatch into sstDxf Database <BR>
 * iStat = Test_WriteHatch ( iKey, poDxfDb, dXX, dYY);
 *
-* More Comment
+* 0: Triangel Area
+* 1: 4-Corner-Box Area
+* 2: Circle Area
+* 3: Arc Area
 *
-* Changed: 15.03.19  Re.
+* Changed: 30.08.19  Re.
 *
-* @ingroup examples
+* @ingroup sstDxf03Lib
 *
-* @param iKey    [in]     For the moment 0
+* @param iKey    [in]     0,1,2,3
 * @param poDxfDb [in out] open sstDxf Database
 * @param dXX     [in]     Center X
 * @param dYY     [in]     Center Y

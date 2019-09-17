@@ -1493,6 +1493,14 @@ class sstDxf03TypHatchEdgeCls  // : public sstDxf03TypBaseCls
     void setEndTangentY(double value);
     //==============================================================================
     /**
+    * @brief // Get Minimum bounding rectangle  <BR>
+    *
+    * @return Mbr
+    */
+    // ----------------------------------------------------------------------------
+    sstMath01Mbr2Cls getMbr() const;
+    //==============================================================================
+    /**
     * @brief // Get Value  <BR>
     *
     * @return value
@@ -6641,6 +6649,26 @@ class sstDxf03DatabaseCls
                             const DL_HatchEdgeData oDLHatchEdge,
                             dREC04RECNUMTYP       *oEntRecNo,
                             dREC04RECNUMTYP       *oMainRecNo);
+     //==============================================================================
+     /**
+     * @brief // rewrite dxflib hatch edge in sstDxfDb hatch table <BR>
+     * iStat = oDxfDb.WriteHatchEdge (iKey, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+     *
+     * @param iKey          [in] For the moment 0
+     * @param oDLHatchEdge  [in] dxflib hatch edge
+     * @param oEntRecNo     [out] return record number in entity table
+     * @param oMainRecNo    [out] Return Record number in main table
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int WriteHatchEdge (int                    iKey,
+                         const DL_HatchEdgeData oDLHatchEdge,
+                         dREC04RECNUMTYP       *oEntRecNo,
+                         dREC04RECNUMTYP       *oMainRecNo);
      //==============================================================================
      /**
      * @brief // write new dxflib vertex into sstDxfDb polyline object <BR>

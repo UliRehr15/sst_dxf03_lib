@@ -1254,6 +1254,34 @@ int sstDxf03DatabaseCls::WriteNewHatchEdge (int                    iKey,
   return iStat;
 }
 //==============================================================================
+int sstDxf03DatabaseCls::WriteHatchEdge (int                    iKey,
+                                         const DL_HatchEdgeData oDlHatchEdge,
+                                         dREC04RECNUMTYP       *poEntRecNo,
+                                         dREC04RECNUMTYP       *poMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  int iStat = 0;
+
+  // sstDxf03TypVertexCls oDxfVertex;
+  sstDxf03TypHatchEdgeCls oDxfHatchEdge;
+  oDxfHatchEdge.ReadFromDL(oDlHatchEdge);
+
+  if (*poEntRecNo > 0)
+  {
+    // rewrite Existing vertex
+    iStat = this->oSstFncHatchEdge.Writ( 0, &oDxfHatchEdge, *poEntRecNo);
+    return iStat;
+  }
+
+  //--- Write new vertex
+  iStat = this->WriteNewHatchEdge( 0, oDlHatchEdge, poEntRecNo, poMainRecNo);
+
+  assert(iStat == 0);
+  return iStat;
+}
+//==============================================================================
 int sstDxf03DatabaseCls::WriteNewVertex (int                  iKey,
                                          const DL_VertexData  oDlVertex,
                                          dREC04RECNUMTYP     *poEntRecNo,

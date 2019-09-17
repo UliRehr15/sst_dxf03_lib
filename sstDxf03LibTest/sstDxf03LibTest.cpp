@@ -80,8 +80,17 @@ int main()
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDb( &oPrt);
 
-    // Write Hatch Object
-    Test_WriteHatch(0,&oDxfDb,100,100);
+    // Write Hatch Object Triangel
+    Test_WriteHatch( 0, &oDxfDb, 100, 100);
+
+    // Write Hatch Object 4-Corner-Box
+    Test_WriteHatch( 1, &oDxfDb, 102, 100);
+
+    // Write Hatch Object Circle
+    Test_WriteHatch( 2, &oDxfDb, 104, 100);
+
+    // Write Hatch Object Arc
+    Test_WriteHatch( 3, &oDxfDb, 106, 100);
 
     // Write dxf database to dxf file
     oDxfDb.WritAll2DxfFil(0,"TestHatch.dxf");
@@ -91,11 +100,17 @@ int main()
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDb( &oPrt);
 
-    // Write Polyline Object
+    // Write Line Object
     Test_WriteLine(0,&oDxfDb,102,100);
 
     // Write Polyline Object
     Test_WritePolyline(0,&oDxfDb,100,100);
+
+    // Write Line Object
+    Test_WriteLine(0,&oDxfDb,104,100);
+
+    // Write Polyline Object
+    Test_WritePolyline(0,&oDxfDb,98,100);
 
     // Write dxf database to dxf file
     oDxfDb.WritAll2DxfFil(0,"TestPolyline.dxf");
@@ -143,7 +158,7 @@ int main()
 
     // Return mbr of Circle entities.
     sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
-    assert(oMbr.getXA() == 102.0);
+    assert(oMbr.getXA() == 102.5);
 
     // Write dxf database to dxf file
     oDxfDb.WritAll2DxfFil(0,"TestArc.dxf");
@@ -173,15 +188,20 @@ int main()
     Test_WriteBlock(0,&oDxfDb);  // Cross-Symbol
     Test_WriteBlock(1,&oDxfDb);  // Circle Symbol
     Test_WriteBlock(2,&oDxfDb);  // Filled triangle solid hatch
+    Test_WriteBlock(3,&oDxfDb);  // Polyline Symbol
 
     // Write 3 Insert Objects with symbol
     Test_WriteInsert(0,&oDxfDb,100,100);  // Cross-Symbol
     Test_WriteInsert(1,&oDxfDb,102,102);  // Circle Symbol
     Test_WriteInsert(2,&oDxfDb,104,104);  // Filled triangle solid hatch
+    Test_WriteInsert(3,&oDxfDb,106,106);  // Polyline Symbol
 
     // Return mbr of Circle entities.
     sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
     // assert(oMbr.getXA() == 104.5);
+
+    // Write dxf database to dxf file
+    oDxfDb.WritAll2Csv(0,"TestInsert.dxf");
 
     // Write dxf database to dxf file
     oDxfDb.WritAll2DxfFil(0,"TestInsert.dxf");
@@ -303,7 +323,7 @@ int main()
     iStat = sstMisc01FileCompare( 1,"Test_Utm.dxf","Test_Utm2.dxf",&ulRowNo);
     if (iStat != 0)
     {
-        assert(ulRowNo == 963);  // Problem with handle 340 in DIMSTYLE
+        assert(ulRowNo == 858);  // Problem with handle 340 in DIMSTYLE
     }
 
     oPrt.SST_PrtWrt(1,(char*)"Compare Test_Utm.dxf / Test_Utm2.dxf OK");
@@ -902,15 +922,16 @@ int Test_WriteHatch (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const do
   int iRet = 0;
   int iStat = 0;
 //-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
+  if ( iKey < 0 || iKey > 3) return -1;
 
   oAttributes.setLayer("0");
   oAttributes.setLinetype("CONTINUOUS");
 
-  //=== Insert filled triangel area
-  {
-    oAttributes.setColor(2);
+  oAttributes.setColor(2);
 
+  switch (iKey) {
+  case 0:  // Triangel Area
+  {
     DL_HatchData oDLHatch(1,1,1,0,"SOLID");
 
     // open new dxflib hatch object in sstDxfDb
@@ -931,6 +952,95 @@ int Test_WriteHatch (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const do
     oDLHatchEdge.x1 = dXX + dDist; oDLHatchEdge.y1 = dYY;
     oDLHatchEdge.x2 = dXX;         oDLHatchEdge.y2 = dYY;
     iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+    break;
+  }
+  case 1:  // 4-Corner-Box Area
+  {
+    DL_HatchData oDLHatch(1,1,1,0,"SOLID");
+
+    // open new dxflib hatch object in sstDxfDb
+    iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+
+    DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = dXX;         oDLHatchEdge.y1 = dYY;
+    oDLHatchEdge.x2 = dXX;         oDLHatchEdge.y2 = dYY + dDist;
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = dXX;         oDLHatchEdge.y1 = dYY + dDist;
+    oDLHatchEdge.x2 = dXX + dDist; oDLHatchEdge.y2 = dYY + dDist;
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = dXX + dDist; oDLHatchEdge.y1 = dYY + dDist;
+    oDLHatchEdge.x2 = dXX + dDist;         oDLHatchEdge.y2 = dYY;
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = dXX + dDist; oDLHatchEdge.y1 = dYY;
+    oDLHatchEdge.x2 = dXX;         oDLHatchEdge.y2 = dYY;
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+    break;
+  }
+  case 2:  // Circle Area
+  {
+    DL_HatchData oDLHatch(1,1,1,0,"SOLID");
+    double dRad = 0.5;
+    double dAng1 = 0.0;
+    double dAng2 = 2*M_PI;
+    DL_HatchEdgeData oDLHatchEdge( dXX+0.5, dYY+0.5, dRad, dAng1, dAng2, 1);  // Circle
+
+    // open new dxflib hatch object in sstDxfDb
+    iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    break;
+  }
+  case 3:  // Arc Area
+  {
+    // open new dxflib hatch object in sstDxfDb
+    DL_HatchData oDLHatch(1,1,1,0,"SOLID");
+    iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+    double dAng1 = 0.0;  // 0.0 shows to east, M_PI shows to west, rotates counterclockwise
+    double dAng2 = M_PI / 2.0;
+    double dRad = 0.5;
+
+    { // First line from Arc Center to Border
+      DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
+      sstMath01dPnt2Cls dPnt1;
+      sstMath01dPnt2Cls dPnt2;
+      dPnt1.Set(dXX,dYY);
+      dPnt1.Polar_Rel(0,dAng1,dRad,&dPnt2);
+      // write new dxflib hatch edge into sstDxfDb hatch object
+      oDLHatchEdge.x1 = dXX;          oDLHatchEdge.y1 = dYY;
+      oDLHatchEdge.x2 = dPnt2.getX(); oDLHatchEdge.y2 = dPnt2.getY();
+      iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    }
+    {  // Arc Border
+      DL_HatchEdgeData oDLHatchEdge( dXX, dYY, dRad, dAng1, dAng2, 1);  // Circle
+      // write new dxflib hatch edge into sstDxfDb hatch object
+      iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+    }
+    {  // Second line from Arc Border to Arc Center
+      DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
+      sstMath01dPnt2Cls dPnt1;
+      sstMath01dPnt2Cls dPnt2;
+      dPnt1.Set(dXX,dYY);
+      dPnt1.Polar_Rel(0,dAng2,dRad,&dPnt2);
+      // write new dxflib hatch edge into sstDxfDb hatch object
+      oDLHatchEdge.x1 = dPnt2.getX(); oDLHatchEdge.y1 = dPnt2.getY();
+      oDLHatchEdge.x2 = dXX;          oDLHatchEdge.y2 = dYY;
+      iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    }
+    break;
+  }
+  default:
+    break;
   }
 
   // Fatal Errors goes to an assert
@@ -1179,7 +1289,7 @@ int Test_WriteInsert (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const d
 
     DL_InsertData oDlInsert("Sym1", dXX, dYY, 0, 1, 1, 1, 0, 1, 1, 0, 0);
 
-    // Write new DL Circle object to sst dxf database
+    // Write new DL Insert object to sst dxf database
     oEntRecNo = 0;
     iStat = oDxfDB->WriteInsert( 0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
     assert(iStat >= 0);
@@ -1196,7 +1306,7 @@ int Test_WriteInsert (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const d
 
     DL_InsertData oDlInsert("Sym2", dXX, dYY, 0, 1, 1, 1, 0, 1, 1, 0, 0);
 
-    // Write new DL Circle object to sst dxf database
+    // Write new DL Insert object to sst dxf database
     oEntRecNo = 0;
     iStat = oDxfDB->WriteInsert( 0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
     assert(iStat >= 0);
@@ -1213,7 +1323,24 @@ int Test_WriteInsert (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const d
 
     DL_InsertData oDlInsert("Sym3", dXX, dYY, 0, 1, 1, 1, 0, 1, 1, 0, 0);
 
-    // Write new DL Circle object to sst dxf database
+    // Write new DL Insert object to sst dxf database
+    oEntRecNo = 0;
+    iStat = oDxfDB->WriteInsert( 0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
+    assert(iStat >= 0);
+    }
+    break;
+  case 3:
+    {
+
+    //=== Insert Entity Insert
+    oAttributes.setLayer("0");
+    oAttributes.setLinetype("CONTINUOUS");
+
+    oAttributes.setColor(2);
+
+    DL_InsertData oDlInsert("Sym4", dXX, dYY, 0, 1, 1, 1, 0, 1, 1, 0, 0);
+
+    // Write new DL Insert object to sst dxf database
     oEntRecNo = 0;
     iStat = oDxfDB->WriteInsert( 0, oDlInsert, oAttributes, &oEntRecNo, &oMainRecNo);
     assert(iStat >= 0);
@@ -1332,11 +1459,46 @@ int Test_WriteBlock (int iKey, sstDxf03DbCls *oDxfDB)
 
     }
     break;
+  case 3:  // Write Polyline as Block 3 /  Sym 3
+    {
+    // Create first symbol block
+    DL_BlockData oBlock("Sym4",0,0.0,0.0,0.0);
+    // DL_Attributes oAttributes;
+    iStat = oDxfDB->openBlock(0,oBlock,oAttributes);
+    if (iStat < 0) return -2;  // Error opening block
+
+    oAttributes.setLayer("0");
+    oAttributes.setLinetype("CONTINUOUS");
+
+    oAttributes.setColor(2);
+
+    DL_PolylineData oDlPolyline(0,0,0,0);
+    DL_VertexData oDlVertex(0.0,0.0,0.0,0.0);
+
+    // open new dxflib Polyline object in sstDxfDb
+    iStat = oDxfDB->OpenNewPolyline( 0, oDlPolyline, oAttributes, &oEntRecNo, &oMainRecNo);
+
+    oDlVertex.x = -0.5; oDlVertex.y = 0.0; oDlVertex.z = 0.0;
+    iStat = oDxfDB->WriteNewVertex ( 0, oDlVertex, &oEntRecNo, &oMainRecNo);
+
+    oDlVertex.x = -0.5; oDlVertex.y = -1.0; oDlVertex.z = 0.0;
+    iStat = oDxfDB->WriteNewVertex ( 0, oDlVertex, &oEntRecNo, &oMainRecNo);
+
+    oDlVertex.x = 0.5; oDlVertex.y = -1.0; oDlVertex.z = 0.0;
+    iStat = oDxfDB->WriteNewVertex ( 0, oDlVertex, &oEntRecNo, &oMainRecNo);
+
+    oDlVertex.x = 0.5; oDlVertex.y = 0.0; oDlVertex.z = 0.0;
+    iStat = oDxfDB->WriteNewVertex ( 0, oDlVertex, &oEntRecNo, &oMainRecNo);
+
+
+    oDxfDB->closeBlock(0);
+
+    }
+    break;
   default:
     return -1;
     break;
   }
-
 
   return iStat;
 }

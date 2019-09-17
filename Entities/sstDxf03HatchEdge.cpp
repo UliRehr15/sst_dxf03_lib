@@ -493,6 +493,22 @@ void sstDxf03TypHatchEdgeCls::setEndTangentY(double value)
 endTangentY = value;
 }
 //=============================================================================
+sstMath01Mbr2Cls sstDxf03TypHatchEdgeCls::getMbr() const
+{
+  sstMath01Mbr2Cls oTmpMbr;
+  if (this->getType() == 2)
+  {
+    oTmpMbr.Koor2(0,this->getCx()+this->getRadius(),this->getCx()+this->getRadius());
+    oTmpMbr.Koor2(0,this->getCx()-this->getRadius(),this->getCx()-this->getRadius());
+  }
+  else
+  {
+    oTmpMbr.Koor2(0,this->getX1(),this->getY1());
+    oTmpMbr.Koor2(0,this->getX2(),this->getY2());
+  }
+  return oTmpMbr;
+}
+//=============================================================================
 // Constructor
 sstDxf03FncHatchEdgeCls::sstDxf03FncHatchEdgeCls():sstDxf03FncBaseCls(sizeof(sstDxf03TypHatchEdgeCls))
 {

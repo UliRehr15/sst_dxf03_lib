@@ -101,4 +101,5 @@ Structure of coding projects should be:
 24.05.19: Version 3.35: Testframe for Entity Insert and Block. Fix problem in writing HatchEdge. <BR>
 05.07.19: Version 3.36: New Function WriteVertex to DB. <BR>
                         fix problem in function ReadPolyline from Dxf. <BR>
+17.09.19: Version 3.37: Fix problems with mbr of hatch. New function writeHatchEdge. <BR>
 

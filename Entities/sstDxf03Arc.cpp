@@ -66,7 +66,9 @@ sstDxf03TypArcCls::sstDxf03TypArcCls()
 sstMath01Mbr2Cls sstDxf03TypArcCls::getMbr() const
 {
   sstMath01Mbr2Cls oTmpMbr;
-  oTmpMbr.Koor2(0,this->getCx(),this->getCy());
+  // oTmpMbr.Koor2(0,this->getCx(),this->getCy());
+  oTmpMbr.Koor2(0,this->getCx()+this->getRadius(),this->getCx()+this->getRadius());
+  oTmpMbr.Koor2(0,this->getCx()-this->getRadius(),this->getCx()-this->getRadius());
   return oTmpMbr;
 }
 //=============================================================================

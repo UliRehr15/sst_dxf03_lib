@@ -138,6 +138,17 @@ int sstDxf03DbCls::WriteNewHatchEdge (int                    iKey,
   return this->poDxf03DbIntern->WriteNewHatchEdge(iKey,oDLHatchEdge,oEntRecNo, oMainRecNo);
 }
 //==============================================================================
+int sstDxf03DbCls::WriteHatchEdge (int                    iKey,
+                                   const DL_HatchEdgeData oDLHatchEdge,
+                                   dREC04RECNUMTYP       *oEntRecNo,
+                                   dREC04RECNUMTYP       *oMainRecNo)
+//-----------------------------------------------------------------------------
+{
+  if ( iKey != 0) return -1;
+
+  return this->poDxf03DbIntern->WriteHatchEdge(iKey,oDLHatchEdge,oEntRecNo, oMainRecNo);
+}
+//==============================================================================
 int sstDxf03DbCls::WriteNewVertex (int                   iKey,
                                    const DL_VertexData   oDlVertex,
                                    dREC04RECNUMTYP      *oEntRecNo,

@@ -410,6 +410,8 @@ void sstDxf03ReadCls::addArc(const DL_ArcData& data)
   {  // Block
     dNumBlocks = poBlkFnc->count();
     oDxfArc.setBlockID(dNumBlocks);
+    // Set Minimum Bounding Rectangle in Block Table
+    poBlkFnc->updateMbrBlock( 0, dNumBlocks, oDxfArc.getMbr());
   }
   else
   {  // Layer
@@ -418,6 +420,8 @@ void sstDxf03ReadCls::addArc(const DL_ArcData& data)
     iStat = poLayFnc->TreSeaEQ( 0, poLayFnc->getNameSortKey(), (void*) oLayerStr.c_str(), &dLayRecNo);
     assert(iStat == 1);
     oDxfArc.setLayerID(dLayRecNo);
+    // Set Minimum Bounding Rectangle in Block Table -model_space-
+    poBlkFnc->updateMbrModel(0,oDxfArc.getMbr());
   }
   iStat = poArcFnc->WritNew(0,&oDxfArc,&dRecNo);
 
@@ -942,6 +946,10 @@ void sstDxf03ReadCls::addHatchEdge(const DL_HatchEdgeData& data)
 
   sstDxf03FncHatchEdgeCls *poHatchEdgeFnc;
   poHatchEdgeFnc = this->poDxfDb->getSstFncHatchEdge();
+
+  sstDxf03FncBlkCls *poBlkFnc;
+  poBlkFnc = this->poDxfDb->getSstFncBlk();
+
   sstDxf03FncMainCls *poMainFnc;
   poMainFnc = this->poDxfDb->getSstFncMain();
 
@@ -963,11 +971,18 @@ void sstDxf03ReadCls::addHatchEdge(const DL_HatchEdgeData& data)
   // is it layer or block??
   if (this->oActBlockNam.length() > 0)
   {  // Block
+    dNumBlocks = poBlkFnc->count();
     oMainRec.setLayBlockID(dNumBlocks);
     oMainRec.setSectString("B");
+    // Set Minimum Bounding Rectangle in Block Table
+    poBlkFnc->updateMbrBlock( 0, dNumBlocks, oDxfHatchEdge.getMbr());
+
   }
   else
   {  // Layer
+    // Set Minimum Bounding Rectangle in Block Table
+    poBlkFnc->updateMbrModel( 0, oDxfHatchEdge.getMbr());
+
     oMainRec.setLayBlockID(dLayRecNo);
     oMainRec.setSectString("L");
   }
