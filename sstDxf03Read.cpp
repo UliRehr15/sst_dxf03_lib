@@ -904,12 +904,14 @@ void sstDxf03ReadCls::addHatch(const DL_HatchData& data)
   assert(iStat == 1);
   oDxfHatch.setLinetypeID(dLTypeRecNo);
 
+  dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
+  oDxfHatch.setMainRecNo(dMainRecNo+1);
   iStat = poHatchFnc->WritNew(0,&oDxfHatch,&dEntRecNo);
   assert(iStat == 0);
 
   sstDxf03TypMainCls oMainRec;
 
-  dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
+  // dREC04RECNUMTYP dMainRecNo = poMainFnc->count();
 
   oMainRec.setMainID(dMainRecNo+1);
   oMainRec.setEntityType(RS2::EntityHatch);
@@ -1005,6 +1007,8 @@ void sstDxf03ReadCls::addHatchLoop(const DL_HatchLoopData& data)
   poHatchLoopFnc = this->poDxfDb->getSstFncHatchLoop();
   sstDxf03FncMainCls *poMainFnc;
   poMainFnc = this->poDxfDb->getSstFncMain();
+  sstDxf03FncBlkCls *poBlkFnc;
+  poBlkFnc = this->poDxfDb->getSstFncBlk();
 
   dREC04RECNUMTYP dNumBlocks = 0;
 
@@ -1022,6 +1026,7 @@ void sstDxf03ReadCls::addHatchLoop(const DL_HatchLoopData& data)
   // is it layer or block??
   if (this->oActBlockNam.length() > 0)
   {  // Block
+    dNumBlocks = poBlkFnc->count();
     oMainRec.setLayBlockID(dNumBlocks);
     oMainRec.setSectString("B");
   }

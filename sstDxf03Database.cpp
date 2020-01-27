@@ -1264,13 +1264,15 @@ int sstDxf03DatabaseCls::WriteHatchEdge (int                    iKey,
 
   int iStat = 0;
 
-  // sstDxf03TypVertexCls oDxfVertex;
-  sstDxf03TypHatchEdgeCls oDxfHatchEdge;
-  oDxfHatchEdge.ReadFromDL(oDlHatchEdge);
-
   if (*poEntRecNo > 0)
   {
-    // rewrite Existing vertex
+    sstDxf03TypHatchEdgeCls oDxfHatchEdge;
+
+    // rewrite Existing hatch edge
+    iStat = this->oSstFncHatchEdge.Read( 0, *poEntRecNo, &oDxfHatchEdge);
+
+    oDxfHatchEdge.ReadFromDL(oDlHatchEdge);
+
     iStat = this->oSstFncHatchEdge.Writ( 0, &oDxfHatchEdge, *poEntRecNo);
     return iStat;
   }
@@ -2072,6 +2074,8 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::countEntities(int iKey, dREC04RECNUMTYP dBl
 
   sstDxf03FncBlkCls *oBlkTab =  this->getSstFncBlk();
   sstDxf03TypBlkCls oBlkRec;
+  sstDxf03FncMainCls *oMainTab =  this->getSstFncMain();
+  sstDxf03TypMainCls oMainRec;
 
   dREC04RECNUMTYP dNumBlks = oBlkTab->count();
   if (dBlkNo < 1 || dBlkNo > dNumBlks) return 0;
@@ -2081,8 +2085,14 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::countEntities(int iKey, dREC04RECNUMTYP dBl
   dREC04RECNUMTYP dBlk_2 = 0;
   iStat = oBlkTab->Read( 0, dBlkNo, &oBlkRec);
   assert(iStat >= 0);
-  dBlk_1 = oBlkRec.getRecordID();
+  dBlk_1 = oBlkRec.getRecordID();  // Get start main Record number of block
   if (dBlk_1 <= 0) return 0;
+
+  for (dREC04RECNUMTYP ll = dBlk_1+1;  oMainTab->count(); ll++)
+  {
+    oMainTab->Read( 0, ll, &oMainRec);
+    if (oMainRec.getLayBlockID() != dBlkNo) return ll - dBlk_1;
+  }
 
   if (dBlkNo < dNumBlks)
   {
@@ -2418,11 +2428,11 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::getMainTabRecNo(int iKey, RS2::EntityType e
     case RS2::EntityDimLeader: oLocString = "DimLeader"; break;
     case RS2::EntityHatch:
   {
-    sstDxf03FncLineCls *poLineTab = this->getSstFncLine();
-    sstDxf03TypLineCls oLineRec;
-    int iStat = poLineTab->Read( 0, dEntRecNo, &oLineRec);
+    sstDxf03FncHatchCls *poHatchTab = this->getSstFncHatch();
+    sstDxf03TypHatchCls oHatchRec;
+    int iStat = poHatchTab->Read( 0, dEntRecNo, &oHatchRec);
     assert(iStat >= 0);
-    dMainRecNo = oLineRec.getMainRecNo();
+    dMainRecNo = oHatchRec.getMainRecNo();
     break;
   }
     case RS2::EntityHatchEdge: oLocString = "HatchEdge"; break;
@@ -2599,6 +2609,41 @@ dREC04RECNUMTYP sstDxf03DatabaseCls::searchBlkNoWithName(int iKey, const std::st
   // Find record with exact search value
   iStat = poTabBlk->TreSeaEQ( 0, poTabBlk->getNameSortKey(), (void*) oLocSearchStr.c_str(), &dBlkNo);
   return dBlkNo;
+}
+//==============================================================================
+int sstDxf03DatabaseCls::HatchGetFirstEdgePnt(const dREC04RECNUMTYP dEntRecNo, sstMath01dPnt2Cls *poPnt)
+{
+  // sstMath01dPnt2Cls oPnt;
+  sstDxf03TypHatchCls oHatch;
+  int iStat = 0;
+
+  iStat = this->oSstFncHatch.Read(0,dEntRecNo,&oHatch);
+  if (iStat < 0) return -1;
+
+  dREC04RECNUMTYP dMainRecNo = oHatch.getMainRecNo();
+
+  sstDxf03TypMainCls oMainRec;
+  iStat = this->oSstFncMain.Read(0,dMainRecNo+2,&oMainRec);
+  if (oMainRec.getEntityType() != RS2::EntityHatchEdge) assert(0);
+
+  sstDxf03TypHatchEdgeCls oHatchEdge;
+  iStat = this->oSstFncHatchEdge.Read(0,oMainRec.getTypeID(),&oHatchEdge);
+  switch (oHatchEdge.getType()) {
+  case 0:
+    poPnt->Set(oHatchEdge.getX1(),oHatchEdge.getY1());  // Line Point
+    break;
+  case 1:
+    poPnt->Set(oHatchEdge.getX1(),oHatchEdge.getY1());  // Line Point
+    break;
+  case 2:
+    poPnt->Set(oHatchEdge.getCx(),oHatchEdge.getCy());  // Circle/Arc point
+    break;
+  default:
+    assert(0);
+    break;
+  }
+
+  return 0;
 }
 //==============================================================================
 RS2::EntityType sstDxf03DatabaseCls::getGrpEntType() const

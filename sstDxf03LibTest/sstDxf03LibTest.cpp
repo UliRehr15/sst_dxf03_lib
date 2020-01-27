@@ -94,6 +94,9 @@ int main()
 
     // Write dxf database to dxf file
     oDxfDb.WritAll2DxfFil(0,"TestHatch.dxf");
+
+    // Write dxf database to csv files
+    // oDxfDb.WritAll2Csv( 0, "TestHatch.dxf");
   }
   //=============================================================================
   {
@@ -185,13 +188,13 @@ int main()
     // Open new sstDxf Database
     sstDxf03DbCls oDxfDb( &oPrt);
 
-    Test_WriteBlock(0,&oDxfDb);  // Cross-Symbol
+    Test_WriteBlock(0,&oDxfDb);  // LINE Cross-Symbol
     Test_WriteBlock(1,&oDxfDb);  // Circle Symbol
     Test_WriteBlock(2,&oDxfDb);  // Filled triangle solid hatch
     Test_WriteBlock(3,&oDxfDb);  // Polyline Symbol
 
     // Write 3 Insert Objects with symbol
-    Test_WriteInsert(0,&oDxfDb,100,100);  // Cross-Symbol
+    Test_WriteInsert(0,&oDxfDb,100,100);  // LINE Cross-Symbol
     Test_WriteInsert(1,&oDxfDb,102,102);  // Circle Symbol
     Test_WriteInsert(2,&oDxfDb,104,104);  // Filled triangle solid hatch
     Test_WriteInsert(3,&oDxfDb,106,106);  // Polyline Symbol
@@ -1367,7 +1370,7 @@ int Test_WriteBlock (int iKey, sstDxf03DbCls *oDxfDB)
   switch (iKey) {
   case 0:
     {
-    // Create first symbol block
+    // Create first symbol block with LINE Entities
     DL_BlockData oBlock("Sym1",0,0.0,0.0,0.0);
     // DL_Attributes oAttributes;
     iStat = oDxfDB->openBlock(0,oBlock,oAttributes);
@@ -1419,7 +1422,7 @@ int Test_WriteBlock (int iKey, sstDxf03DbCls *oDxfDB)
     break;
   case 2:
     {
-    // Create first symbol block
+    // Create HATCH symbol block
     DL_BlockData oBlock("Sym3",0,0.0,0.0,0.0);
     // DL_Attributes oAttributes;
     iStat = oDxfDB->openBlock(0,oBlock,oAttributes);

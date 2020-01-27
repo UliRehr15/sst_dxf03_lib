@@ -102,4 +102,5 @@ Structure of coding projects should be:
 05.07.19: Version 3.36: New Function WriteVertex to DB. <BR>
                         fix problem in function ReadPolyline from Dxf. <BR>
 17.09.19: Version 3.37: Fix problems with mbr of hatch. New function writeHatchEdge. <BR>
+27.01.20: Version 3.38: More corrections in handling hatches in modelspace and blocks. <BR>
 

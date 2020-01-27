@@ -7261,6 +7261,17 @@ class sstDxf03DatabaseCls
      dREC04RECNUMTYP searchBlkNoWithName(int iKey, const std::string oBlkNamStr);
      //==============================================================================
      /**
+     * @brief // return point coordinates of first edge of hatch
+     *
+     * @param dEntRecNo  [in] Record No in Hatch Table
+     * @param poPnt      [out] Block name string
+     *
+     * @return Status
+     */
+     // ----------------------------------------------------------------------------
+     int HatchGetFirstEdgePnt(const dREC04RECNUMTYP dEntRecNo, sstMath01dPnt2Cls *poPnt);
+     //==============================================================================
+     /**
      * @brief // return Group Entity Type <BR>
      *
      * @return return Group Entity Type

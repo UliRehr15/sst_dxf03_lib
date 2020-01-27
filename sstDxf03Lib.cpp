@@ -406,3 +406,8 @@ dREC04RECNUMTYP sstDxf03DbCls::searchBlkNoWithName(int iKey, const std::string o
   return this->poDxf03DbIntern->searchBlkNoWithName( iKey, oBlkNamStr);
 }
 //==============================================================================
+int sstDxf03DbCls::HatchGetFirstEdgePnt(const dREC04RECNUMTYP dEntRecNo, sstMath01dPnt2Cls *poPnt)
+{
+  return this->poDxf03DbIntern->HatchGetFirstEdgePnt( dEntRecNo, poPnt);
+}
+//==============================================================================
