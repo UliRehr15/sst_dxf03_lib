@@ -453,6 +453,23 @@ class sstDxf03DbCls
   int ColumnCount(RS2::EntityType eEntityType);
   //==============================================================================
   /**
+  * @brief // Read arc from table with attributes <BR>
+  * iStat = oDxfDb.ReadArc( iKey, &oDLArc, &oDLAttributes);
+  *
+  * @param iKey [in] For the moment 0
+  * @param dRecNo [int] Record number in table
+  * @param oDLArc [out] Return Arc
+  * @param oDLAttributes [out] Return Arc attributes
+  *
+  * @return Errorstate
+  *
+  * @retval   = 0: OK
+  * @retval   < 0: Unspecified Error
+  */
+  // ----------------------------------------------------------------------------
+  int ReadArc ( int iKey, dREC04RECNUMTYP dRecNo, DL_ArcData *oDLArc, DL_Attributes *oDLAttributes);
+  //==============================================================================
+  /**
   * @brief // Read hatch from table with attributes <BR>
   * iStat = oDxfDb.ReadHatch( iKey, &oDLHatch, &oDLAttributes);
   *

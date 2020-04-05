@@ -6750,16 +6750,18 @@ class sstDxf03DatabaseCls
      sstMisc01PrtFilCls* GetPrtAdr();
      //==============================================================================
      /**
-     * @brief // Shortstory <BR>
-     * iStat = oTestBase.Func_1(iKey);
+     * @brief // ReadAllFromDxf <BR>
+     * iStat = oDxfDb.ReadAllFromDxf( iKey, oDxfFilNam);
      *
      * @param iKey [in] For the moment 0
-     * @param oDxfFilNam [in] For the moment 0
+     * @param oDxfFilNam [in] Name of Dxf File to open and reading
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =  0: OK
+     * @retval   = -1: Wrong Key
+     * @retval   = -2: Cound not open dxf file
+     * @retval   <  0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadAllFromDxf(int iKey, const std::string oDxfFilNam);
@@ -6797,6 +6799,23 @@ class sstDxf03DatabaseCls
      */
      // -----------------------------------------------------------------------------
      int ColumnCount(RS2::EntityType eEntityType);
+     //==============================================================================
+     /**
+     * @brief // Read arc from table with attributes <BR>
+     * iStat = oDxfDb.ReadArc( iKey, &oDLArc, &oDLAttributes);
+     *
+     * @param iKey [in] For the moment 0
+     * @param dRecNo [int] Record number in table
+     * @param oDLArc [out] Return Arc
+     * @param oDLAttributes [out] Return Arc attributes
+     *
+     * @return Errorstate
+     *
+     * @retval   = 0: OK
+     * @retval   < 0: Unspecified Error
+     */
+     // ----------------------------------------------------------------------------
+     int ReadArc ( int iKey, dREC04RECNUMTYP dRecNo, DL_ArcData *oDLCircle, DL_Attributes *oDLAttributes);
      //==============================================================================
      /**
      * @brief // Read hatch from table with attributes <BR>

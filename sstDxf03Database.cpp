@@ -87,6 +87,7 @@ sstDxf03DatabaseCls::sstDxf03DatabaseCls(sstMisc01PrtFilCls *oTmpPrt)
   DL_Attributes oDL_Attr;
 
   oDL_Attr.setLinetype("CONTINUOUS");
+  oDL_Attr.setColor(1);  // 1=black
 
   oLayRec.ReadFromDL(oDL_Lay);
   oLayRec.BaseReadFromDL(oDL_Attr);
@@ -1599,7 +1600,11 @@ int sstDxf03DatabaseCls::ReadAllFromDxf(int iKey, const std::string oDxfFilNam)
   if (!dxf->in(oDxfFilNam, creationClass))
   { // if file open failed
     this->oPrt->SST_PrtWrtChar(1,(char*) oDxfFilNam.c_str(),(char*)"Error: Could not open: ");
-    iStat = -2;
+
+    delete dxf;
+    delete creationClass;
+
+    return -2;
   }
 
   // Write Import Statistics to protocol
@@ -1762,6 +1767,24 @@ int sstDxf03DatabaseCls::ColumnCount(RS2::EntityType eEntityType)
     break;
   }
   return dTmpCount;
+}
+//=============================================================================
+int sstDxf03DatabaseCls::ReadArc ( int iKey, dREC04RECNUMTYP dRecNo, DL_ArcData *oDLArc, DL_Attributes *oDLAttributes)
+{
+  int iStat = 0;
+  //-----------------------------------------------------------------------------
+  if ( iKey != 0) return -1;
+
+  sstDxf03TypArcCls oArc;
+
+  iStat = this->oSstFncArc.Read(0,dRecNo,&oArc);
+  oArc.BaseWritToDL(oDLAttributes);
+
+  // Update DL Attributes with Layer/LType Identifier
+  iStat = this->UpdateAttribWithId( 0, oArc.getLayerID(), oArc.getLinetypeID(), oDLAttributes);
+
+  oArc.WritToDL(oDLArc);
+  return iStat;
 }
 //=============================================================================
 int sstDxf03DatabaseCls::ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchData *oDLHatch, DL_Attributes *oDLAttributes)

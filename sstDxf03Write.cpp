@@ -234,9 +234,12 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
   sstDxf03TypLTypeCls oLTypeRec;
   oLocSstFncLType = this->poDxfDb->getSstFncLType();
 
+  // Reset Group Codes
+  this->poDxfDb->setGrpEntType(RS2::EntityUnknown);
+
   // start Section Blocks
   this->dw->sectionBlocks();
-
+  dREC04RECNUMTYP dNumGrpMem = 0;
   // loop over all defined blocks
   dREC04RECNUMTYP dNumBlocks = oLocSstFncBlk->count();
 
@@ -412,6 +415,10 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
         break;
         case RS2::EntityPolyline:
         {
+
+          // if new entity-type, then write open polyline or hatch and close
+          iStat = this->WriteOpenEntities(0);
+
           sstDxf03TypPolylineCls oPolylineRec;
           sstDxf03FncPolylineCls *oLocSstFncPolyline = NULL;
           oLocSstFncPolyline = this->poDxfDb->getSstFncPolyline();
@@ -487,6 +494,10 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
         break;
         case RS2::EntityHatch:
         {
+
+          // if new entity-type, then write open polyline or hatch and close
+          iStat = this->WriteOpenEntities(0);
+
           sstDxf03FncHatchCls *oLocSstFncHatch = NULL;
           oLocSstFncHatch = this->poDxfDb->getSstFncHatch();
 
@@ -514,6 +525,14 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           // write next Hatch into dxf file
           this->dxf->writeHatch1( *this->dw,
                                     oDL_Hatch, oDL_Attributes);
+
+          this->poDxfDb->setActEntType(oMainRec.getEntityType());
+          // this->poDxfDb->setGrpMainID( ll);
+          this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
+          this->poDxfDb->setGrpEntType(RS2::EntityHatch);
+          this->poDxfDb->setGrpRecNum(0);
+          dNumGrpMem = 0;
+
         }
         break;
         case RS2::EntityHatchLoop:
@@ -533,6 +552,7 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           // write next Hatch loop into dxf file
           this->dxf->writeHatchLoop1( *this->dw,
                                     oDL_HatchLoop);
+          dNumGrpMem = 0;
         }
         break;
         case RS2::EntityHatchEdge:
@@ -552,23 +572,23 @@ int sstDxf03WriteCls::WrtSecBlocks (int         iKey)
           // write next Hatch edge into dxf file
           this->dxf->writeHatchEdge( *this->dw,
                                     oDL_HatchEdge);
+
+          dNumGrpMem++;
+          this->poDxfDb->setGrpRecNum(dNumGrpMem);
         }
         break;
         default:
           break;
-        }
-
-      }
-      // else break;
-
-    }
+        } // end switch
+      }  // end  if(iStat == 0 && ii == oMainRec.getLayBlockID())
+    }  // end loop maintable
 
     // if new entity-type, then write open polyline or hatch and close
     iStat = this->WriteOpenEntities(0);
 
     // end loop over all records in main table
     dxf->writeEndBlock(*dw, oBlkRec.getName());
-  }
+  }  // end loop blocks
 
 
   // if new entity-type, then write open polyline or hatch and close
@@ -1132,7 +1152,6 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
                                 oDL_Hatch, oDL_Attributes);
 
       this->poDxfDb->setActEntType(oMainRec.getEntityType());
-      // this->poDxfDb->setGrpMainID( oMainRec.getTypeID());
       this->poDxfDb->setGrpMainID( ii);
       this->poDxfDb->setGrpEntType(RS2::EntityHatch);
       this->poDxfDb->setGrpRecNum(0);

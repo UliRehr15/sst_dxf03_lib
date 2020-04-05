@@ -206,6 +206,11 @@ int sstDxf03DbCls::ColumnCount(RS2::EntityType eEntityType)
   return this->poDxf03DbIntern->ColumnCount(eEntityType);
 }
 //=============================================================================
+int sstDxf03DbCls::ReadArc ( int iKey, dREC04RECNUMTYP dRecNo, DL_ArcData *oDLArc, DL_Attributes *oDLAttributes)
+{
+  return this->poDxf03DbIntern->ReadArc(iKey,dRecNo, oDLArc, oDLAttributes);
+}
+//=============================================================================
 int sstDxf03DbCls::ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchData *oDLHatch, DL_Attributes *oDLAttributes)
 {
   return this->poDxf03DbIntern->ReadHatch(iKey,dRecNo, oDLHatch, oDLAttributes);
