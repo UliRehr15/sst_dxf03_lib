@@ -1139,6 +1139,7 @@ int sstDxf03WriteCls::WrtSecEntities (int          iKey)
       DL_Attributes oDL_Attributes;
       oDL_Attributes.setLayer(oLayRec.getName());
       oDL_Attributes.setColor( oHatchRec.getColor());
+      oDL_Attributes.setColor24( oHatchRec.getColor24());
       oDL_Attributes.setWidth( oHatchRec.getWidth());
       oDL_Attributes.setHandle( oHatchRec.getHandle());
       oDL_Attributes.setLinetype( oLTypeRec.getName());

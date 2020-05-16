@@ -6802,11 +6802,11 @@ class sstDxf03DatabaseCls
      //==============================================================================
      /**
      * @brief // Read arc from table with attributes <BR>
-     * iStat = oDxfDb.ReadArc( iKey, &oDLArc, &oDLAttributes);
+     * iStat = oDxfDb.ReadArc( iKey, dRecNo, &oDLArc, &oDLAttributes);
      *
-     * @param iKey [in] For the moment 0
-     * @param dRecNo [int] Record number in table
-     * @param oDLArc [out] Return Arc
+     * @param iKey          [in] For the moment 0
+     * @param dRecNo        [int] Record number in table
+     * @param oDLArc        [out] Return Arc
      * @param oDLAttributes [out] Return Arc attributes
      *
      * @return Errorstate
@@ -6815,7 +6815,7 @@ class sstDxf03DatabaseCls
      * @retval   < 0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
-     int ReadArc ( int iKey, dREC04RECNUMTYP dRecNo, DL_ArcData *oDLCircle, DL_Attributes *oDLAttributes);
+     int ReadArc ( int iKey, dREC04RECNUMTYP dRecNo, DL_ArcData *oDLArc, DL_Attributes *oDLAttributes);
      //==============================================================================
      /**
      * @brief // Read hatch from table with attributes <BR>
