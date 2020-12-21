@@ -30,6 +30,19 @@
 #ifndef   _SST_DXF03_LIB_INT_HEADER
 #define   _SST_DXF03_LIB_INT_HEADER
 
+#include <list>
+
+#include <dl_dxf.h>
+#include <dl_creationadapter.h>
+
+#include <rs_vector.h>
+
+#include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
+#include <sstMisc01Lib.h>
+#include <sstRec04Lib.h>
+#include <sstDxf03Lib.h>
+
 /**
  * @defgroup sstDxf03LibInt sstDxf03LibInt
  * intern library for sst dxf
@@ -377,8 +390,8 @@ class sstDxf03TypArcCls : public sstDxf03TypBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     int SetTestData(int iKey);
     //==============================================================================
@@ -638,8 +651,8 @@ class sstDxf03TypInsertCls : public sstDxf03TypBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     int SetTestData(int iKey);
     //==============================================================================
@@ -825,8 +838,8 @@ class sstDxf03TypHatchCls : public sstDxf03TypBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     int SetTestData(int iKey);
     //==============================================================================
@@ -1053,8 +1066,8 @@ class sstDxf03TypHatchEdgeCls  // : public sstDxf03TypBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     int SetTestData(int iKey);
     //==============================================================================
@@ -1595,8 +1608,8 @@ class sstDxf03TypHatchLoopCls // : public sstDxf03TypBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     int SetTestData(int iKey);
     //==============================================================================
@@ -1717,8 +1730,8 @@ class sstDxf03TypPolylineCls : public sstDxf03TypBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     int SetTestData(int iKey);
     //==============================================================================
@@ -1995,8 +2008,8 @@ class sstDxf03TypVertexCls // : public sstDxf03TypBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     int SetTestData(int iKey);
     //==============================================================================
@@ -2204,8 +2217,8 @@ class sstDxf03TypLayCls : public sstDxf03TypBaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      int SetTestData(int iKey);
      //==============================================================================
@@ -2225,8 +2238,8 @@ class sstDxf03TypLayCls : public sstDxf03TypBaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      void WritToDL(DL_LayerData *poDlLay);
      //==============================================================================
@@ -2377,8 +2390,8 @@ class sstDxf03TypBlkCls : public sstDxf03TypBaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int updateMbr(int iKey, sstMath01Mbr2Cls oMbr);
@@ -2438,8 +2451,8 @@ class sstDxf03FncBaseCls: public sstRec04Cls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_BaseRead1(int iKey, std::string *oErrStr, std::string *oCsvBaseStr, sstDxf03TypBaseCls *oAttributes);
@@ -2456,8 +2469,8 @@ class sstDxf03FncBaseCls: public sstRec04Cls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_BaseWrite1(int iKey, sstDxf03TypBaseCls oAttributes, std::string *ssstDxfLib_Str);
@@ -2473,8 +2486,8 @@ class sstDxf03FncBaseCls: public sstRec04Cls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_BaseHeader1(int iKey, std::string *oCsvStr);
@@ -2492,8 +2505,8 @@ class sstDxf03FncBaseCls: public sstRec04Cls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_BaseRead2(int iKey, std::string *oErrStr, std::string *oCsvBaseStr, sstDxf03TypBaseCls *oAttributes);
@@ -2510,8 +2523,8 @@ class sstDxf03FncBaseCls: public sstRec04Cls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_BaseWrite2(int iKey, sstDxf03TypBaseCls oAttributes, std::string *ssstDxfLib_Str);
@@ -2527,8 +2540,8 @@ class sstDxf03FncBaseCls: public sstRec04Cls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_BaseHeader2(int iKey, std::string *oCsvStr);
@@ -2568,9 +2581,9 @@ class sstDxf03FncLTypeCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 1: New record written
-     * @retval   = 0: name already in table, not written
-     * @retval   < 0: Unspecified Error
+     * @retval   =1: New record written
+     * @retval   =0: name already in table, not written
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteNewUnique(int iKey,sstDxf03TypLTypeCls oLTypeRec, dREC04RECNUMTYP *dLTypeRecNo);
@@ -2586,8 +2599,8 @@ class sstDxf03FncLTypeCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int Csv_Read(int                iKey,
@@ -2605,8 +2618,8 @@ class sstDxf03FncLTypeCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int Csv_Write(int                iKey,
@@ -2622,8 +2635,8 @@ class sstDxf03FncLTypeCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -2646,12 +2659,12 @@ class sstDxf03FncLTypeCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: Open File Error
-     * @retval   = -3: General read error
-     * @retval   = -4: Record format read Error
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: Open File Error
+     * @retval   =-3: General read error
+     * @retval   =-4: Record format read Error
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadCsvFile(int iKey, std::string oFilNam);
@@ -2665,8 +2678,8 @@ class sstDxf03FncLTypeCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
      */
      // ----------------------------------------------------------------------------
      int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -2708,8 +2721,8 @@ class sstDxf03FncArcCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Read(int                iKey,
@@ -2727,8 +2740,8 @@ class sstDxf03FncArcCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Write(int iKey,
@@ -2744,8 +2757,8 @@ class sstDxf03FncArcCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -2759,12 +2772,12 @@ class sstDxf03FncArcCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -2778,8 +2791,8 @@ class sstDxf03FncArcCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -2787,7 +2800,6 @@ class sstDxf03FncArcCls : public sstDxf03FncBaseCls
 
   private:
 };
-//==============================================================================
 //==============================================================================
 /**
 * @brief Definition Class sstDxf03FncArcCls
@@ -2819,8 +2831,8 @@ class sstDxf03FncTraceCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Read(int                iKey,
@@ -2838,8 +2850,8 @@ class sstDxf03FncTraceCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Write(int iKey,
@@ -2855,8 +2867,8 @@ class sstDxf03FncTraceCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -2870,12 +2882,12 @@ class sstDxf03FncTraceCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -2889,8 +2901,8 @@ class sstDxf03FncTraceCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -2929,8 +2941,8 @@ class sstDxf03FncInsertCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Read(int iKey,
@@ -2948,8 +2960,8 @@ class sstDxf03FncInsertCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Write(int iKey,
@@ -2965,8 +2977,8 @@ class sstDxf03FncInsertCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -2980,12 +2992,12 @@ class sstDxf03FncInsertCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -2999,8 +3011,8 @@ class sstDxf03FncInsertCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0: OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -3039,8 +3051,8 @@ class sstDxf03FncHatchCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Read(int                  iKey,
@@ -3058,8 +3070,8 @@ class sstDxf03FncHatchCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Write(int                  iKey,
@@ -3075,8 +3087,8 @@ class sstDxf03FncHatchCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -3090,12 +3102,12 @@ class sstDxf03FncHatchCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -3110,8 +3122,8 @@ class sstDxf03FncHatchCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -3150,8 +3162,8 @@ class sstDxf03FncHatchEdgeCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Read(int                      iKey,
@@ -3169,8 +3181,8 @@ class sstDxf03FncHatchEdgeCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Write(int                      iKey,
@@ -3186,8 +3198,8 @@ class sstDxf03FncHatchEdgeCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -3201,12 +3213,12 @@ class sstDxf03FncHatchEdgeCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -3220,8 +3232,8 @@ class sstDxf03FncHatchEdgeCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -3260,8 +3272,8 @@ class sstDxf03FncHatchLoopCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Read(int                      iKey,
@@ -3279,8 +3291,8 @@ class sstDxf03FncHatchLoopCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Write(int                      iKey,
@@ -3296,8 +3308,8 @@ class sstDxf03FncHatchLoopCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -3311,12 +3323,12 @@ class sstDxf03FncHatchLoopCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -3330,8 +3342,8 @@ class sstDxf03FncHatchLoopCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -3370,8 +3382,8 @@ class sstDxf03FncPolylineCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Read(int                     iKey,
@@ -3389,8 +3401,8 @@ class sstDxf03FncPolylineCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Write(int                     iKey,
@@ -3406,8 +3418,8 @@ class sstDxf03FncPolylineCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -3421,12 +3433,12 @@ class sstDxf03FncPolylineCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -3441,8 +3453,8 @@ class sstDxf03FncPolylineCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -3481,8 +3493,8 @@ class sstDxf03FncVertexCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Read(int                   iKey,
@@ -3500,8 +3512,8 @@ class sstDxf03FncVertexCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Write(int                   iKey,
@@ -3517,8 +3529,8 @@ class sstDxf03FncVertexCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -3532,12 +3544,12 @@ class sstDxf03FncVertexCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -3551,8 +3563,8 @@ class sstDxf03FncVertexCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -3598,12 +3610,12 @@ class sstDxf03FncLayCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -3617,8 +3629,8 @@ class sstDxf03FncLayCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -3634,8 +3646,8 @@ class sstDxf03FncLayCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Read(int                iKey,
@@ -3653,8 +3665,8 @@ class sstDxf03FncLayCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Write(int                iKey,
@@ -3670,8 +3682,8 @@ class sstDxf03FncLayCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -3686,10 +3698,10 @@ class sstDxf03FncLayCls : public sstDxf03FncBaseCls
     *
     * @return function state
     *
-    * @retval   =  1: New layer
-    * @retval   =  0: Existing layer
-    * @retval   = -1: Wrong Key
-    * @retval   <  0: Unspecified Error
+    * @retval   =1:  New layer
+    * @retval   =0:  Existing layer
+    * @retval   =-1: Wrong Key
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int UpdateWriteNew(int iKey, sstDxf03TypLayCls oLayRec, dREC04RECNUMTYP *dLayRecNo);
@@ -3738,8 +3750,8 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Read(int                iKey,
@@ -3757,8 +3769,8 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_Write(int                iKey,
@@ -3774,8 +3786,8 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -3789,12 +3801,12 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -3808,8 +3820,8 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -3832,8 +3844,8 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int updateMbrModel(int iKey, sstMath01Mbr2Cls oMbr);
@@ -3848,8 +3860,8 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int updateMbrBlock(int iKey,   dREC04RECNUMTYP dBlkNo, sstMath01Mbr2Cls oMbr);
@@ -3882,9 +3894,9 @@ class sstDxf03FncBlkCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 1: New record written
-    * @retval   = 0: name already in table, not written
-    * @retval   < 0: Unspecified Error
+    * @retval   =1: New record written
+    * @retval   =0: name already in table, not written
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int WriteNewUnique(int iKey, sstDxf03TypBlkCls oBlockRec, dREC04RECNUMTYP *pdBlockRecNo);
@@ -4066,8 +4078,8 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int Csv_Read(int iKey,
@@ -4085,8 +4097,8 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int Csv_Write(int                 iKey,
@@ -4102,8 +4114,8 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -4117,12 +4129,12 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: Open File Error
-     * @retval   = -3: General read error
-     * @retval   = -4: Record format read Error
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: Open File Error
+     * @retval   =-3: General read error
+     * @retval   =-4: Record format read Error
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadCsvFile(int iKey, std::string oFilNam);
@@ -4136,8 +4148,8 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
      */
      // ----------------------------------------------------------------------------
      int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -4151,8 +4163,8 @@ class sstDxf03FncMainCls : public sstDxf03FncBaseCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
      */
      // ----------------------------------------------------------------------------
      int UpdateMbr (int iKey, sstMath01Mbr2Cls oMbr);
@@ -4245,8 +4257,8 @@ class sstDxfBase_Cls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int UpdateMinMax (int           iKey,
@@ -4259,8 +4271,8 @@ class sstDxfBase_Cls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ResetMinMax (int    iKey);
@@ -4357,8 +4369,8 @@ class sstDxfPolylineCls : public sstDxfBase_Cls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      *
      * @author Re.
      *
@@ -4384,8 +4396,8 @@ class sstDxfPolylineCls : public sstDxfBase_Cls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      *
      * @author Re.
      *
@@ -4410,8 +4422,8 @@ class sstDxfPolylineCls : public sstDxfBase_Cls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      *
      * @author Re.
      *
@@ -4435,8 +4447,8 @@ class sstDxfPolylineCls : public sstDxfBase_Cls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      *
      * @author Re.
      *
@@ -4461,8 +4473,8 @@ class sstDxfPolylineCls : public sstDxfBase_Cls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      *
      * @author Re.
      *
@@ -4488,8 +4500,8 @@ class sstDxfPolylineCls : public sstDxfBase_Cls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      *
      * @author Re.
      *
@@ -4517,8 +4529,8 @@ class sstDxfPolylineCls : public sstDxfBase_Cls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      *
      * @author Re.
      *
@@ -4736,8 +4748,8 @@ class sstDxf03FncCircleCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -4751,12 +4763,12 @@ class sstDxf03FncCircleCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -4770,8 +4782,8 @@ class sstDxf03FncCircleCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -5178,12 +5190,11 @@ class sstDxf03FncMTextCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
-    //==============================================================================
     //==============================================================================
     /**
     * @brief // Read whole layer csv file into sst_rec_mem <BR>
@@ -5194,12 +5205,12 @@ class sstDxf03FncMTextCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -5213,8 +5224,8 @@ class sstDxf03FncMTextCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0: OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -5603,8 +5614,8 @@ class sstDxf03FncTextCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -5618,12 +5629,12 @@ class sstDxf03FncTextCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -5637,8 +5648,8 @@ class sstDxf03FncTextCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -5827,8 +5838,8 @@ class sstDxf03FncPointCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -5842,12 +5853,12 @@ class sstDxf03FncPointCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -5861,8 +5872,8 @@ class sstDxf03FncPointCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -6114,8 +6125,8 @@ class sstDxf03FncLineCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   = 0: OK
-    * @retval   < 0: Unspecified Error
+    * @retval   =0: OK
+    * @retval   <0: Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int Csv_WriteHeader(int iKey, std::string *oCsvStr);
@@ -6129,12 +6140,12 @@ class sstDxf03FncLineCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
-    * @retval   = -2: Open File Error
-    * @retval   = -3: General read error
-    * @retval   = -4: Record format read Error
-    * @retval   <  0: Unspecified Error
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
+    * @retval   =-2: Open File Error
+    * @retval   =-3: General read error
+    * @retval   =-4: Record format read Error
+    * @retval   <0:  Unspecified Error
     */
     // ----------------------------------------------------------------------------
     int ReadCsvFile(int iKey, std::string oFilNam);
@@ -6148,8 +6159,8 @@ class sstDxf03FncLineCls : public sstDxf03FncBaseCls
     *
     * @return Errorstate
     *
-    * @retval   =  0: OK
-    * @retval   = -1: Wrong Key
+    * @retval   =0:  OK
+    * @retval   =-1: Wrong Key
     */
     // ----------------------------------------------------------------------------
     int WriteCsvFile(int iKey, std::string oDxfFilNam);
@@ -6193,8 +6204,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadAllCsvFiles(int iKey, std::string oDxfFilNam);
@@ -6396,8 +6407,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteNewArc (int                  iKey,
@@ -6418,8 +6429,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteNewCircle(int iKey,
@@ -6440,8 +6451,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteArc (int                  iKey,
@@ -6462,8 +6473,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteCircle (int                  iKey,
@@ -6484,8 +6495,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WritePoint (int                  iKey,
@@ -6506,12 +6517,12 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: Layer / Block Name empty
-     * @retval   = -3: Layer Name not found in Layer Table
-     * @retval   = -4: Block Name not found in Block Table
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: Layer / Block Name empty
+     * @retval   =-3: Layer Name not found in Layer Table
+     * @retval   =-4: Block Name not found in Block Table
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteInsert (int                  iKey,
@@ -6532,8 +6543,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteLine (int iKey,
@@ -6554,8 +6565,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteMText (int iKey,
@@ -6576,8 +6587,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteText (int iKey,
@@ -6598,8 +6609,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int OpenNewHatch(int                  iKey,
@@ -6620,8 +6631,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int OpenNewPolyline(int                  iKey,
@@ -6641,8 +6652,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteNewHatchEdge (int                    iKey,
@@ -6661,8 +6672,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteHatchEdge (int                    iKey,
@@ -6681,8 +6692,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteNewVertex (int                   iKey,
@@ -6701,8 +6712,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteVertex (int                   iKey,
@@ -6719,8 +6730,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WritAll2DxfFil(int iKey, const std::string oDxfFilNam);
@@ -6734,8 +6745,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WritAll2Csv(int iKey, const std::string oDxfFilNam);
@@ -6758,10 +6769,10 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   =  0: OK
-     * @retval   = -1: Wrong Key
-     * @retval   = -2: Cound not open dxf file
-     * @retval   <  0: Unspecified Error
+     * @retval   =0:  OK
+     * @retval   =-1: Wrong Key
+     * @retval   =-2: Cound not open dxf file
+     * @retval   <0:  Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadAllFromDxf(int iKey, const std::string oDxfFilNam);
@@ -6794,8 +6805,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // -----------------------------------------------------------------------------
      int ColumnCount(RS2::EntityType eEntityType);
@@ -6811,8 +6822,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadArc ( int iKey, dREC04RECNUMTYP dRecNo, DL_ArcData *oDLArc, DL_Attributes *oDLAttributes);
@@ -6828,8 +6839,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchData *oDLHatch, DL_Attributes *oDLAttributes);
@@ -6844,8 +6855,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadHatchEdge( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchEdgeData *oDLHatchEdge);
@@ -6860,8 +6871,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadHatchLoop( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchLoopData *oDLHatchLoop);
@@ -6877,8 +6888,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData *oDLCircle, DL_Attributes *oDLAttributes);
@@ -6893,8 +6904,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadVertex ( int iKey, dREC04RECNUMTYP dRecNo, DL_VertexData *oDLVertex);
@@ -6910,8 +6921,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadLine ( int iKey, dREC04RECNUMTYP dRecNo, DL_LineData *oDLLine, DL_Attributes *oDLAttributes);
@@ -6927,8 +6938,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadPoint ( int iKey, dREC04RECNUMTYP dRecNo, DL_PointData *oDLPoint, DL_Attributes *oDLAttributes);
@@ -6944,8 +6955,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadInsert ( int iKey, dREC04RECNUMTYP dRecNo, DL_InsertData *oDLInsert, DL_Attributes *oDLAttributes);
@@ -6961,8 +6972,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadMText ( int iKey, dREC04RECNUMTYP dRecNo, DL_MTextData *oDLMText, DL_Attributes *oDLAttributes);
@@ -6978,8 +6989,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadText ( int iKey, dREC04RECNUMTYP dRecNo, DL_TextData *oDlText, DL_Attributes *oDLAttributes);
@@ -6995,8 +7006,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadPolyline ( int iKey, dREC04RECNUMTYP dRecNo, DL_PolylineData *oDLPolyline, DL_Attributes *oDLAttributes);
@@ -7012,8 +7023,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadBlock ( int iKey, dREC04RECNUMTYP dRecNo, DL_BlockData *oDLBlock, DL_Attributes *oDLAttributes);
@@ -7029,8 +7040,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::EntityType *eEntityType, dREC04RECNUMTYP *dEntRecNo);
@@ -7043,8 +7054,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int updateAllMbr(int iKey);
@@ -7078,8 +7089,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int UpdateAttribWithId (int iKey,
@@ -7134,8 +7145,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int GenerateData ( int iKey);
@@ -7221,8 +7232,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int openBlock(int iKey, const DL_BlockData& oBlock, const DL_Attributes oAttributes);
@@ -7235,8 +7246,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int closeBlock(int iKey);
@@ -7251,8 +7262,8 @@ class sstDxf03DatabaseCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int openSectionEntities(int iKey);
@@ -7620,8 +7631,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int OpenNewDxfFile (int iKey, std::string oDxfFilNam);
@@ -7634,8 +7645,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WrtSecHeader (int         iKey);
@@ -7648,8 +7659,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WrtSecLayers (int         iKey);
@@ -7662,8 +7673,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WrtSecBlocks (int         iKey);
@@ -7676,8 +7687,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WrtSecTypes (int          iKey);
@@ -7690,8 +7701,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WrtSecStyles (int          iKey);
@@ -7704,8 +7715,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WrtSecEntities (int          iKey);
@@ -7718,8 +7729,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WrtSecObjects (int          iKey);
@@ -7733,8 +7744,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WrtDss2PolyLine (int           iKey,
@@ -7755,8 +7766,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int ReadAllCsvFiles(int iKey);
@@ -7768,8 +7779,8 @@ class sstDxf03WriteCls
      *
      * @return Errorstate
      *
-     * @retval   = 0: OK
-     * @retval   < 0: Unspecified Error
+     * @retval   =0: OK
+     * @retval   <0: Unspecified Error
      */
      // ----------------------------------------------------------------------------
      int WriteOpenEntities(int iKey);

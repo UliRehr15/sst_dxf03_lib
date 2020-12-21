@@ -110,13 +110,14 @@ int Test_WriteInterface (int iKey, sstDxf03DbCls *oDxfDB);
 * 0: Triangel Area
 * 1: 4-Corner-Box Area
 * 2: Circle Area
-* 3: Arc Area
+* 3: Arc/Pie Area
+* 4: Complex Quader/Pie (not realized)
 *
 * Changed: 30.08.19  Re.
 *
 * @ingroup sstDxf03Lib
 *
-* @param iKey    [in]     0,1,2,3
+* @param iKey    [in]     0,1,2,3,4
 * @param poDxfDb [in out] open sstDxf Database
 * @param dXX     [in]     Center X
 * @param dYY     [in]     Center Y

@@ -30,6 +30,18 @@
 #ifndef   _SST_DXF03LIB_HEADER
 #define   _SST_DXF03LIB_HEADER
 
+#include <list>
+
+#include <dl_dxf.h>
+#include <dl_creationadapter.h>
+
+#include <rs_vector.h>
+
+#include <sstStr01Lib.h>
+#include <sstMath01Lib.h>
+#include <sstMisc01Lib.h>
+#include <sstRec04Lib.h>
+
 /**
  * @defgroup sstDxf03Lib sstDxf03Lib: cpp sst dxf library (Version 3)
  *
@@ -128,8 +140,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteNewArc(int                  iKey,
@@ -150,8 +162,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteNewCircle(int                  iKey,
@@ -172,8 +184,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteArc    (int                   iKey,
@@ -194,8 +206,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteCircle (int                   iKey,
@@ -216,8 +228,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteLine (int iKey,
@@ -238,8 +250,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int OpenNewHatch(int                  iKey,
@@ -260,8 +272,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int OpenNewPolyline(int                  iKey,
@@ -281,8 +293,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteNewHatchEdge (int                    iKey,
@@ -301,8 +313,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteHatchEdge (int                    iKey,
@@ -321,8 +333,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteNewVertex (int                   iKey,
@@ -341,8 +353,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteVertex (int                   iKey,
@@ -359,8 +371,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WritAll2DxfFil(int iKey, const std::string oDxfFilNam);
@@ -379,8 +391,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WritAll2Csv(int iKey, const std::string oDxfFilNam);
@@ -394,8 +406,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadAllCsvFiles(int iKey, std::string oDxfFilNam);
@@ -409,8 +421,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadAllFromDxf(int iKey, const std::string oDxfFilNam);
@@ -446,8 +458,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // -----------------------------------------------------------------------------
   int ColumnCount(RS2::EntityType eEntityType);
@@ -463,8 +475,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadArc ( int iKey, dREC04RECNUMTYP dRecNo, DL_ArcData *oDLArc, DL_Attributes *oDLAttributes);
@@ -480,8 +492,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadHatch ( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchData *oDLHatch, DL_Attributes *oDLAttributes);
@@ -496,8 +508,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadHatchEdge( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchEdgeData *oDLHatchEdge);
@@ -512,8 +524,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadHatchLoop( int iKey, dREC04RECNUMTYP dRecNo, DL_HatchLoopData *oDLHatchLoop);
@@ -529,8 +541,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadCircle ( int iKey, dREC04RECNUMTYP dRecNo, DL_CircleData *oDLCircle, DL_Attributes *oDLAttributes);
@@ -545,8 +557,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadVertex ( int iKey, dREC04RECNUMTYP dRecNo, DL_VertexData *oDLVertex);
@@ -562,8 +574,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadLine ( int iKey,
@@ -582,8 +594,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadPolyline ( int iKey, dREC04RECNUMTYP dRecNo, DL_PolylineData *oDLPolyline, DL_Attributes *oDLAttributes);
@@ -599,8 +611,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadBlock ( int iKey, dREC04RECNUMTYP dRecNo, DL_BlockData *oDLBlock, DL_Attributes *oDLAttributes);
@@ -616,8 +628,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadMainTable( int iKey, dREC04RECNUMTYP dMainRecNo, RS2::EntityType *eEntityType, dREC04RECNUMTYP *dEntRecNo);
@@ -696,8 +708,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WritePoint (int iKey,
@@ -717,8 +729,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadPoint ( int               iKey,
@@ -738,8 +750,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteMText (int iKey,
@@ -759,8 +771,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadMText ( int              iKey,
@@ -780,8 +792,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteText (int iKey,
@@ -801,8 +813,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadText ( int              iKey,
@@ -822,8 +834,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int WriteInsert (int                  iKey,
@@ -843,8 +855,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int ReadInsert ( int              iKey,
@@ -860,8 +872,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int GenerateData ( int iKey);
@@ -927,8 +939,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int openBlock(int iKey,  const DL_BlockData& oBlock, const DL_Attributes oAttributes);
@@ -941,8 +953,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int closeBlock(int iKey);
@@ -957,8 +969,8 @@ class sstDxf03DbCls
   *
   * @return Errorstate
   *
-  * @retval   = 0: OK
-  * @retval   < 0: Unspecified Error
+  * @retval   =0: OK
+  * @retval   <0: Unspecified Error
   */
   // ----------------------------------------------------------------------------
   int openSectionEntities(int iKey);

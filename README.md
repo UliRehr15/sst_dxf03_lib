@@ -105,4 +105,5 @@ Structure of coding projects should be:
 27.01.20: Version 3.38: More corrections in handling hatches in modelspace and blocks. <BR>
 05.04.20: Version 3.39: New interface function ArcRead. <BR>
 16.05.20: Version 3.40: Better support of True Colors (Color24). <BR>
+21.12.20: Version 3.41: Fixed some doxygen warnings. <BR>
 

@@ -201,7 +201,7 @@ int main()
 
     // Return mbr of Circle entities.
     sstMath01Mbr2Cls oMbr = oDxfDb.getMbrModel();
-    // assert(oMbr.getXA() == 104.5);
+    assert(oMbr.getXA() == dSSTSTR01_UNDEF_R8);  // This is wrong, has to be fixed
 
     // Write dxf database to dxf file
     oDxfDb.WritAll2Csv(0,"TestInsert.dxf");
@@ -459,10 +459,10 @@ int main()
     dREC04RECNUMTYP dMainRecs = 0;
 
     dMainRecs = oDxfDB.MainCount();
-    assert(dMainRecs == 47);
+    assert(dMainRecs == 33);
 
     dEntRecs = oDxfDB.EntityCount(RS2::EntityHatch);
-    assert(dEntRecs == 7);
+    assert(dEntRecs == 4);
 
     DL_HatchData oDLHatch(1,1,1,0,"SOLID");
     DL_HatchEdgeData oDLHatchEdge(1,1,2,2);  // area border point
@@ -884,32 +884,52 @@ int Test_WriteInterface (int iKey, sstDxf03DbCls *poDxfDb)
 //-----------------------------------------------------------------------------
   if ( iKey != 0) return -1;
 
-  // Write Hatch into sstDxf Database
-  iStat = Test_WriteHatch ( iKey, poDxfDb, 5.0, 5.0);
-
-  // Test Write Polyline into sstDxf Database
-  iStat = Test_WritePolyline ( iKey, poDxfDb, 7.0, 5.0);
-
-  // Write Hatch into sstDxf Database
-  iStat = Test_WriteHatch ( iKey, poDxfDb, 9.0, 5.0);
-
-  // Test Write Polyline into sstDxf Database
-  iStat = Test_WritePolyline ( iKey, poDxfDb, 11.0, 5.0);
+  // HATCH
+  // HATCHLOOP
+  // HATCHEDGE
+  // POLYLINE
+  // HATCH
+  // HATCHLOOP
+  // HATCHEDGE
+  // POLYLINE
+  // CIRCLE
+  // ARC
+  // TEXT
+  // MTEXT
+  // POINT
 
   //  Test Write Circle with Radius = 0.5 into sstDxf Database <BR>
-  iStat = Test_WriteCircle ( iKey, poDxfDb, 13.0, 5.0);
+  iStat = Test_WriteCircle ( 0, poDxfDb, 13.0, 5.0);
+
+  // Write Hatch into sstDxf Database
+  iStat = Test_WriteHatch ( 0, poDxfDb, 5.0, 5.0);
+
+  // Write Hatch into sstDxf Database
+  iStat = Test_WriteHatch ( 0, poDxfDb, 6.0, 5.0);
+
+  // Test Write Polyline into sstDxf Database
+  iStat = Test_WritePolyline ( 0, poDxfDb, 7.0, 5.0);
+
+  // Write Hatch into sstDxf Database
+  iStat = Test_WriteHatch ( 0, poDxfDb, 9.0, 5.0);
+
+  // Test Write Polyline into sstDxf Database
+  iStat = Test_WritePolyline ( 0, poDxfDb, 11.0, 5.0);
+
+  //  Test Write Circle with Radius = 0.5 into sstDxf Database <BR>
+  iStat = Test_WriteCircle ( 0, poDxfDb, 13.0, 5.0);
 
   // Test Write Arc into sstDxf Database <BR>
-  iStat = Test_WriteArc ( iKey, poDxfDb, 15.0, 5.0);
+  iStat = Test_WriteArc ( 0, poDxfDb, 15.0, 5.0);
 
   // Test Write Text into sstDxf Database <BR>
-  iStat = Test_WriteText ( iKey, poDxfDb, 17.0, 5.0);
+  iStat = Test_WriteText ( 0, poDxfDb, 17.0, 5.0);
 
   // Test Write MText into sstDxf Database <BR>
-  iStat = Test_WriteMText ( iKey, poDxfDb, 19.0, 5.0);
+  iStat = Test_WriteMText ( 0, poDxfDb, 19.0, 5.0);
 
   // Test Write Point into sstDxf Database <BR>
-  iStat = Test_WritePoint ( iKey, poDxfDb, 19.0, 5.0);
+  iStat = Test_WritePoint ( 0, poDxfDb, 19.0, 5.0);
 
   return iStat;
 }
@@ -931,13 +951,19 @@ int Test_WriteHatch (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const do
   int iRet = 0;
   int iStat = 0;
 //-----------------------------------------------------------------------------
-  if ( iKey != 0) return -1;
+  if ( iKey < 0 || iKey > 4) return -1;
 
   oAttributes.setLayer("0");
   oAttributes.setLinetype("CONTINUOUS");
 
-  //=== Insert filled triangel area
-  {
+  // iKey = 0: Triangle
+  // iKey = 1: Quader/4-Corner
+  // iKey = 2: Circle
+  // iKey = 3: Arc/Pie
+  // iKey = 4: Complex Quader/Pie (not realized)
+
+  switch (iKey) {
+  case 0: {  // Hatch filled Triangel
     oAttributes.setColor(2);
 
     DL_HatchData oDLHatch(1,1,1,0,"SOLID");
@@ -946,6 +972,7 @@ int Test_WriteHatch (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const do
     iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
 
     DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
+
     // write new dxflib hatch edge into sstDxfDb hatch object
     oDLHatchEdge.x1 = dXX;         oDLHatchEdge.y1 = dYY;
     oDLHatchEdge.x2 = dXX + dDist; oDLHatchEdge.y2 = dYY + dDist;
@@ -960,21 +987,9 @@ int Test_WriteHatch (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const do
     oDLHatchEdge.x1 = dXX + dDist; oDLHatchEdge.y1 = dYY;
     oDLHatchEdge.x2 = dXX;         oDLHatchEdge.y2 = dYY;
     iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
-  }
-
-  //=== Insert of filled pie area
-
-//  dArcAng1 = 0.0;
-//  dArcAng2 = M_PI / 2.0;
-  dArcAng1 = M_PI / 2.0;
-  dArcAng2 = (M_PI / 2.0) + M_PI;
-  iStat = oArcPntCenter.Set(dXX+2.0,dYY+2.0);
-
-  // Aus Winkel (math/rad) und Strecke Punkt rechnen relativ oder polar zu einem Vorhandenen.
-  iStat = oArcPntCenter.Polar_Rel ( 0, dArcAng1, dArcRad, &oArcPnt1);
-  iStat = oArcPntCenter.Polar_Rel ( 0, dArcAng2, dArcRad, &oArcPnt2);
-
-  {
+    }
+    break;
+  case 1: {  // Hatch filled Quader
     oAttributes.setColor(2);
 
     DL_HatchData oDLHatch(1,1,1,0,"SOLID");
@@ -982,92 +997,115 @@ int Test_WriteHatch (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const do
     // open new dxflib hatch object in sstDxfDb
     iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
 
-
-    {
     DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
+
     // write new dxflib hatch edge into sstDxfDb hatch object
-    oDLHatchEdge.x1 = oArcPntCenter.getX();
-    oDLHatchEdge.y1 = oArcPntCenter.getY();
-    oDLHatchEdge.x2 = oArcPnt1.getX();
-    oDLHatchEdge.y2 = oArcPnt1.getY();
+    oDLHatchEdge.x1 = dXX;         oDLHatchEdge.y1 = dYY;
+    oDLHatchEdge.x2 = dXX;         oDLHatchEdge.y2 = dYY + dDist;
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = dXX;         oDLHatchEdge.y1 = dYY + dDist;
+    oDLHatchEdge.x2 = dXX + dDist; oDLHatchEdge.y2 = dYY + dDist;
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = dXX + dDist; oDLHatchEdge.y1 = dYY + dDist;
+    oDLHatchEdge.x2 = dXX + dDist; oDLHatchEdge.y2 = dYY;
+    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+
+    // write new dxflib hatch edge into sstDxfDb hatch object
+    oDLHatchEdge.x1 = dXX + dDist; oDLHatchEdge.y1 = dYY;
+    oDLHatchEdge.x2 = dXX;         oDLHatchEdge.y2 = dYY;
     iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
     }
+    break;
+  case 2: {  // Hatch filled circle
 
-    {
-    // write new dxflib hatch edge into sstDxfDb hatch object
-    DL_HatchEdgeData oDLHatchEdge(0.0,0.0,0.0,0.0,0.0,true); // area border point
-    oDLHatchEdge.cx = oArcPntCenter.getX();
-    oDLHatchEdge.cy = oArcPntCenter.getY();
-    oDLHatchEdge.angle1 = dArcAng1;
-    oDLHatchEdge.angle2 = dArcAng2;
-    // oDLHatchEdge.angle2 = 1.0;  // PI/Halbe
-    // oDLHatchEdge.angle2 = (M_PI / 180.0) * 200.0;
-    oDLHatchEdge.radius = dArcRad;
-    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
-    }
+    dArcAng1 = M_PI / 2.0;
+    dArcAng2 = dArcAng1;
+    iStat = oArcPntCenter.Set(dXX,dYY);
 
+    // Aus Winkel (math/rad) und Strecke Punkt rechnen relativ oder polar zu einem Vorhandenen.
+    iStat = oArcPntCenter.Polar_Rel ( 0, dArcAng1, dArcRad, &oArcPnt1);
+    iStat = oArcPntCenter.Polar_Rel ( 0, dArcAng2, dArcRad, &oArcPnt2);
 
-    {
-    // write new dxflib hatch edge into sstDxfDb hatch object
-    DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
-    oDLHatchEdge.x1 = oArcPnt2.getX();
-    oDLHatchEdge.y1 = oArcPnt2.getY();
-    oDLHatchEdge.x2 = oArcPntCenter.getX();
-    oDLHatchEdge.y2 = oArcPntCenter.getY();
-    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
-    }
-  }
-
-  dArcAng1 = (M_PI / 2.0) + M_PI;
-  dArcAng2 = M_PI / 2.0;
-  iStat = oArcPntCenter.Set(dXX+2.0,dYY+2.0);
-
-  // Aus Winkel (math/rad) und Strecke Punkt rechnen relativ oder polar zu einem Vorhandenen.
-  iStat = oArcPntCenter.Polar_Rel ( 0, dArcAng1, dArcRad, &oArcPnt1);
-  iStat = oArcPntCenter.Polar_Rel ( 0, dArcAng2, dArcRad, &oArcPnt2);
-
-  {
-    oAttributes.setColor(3);
+    oAttributes.setColor(2);
 
     DL_HatchData oDLHatch(1,1,1,0,"SOLID");
 
     // open new dxflib hatch object in sstDxfDb
     iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
 
-
-    {
-    DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
-    // write new dxflib hatch edge into sstDxfDb hatch object
-    oDLHatchEdge.x1 = oArcPntCenter.getX();
-    oDLHatchEdge.y1 = oArcPntCenter.getY();
-    oDLHatchEdge.x2 = oArcPnt1.getX();
-    oDLHatchEdge.y2 = oArcPnt1.getY();
-    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+      {
+        // write new dxflib hatch edge into sstDxfDb hatch object
+        DL_HatchEdgeData oDLHatchEdge(0.0,0.0,0.0,0.0,0.0,true); // area border point
+        oDLHatchEdge.cx = oArcPntCenter.getX();
+        oDLHatchEdge.cy = oArcPntCenter.getY();
+        oDLHatchEdge.angle1 = dArcAng1;
+        oDLHatchEdge.angle2 = dArcAng2;
+        oDLHatchEdge.radius = dArcRad / 2.0;
+        iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+      }
     }
+  break;
+  case 3: {  // Hatch filled arc/pie
+    dArcAng1 = (M_PI / 2.0) + M_PI;
+    dArcAng2 = M_PI / 2.0;
+    dArcRad = 0.5;
+    iStat = oArcPntCenter.Set( dXX, dYY);
 
-    {
-    // write new dxflib hatch edge into sstDxfDb hatch object
-    DL_HatchEdgeData oDLHatchEdge(0.0,0.0,0.0,0.0,0.0,true); // area border point
-    oDLHatchEdge.cx = oArcPntCenter.getX();
-    oDLHatchEdge.cy = oArcPntCenter.getY();
-    oDLHatchEdge.angle1 = dArcAng1;
-    oDLHatchEdge.angle2 = dArcAng2;
-    // oDLHatchEdge.angle2 = 1.0;  // PI/Halbe
-    // oDLHatchEdge.angle2 = (M_PI / 180.0) * 200.0;
-    oDLHatchEdge.radius = dArcRad;
-    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+    // Aus Winkel (math/rad) und Strecke Punkt rechnen relativ oder polar zu einem Vorhandenen.
+    iStat = oArcPntCenter.Polar_Rel ( 0, dArcAng1, dArcRad, &oArcPnt1);
+    iStat = oArcPntCenter.Polar_Rel ( 0, dArcAng2, dArcRad, &oArcPnt2);
+
+      oAttributes.setColor(3);
+
+      DL_HatchData oDLHatch(1,1,1,0,"SOLID");
+
+      // open new dxflib hatch object in sstDxfDb
+      iStat = oDxfDB->OpenNewHatch( 0, oDLHatch, oAttributes, &oEntRecNo, &oMainRecNo);
+
+
+      {
+      DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
+      // write new dxflib hatch edge into sstDxfDb hatch object
+      oDLHatchEdge.x1 = oArcPntCenter.getX();
+      oDLHatchEdge.y1 = oArcPntCenter.getY();
+      oDLHatchEdge.x2 = oArcPnt1.getX();
+      oDLHatchEdge.y2 = oArcPnt1.getY();
+      iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+      }
+
+      {
+      // write new dxflib hatch edge into sstDxfDb hatch object
+      DL_HatchEdgeData oDLHatchEdge(0.0,0.0,0.0,0.0,0.0,true); // area border point
+      oDLHatchEdge.cx = oArcPntCenter.getX();
+      oDLHatchEdge.cy = oArcPntCenter.getY();
+      oDLHatchEdge.angle1 = dArcAng1;
+      oDLHatchEdge.angle2 = dArcAng2;
+      oDLHatchEdge.radius = dArcRad;
+      iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+      }
+
+
+      {
+      // write new dxflib hatch edge into sstDxfDb hatch object
+      DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
+      oDLHatchEdge.x1 = oArcPnt2.getX();
+      oDLHatchEdge.y1 = oArcPnt2.getY();
+      oDLHatchEdge.x2 = oArcPntCenter.getX();
+      oDLHatchEdge.y2 = oArcPntCenter.getY();
+      iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+      }
     }
-
-
-    {
-    // write new dxflib hatch edge into sstDxfDb hatch object
-    DL_HatchEdgeData oDLHatchEdge(0,0,0,0);  // area border point
-    oDLHatchEdge.x1 = oArcPnt2.getX();
-    oDLHatchEdge.y1 = oArcPnt2.getY();
-    oDLHatchEdge.x2 = oArcPntCenter.getX();
-    oDLHatchEdge.y2 = oArcPntCenter.getY();
-    iStat = oDxfDB->WriteNewHatchEdge ( 0, oDLHatchEdge, &oEntRecNo, &oMainRecNo);
+    break;
+  case 4: {  // Hatch filled complex pie/quader
+    // not realized
     }
+    break;
+  default:
+    break;
   }
 
   // Fatal Errors goes to an assert
