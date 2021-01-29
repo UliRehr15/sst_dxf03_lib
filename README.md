@@ -106,4 +106,5 @@ Structure of coding projects should be:
 05.04.20: Version 3.39: New interface function ArcRead. <BR>
 16.05.20: Version 3.40: Better support of True Colors (Color24). <BR>
 21.12.20: Version 3.41: Fixed some doxygen warnings. <BR>
+29.01.21: Version 3.42: Extend testing Arc entities with different angles/colors. <BR>
 

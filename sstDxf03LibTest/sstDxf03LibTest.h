@@ -110,14 +110,13 @@ int Test_WriteInterface (int iKey, sstDxf03DbCls *oDxfDB);
 * 0: Triangel Area
 * 1: 4-Corner-Box Area
 * 2: Circle Area
-* 3: Arc/Pie Area
-* 4: Complex Quader/Pie (not realized)
+* 3: Arc Area
 *
 * Changed: 30.08.19  Re.
 *
 * @ingroup sstDxf03Lib
 *
-* @param iKey    [in]     0,1,2,3,4
+* @param iKey    [in]     0,1,2,3
 * @param poDxfDb [in out] open sstDxf Database
 * @param dXX     [in]     Center X
 * @param dYY     [in]     Center Y
@@ -219,13 +218,20 @@ int Test_WriteLine (int iKey, sstDxf03DbCls *oDxfDB, const double dXX, const dou
 * @brief // Test Write Arc into sstDxf Database <BR>
 * iStat = Test_WriteArc ( iKey, poDxfDb, dXX, dYY);
 *
-* More Comment
+* Dxf-Angles are always Grad (0,90,180,270,360)
+* Dxf-Angle = 0 is always in East.
+* Dxf-Angles are running always counter-Clockwise.
+*
+* Key=0: Write 8 90-Arcs with incresing Radius and Startangle beginning at Angle = 0:
+* Key=1: Write 8 90-Arcs with incresing Radius and Startangle beginning at Angle = 45:
+* Key=2: Write 8 270-Arcs with incresing Radius and Startangle beginning at Angle = 0:
+* Key=3: Write 8 270-Arcs with incresing Radius and Startangle beginning at Angle = 45:
 *
 * Changed: 15.03.19  Re.
 *
 * @ingroup examples
 *
-* @param iKey    [in]     For the moment 0
+* @param iKey    [in]     0-3
 * @param poDxfDb [in out] open sstDxf Database
 * @param dXX     [in]     Center X
 * @param dYY     [in]     Center Y
